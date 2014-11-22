@@ -8,8 +8,10 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <title>restinapi</title>
+
         <h:outputStylesheet library="css" name="bootstrap.min.css"  />
-        
+        <h:outputStylesheet library="css" name="styles.css"  />
+
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -18,7 +20,98 @@
         <![endif]-->
     </h:head>
     <h:body>
-        <h1>Welcome to restinapi!</h1>
+        <div class="row">
+            <div class="col-md-2">
+                <h4>Projects</h4>
+                <div class="dropdown">
+                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                        Test project 1
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 1</a></li> -->
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 2</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 3</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h1 class="">Test project 1</h1>
+            </div>
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Base uri" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2">
+                <h4>Requests</h4>
+                <div class="list-group">
+                    <a href="#" class="list-group-item active">
+                        Register
+                    </a>
+                    <a href="#" class="list-group-item">Login</a>
+                    <a href="#" class="list-group-item">Logout</a>
+                    <a href="#" class="list-group-item">Random</a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <h1>Register</h1>
+            </div>
+            <div class="col-md-4">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Relative uri" />
+                    <div class="input-group-btn">
+                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                            GET
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">POST</a></li>
+                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">PUT</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4">
+                        <button type="button" class="btn btn-default">Run</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8">
+                        <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">Parameters</div>
+
+                            <!-- Table -->
+                            <table class="table">
+                                <tr>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Key" />
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" placeholder="Value" />
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-8 col-sm-8">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Response</div>
+                            <div class="panel-body">
+                                {}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <h:outputScript library="js" name="jquery-2.1.1.min.js" />
         <h:outputScript library="js" name="bootstrap.min.js" />
     </h:body>
