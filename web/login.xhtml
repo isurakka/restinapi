@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>Facelet Title</title>
+        <h:outputStylesheet library="css" name="bootstrap.min.css"  />
+        <h:outputStylesheet library="css" name="styles.css"  />
+    </h:head>
+    <h:body>
+    <div class="container">
+      <h:form class="form-signin" role="form">
+        <h2 class="form-signin-heading">Log in</h2>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        <h:inputText a:type="email" id="inputEmail" class="form-control" a:placeholder="Email address" required="true" a:autofocus="true" />
+        <label for="inputPassword" class="sr-only">Password</label>
+        <h:inputText a:type="password" id="inputPassword" class="form-control" a:placeholder="Password" required="true"/>
+        <div class="checkbox">
+        </div>
+        <h:button class="btn btn-lg btn-primary btn-block" value="Login" />
+      </h:form>
+    </div> <!-- /container -->   
+    </h:body>
+</html>
