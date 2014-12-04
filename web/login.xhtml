@@ -10,10 +10,11 @@
     </h:head>
     <h:body>
     <div class="container">
+        <h:messages style="color:red;margin:8px;"/>
       <h:form class="form-signin" role="form">
         <h2 class="form-signin-heading">Log in</h2>
         <label for="inputEmail" class="sr-only">Email address</label>
-        <h:inputText a:type="user" id="inputUserName" class="form-control" a:placeholder="Username" required="true" value="#{loginBean.username}" a:autofocus="true" />
+        <h:inputText id="inputUserName" class="form-control" a:placeholder="Username" required="true" value="#{loginBean.username}" a:autofocus="true" />
         <label for="inputPassword" class="sr-only">Password</label>
         <h:inputText a:type="password" id="inputPassword" class="form-control" a:placeholder="Password" required="true" value="#{loginBean.password}" />
         <h:commandButton action="#{loginBean.login}" class="btn btn-lg btn-primary btn-block" value="Login" />
