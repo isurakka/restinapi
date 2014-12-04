@@ -30,6 +30,7 @@ public class LoginBean implements java.io.Serializable {
     private String password;
     private boolean isLoggedIn = false;
     
+    
     public LoginBean()
     {
         
@@ -106,6 +107,9 @@ public class LoginBean implements java.io.Serializable {
             if (BCrypt.checkpw(password, hashedPass))
             {
                 isLoggedIn = true;
+                HttpSession currentSession = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+                currentSession.setAttribute("username", username);
+
                 return "main";
             }
         }
@@ -121,9 +125,11 @@ public class LoginBean implements java.io.Serializable {
     
     }
    
-    public void logout() {
+    public String logout() {
      HttpSession currentSession = (HttpSession) FacesContext.getCurrentInstance().getExternalContext().getSession(false);
      currentSession.invalidate();
+     
+     return "login";
     }
 
 }
