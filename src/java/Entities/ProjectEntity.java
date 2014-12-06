@@ -6,18 +6,23 @@
 package Entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -31,6 +36,19 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "ProjectEntity.findByName", query = "SELECT p FROM ProjectEntity p WHERE p.name = :name"),
     @NamedQuery(name = "ProjectEntity.findByBaseUri", query = "SELECT p FROM ProjectEntity p WHERE p.baseUri = :baseUri")})
 public class ProjectEntity implements Serializable {
+    
+    @OneToMany(mappedBy = "projectName", fetch = FetchType.LAZY)
+    private Collection<ParameterEntity> parameterEntityCollection;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectName", fetch = FetchType.LAZY)
+    private Collection<RequestEntity> requestEntityCollection;
+    
+    @OneToMany(mappedBy = "projectName")
+    private Collection<ParameterEntity> parameterCollection;
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectName")
+    private Collection<ParameterEntity> requestCollection;
+    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -110,6 +128,42 @@ public class ProjectEntity implements Serializable {
     @Override
     public String toString() {
         return "Entities.ProjectEntity[ name=" + name + " ]";
+    }
+
+    @XmlTransient
+    public Collection<ParameterEntity> getParameterCollection() {
+        return parameterCollection;
+    }
+
+    public void setParameterCollection(Collection<ParameterEntity> parameterCollection) {
+        this.parameterCollection = parameterCollection;
+    }
+
+    @XmlTransient
+    public Collection<RequestEntity> getRequestCollection() {
+        return requestEntityCollection;
+    }
+
+    public void setRequestCollection(Collection<RequestEntity> requestCollection) {
+        this.requestEntityCollection = requestCollection;
+    }
+
+    @XmlTransient
+    public Collection<ParameterEntity> getParameterEntityCollection() {
+        return parameterEntityCollection;
+    }
+
+    public void setParameterEntityCollection(Collection<ParameterEntity> parameterEntityCollection) {
+        this.parameterEntityCollection = parameterEntityCollection;
+    }
+
+    @XmlTransient
+    public Collection<RequestEntity> getRequestEntityCollection() {
+        return requestEntityCollection;
+    }
+
+    public void setRequestEntityCollection(Collection<RequestEntity> requestEntityCollection) {
+        this.requestEntityCollection = requestEntityCollection;
     }
     
 }

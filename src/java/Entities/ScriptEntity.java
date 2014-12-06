@@ -10,6 +10,7 @@ import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -33,21 +34,38 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScriptEntity.findAll", query = "SELECT s FROM ScriptEntity s"),
     @NamedQuery(name = "ScriptEntity.findByScriptId", query = "SELECT s FROM ScriptEntity s WHERE s.scriptId = :scriptId")})
 public class ScriptEntity implements Serializable {
+    
+    @OneToMany(mappedBy = "scriptId", fetch = FetchType.LAZY)
+    private Collection<RequestEntity> requestEntityCollection;
+    
+    @OneToMany(mappedBy = "scriptId", fetch = FetchType.LAZY)
+    private Collection<TestcaseEntity> testcaseEntityCollection;
+    
+    @OneToMany(mappedBy = "scriptId")
+    private Collection<RequestEntity> requestCollection;
+    
+    @OneToMany(mappedBy = "scriptId")
+    private Collection<TestcaseEntity> testcaseCollection;
+    
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "script_id")
     private Integer scriptId;
+    
     @Lob
     @Size(max = 65535)
     @Column(name = "beforeScript")
     private String beforeScript;
+    
     @Lob
     @Size(max = 65535)
     @Column(name = "afterScript")
     private String afterScript;
     @OneToMany(mappedBy = "scriptId")
+    
     private Collection<ProjectEntity> projectEntityCollection;
 
     public ScriptEntity() {
@@ -113,6 +131,42 @@ public class ScriptEntity implements Serializable {
     @Override
     public String toString() {
         return "Entities.ScriptEntity[ scriptId=" + scriptId + " ]";
+    }
+
+    @XmlTransient
+    public Collection<RequestEntity> getRequestCollection() {
+        return requestCollection;
+    }
+
+    public void setRequestCollection(Collection<RequestEntity> requestCollection) {
+        this.requestCollection = requestCollection;
+    }
+
+    @XmlTransient
+    public Collection<TestcaseEntity> getTestcaseCollection() {
+        return testcaseCollection;
+    }
+
+    public void setTestcaseCollection(Collection<TestcaseEntity> testcaseCollection) {
+        this.testcaseCollection = testcaseCollection;
+    }
+
+    @XmlTransient
+    public Collection<RequestEntity> getRequestEntityCollection() {
+        return requestEntityCollection;
+    }
+
+    public void setRequestEntityCollection(Collection<RequestEntity> requestEntityCollection) {
+        this.requestEntityCollection = requestEntityCollection;
+    }
+
+    @XmlTransient
+    public Collection<TestcaseEntity> getTestcaseEntityCollection() {
+        return testcaseEntityCollection;
+    }
+
+    public void setTestcaseEntityCollection(Collection<TestcaseEntity> testcaseEntityCollection) {
+        this.testcaseEntityCollection = testcaseEntityCollection;
     }
     
 }
