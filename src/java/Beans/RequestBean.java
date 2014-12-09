@@ -95,7 +95,7 @@ public class RequestBean implements java.io.Serializable{
         RequestEntity re = new RequestEntity();
         
         re.setRelativeUri(this.relative_uri);
-        re.setMethod("GET");
+        re.setMethod(this.method);
         re.setProjectName(this.currentUser.currentProject);
                 
         RequestEntityJpaController rejc = new RequestEntityJpaController(this.utx, this.emf);

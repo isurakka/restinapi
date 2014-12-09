@@ -64,7 +64,7 @@
                 <h4>Create new</h4>
                 <h:form>                    
                     <h:inputText value="#{requestBean.relative_uri}" class="form-control" a:placeholder="Request uri" />
-                    <h:selectOneMenu>
+                    <h:selectOneMenu value="#{requestBean.method}">
                         <f:selectItems value="#{requestBean.availableMethods}" />
                     </h:selectOneMenu>
                     <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
