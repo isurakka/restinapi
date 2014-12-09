@@ -24,7 +24,8 @@
     <h:body>
         <div class="row">
             <div class="col-md-2">
-                <h4>Projects</h4>
+                <h3>Projects</h3>
+                <h4>Choose</h4>
                 <h:form>
                     <h:selectOneMenu value="#{userBean.currentProject}" class="dropdown" onchange="submit()" valueChangeListener="#{userBean.changeSelectedUserProject}">                    
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -36,31 +37,44 @@
                     </ul>
                   </h:selectOneMenu>
                 </h:form>
+                <h4>Create new </h4>
+                
+           <h:form>
+           <h:inputText value="#{projectBean.name}" class="form-control" a:placeholder="Project name" />
+           <h:inputText value="#{projectBean.baseuri}" class="form-control" a:placeholder="Project URI" />
+            <h:commandButton value="Create!" action="#{projectBean.makeNewProjectEntity}" class=" btn btn-block" />
+            </h:form>
+                
+           
             </div>
             <div class="col-md-3">
                 <h1 class="">Project: #{userBean.currentProject.name}</h1>
             </div>
             <div class="col-md-4">
                 <h:form>
-                <h:inputText id="inputPassword" class="form-control" a:placeholder="Base uri" required="true" value="#{userBean.currentProject.baseUri}" />
+                <h:inputText id="projectBaseUri" class="form-control" a:placeholder="Base uri" required="true" value="#{userBean.currentProject.baseUri}" />
                 </h:form>
             </div>
         </div>
 
         <div class="row">
             <div class="col-md-2">
-                <h4>Requests</h4>
+                <h3>Requests</h3>
+                  <div class="list-group">
+                <h4>Create new</h4>
+                <h:form>                    
+                    <h:inputText value="#{requestBean.relative_uri}" class="form-control" a:placeholder="Request uri" />
+                    <h:selectOneMenu>
+                        <f:selectItems value="#{requestBean.availableMethods}" />
+                    </h:selectOneMenu>
+                    <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
+                </h:form>
+                  </div>
                 <div class="list-group">
-                    <a href="#" class="list-group-item active">
-                        Register
-                    </a>
-                    <a href="#" class="list-group-item">Login</a>
                     <h:form><h:commandLink action="#{loginBean.logout}" class="list-group-item" value="Logout" /></h:form>
-                    <a href="#" class="list-group-item">Random</a>
                 </div>
             </div>
             <div class="col-md-3">
-                <h1>Register</h1>
             </div>
             <div class="col-md-4">
                 <div class="input-group">

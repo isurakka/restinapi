@@ -6,6 +6,7 @@ import Entities.ProjectEntity;
 import Entities.UserEntity;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManagerFactory;
@@ -26,7 +27,7 @@ import javax.transaction.UserTransaction;
  */
 
 @ManagedBean
-@SessionScoped
+@RequestScoped
 public class ProjectBean implements java.io.Serializable {
     
     private String name;
@@ -56,7 +57,7 @@ public class ProjectBean implements java.io.Serializable {
     
     public ProjectBean() {}
     
-    public void makeNewProject() {
+    public void makeNewProjectEntity() {
         try {
         TypedQuery<UserEntity> query = emf.createEntityManager().createNamedQuery("UserEntity.findByName", UserEntity.class);
         

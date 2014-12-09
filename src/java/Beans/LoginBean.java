@@ -84,7 +84,7 @@ public class LoginBean implements java.io.Serializable {
         }
         }
         catch (Exception ex) {
-            System.out.println("register error: " + ex.getMessage());
+            System.out.println("register error: " + ex.toString());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Registering failed!", "Try again!"));
         }
 
@@ -123,7 +123,7 @@ public class LoginBean implements java.io.Serializable {
        return "";
         
     } catch (Exception ex) {
-        System.out.println("Error loggin in: " + ex.getMessage());
+        System.out.println("Error loggin in: " + ex.toString());
         return "";
     }
     
