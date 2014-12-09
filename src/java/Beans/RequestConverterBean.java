@@ -32,12 +32,12 @@ public class RequestConverterBean implements Converter{
     
     @Override
     public Object getAsObject(FacesContext context, UIComponent component, String value) {
-       return emf.createEntityManager().find(RequestEntity.class, value);
+       return emf.createEntityManager().find(RequestEntity.class, Integer.parseInt(value));
     }
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return ((RequestEntity) value).getRelativeUri();
+        return ((RequestEntity) value).getProjectId().toString();
     }
     
 }

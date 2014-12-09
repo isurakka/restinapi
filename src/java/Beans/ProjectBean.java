@@ -14,6 +14,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
@@ -65,6 +66,9 @@ public class ProjectBean implements java.io.Serializable {
         }
     }
     
+    public void onChangeSelectedRequest(ValueChangeEvent e) {
+        
+    }
     
     public String getName() {
         return name;

@@ -70,8 +70,9 @@
                     <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
                 </h:form>
                 <h:form>
-                    <h:selectOneListbox value="#{projectBean.projectRequest}">
-                            <f:selectItems value="#{projectBean.projectRequests}" />
+                    <h:selectOneListbox value="#{projectBean.projectRequest}" onchange="submit()" valueChangeListener="#{projectBean.onChangeSelectedRequest}">
+                        <f:converter converterId="requestConverterBean" />
+                        <f:selectItems value="#{projectBean.projectRequests}" />
                     </h:selectOneListbox>
                 </h:form>
                   </div>
@@ -81,58 +82,60 @@
             </div>
             <div class="col-md-3">
             </div>
-            <div class="col-md-4">
-                <div class="input-group">
-                    <input type="text" class="form-control relativeUri" placeholder="Relative uri" />
-                    <div class="input-group-btn">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                            GET
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">POST</a></li>
-                            <li role="presentation"><a role="menuitem" tabindex="-1" href="#">PUT</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-8">
-                <div class="row">
-                    <div class="col-xs-4 col-sm-4">
-                        <button id="run" type="button" class="btn btn-default">Run</button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8 col-sm-8">
-                        <div class="panel panel-default">
-                            <!-- Default panel contents -->
-                            <div class="panel-heading">Parameters</div>
-
-                            <!-- Table -->
-                            <table class="table">
-                                <tr>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Key" />
-                                    </td>
-                                    <td>
-                                        <input type="text" class="form-control" placeholder="Value" />
-                                    </td>
-                                </tr>
-                            </table>
+            <h:form>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <h:inputText value="#{projectBean.projectRequest.relativeUri}" class="form-control relativeUri" a:placeholder="Relative URI" />
+                        <div class="input-group-btn">
+                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                                GET
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">POST</a></li>
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">PUT</a></li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-8 col-sm-8">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">Response</div>
-                            <div class="panel-body">
-                                <pre class="response"></pre>
+                <div class="col-sm-8">
+                    <div class="row">
+                        <div class="col-xs-4 col-sm-4">
+                            <button id="run" type="button" class="btn btn-default">Run</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 col-sm-8">
+                            <div class="panel panel-default">
+                                <!-- Default panel contents -->
+                                <div class="panel-heading">Parameters</div>
+
+                                <!-- Table -->
+                                <table class="table">
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Key" />
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" placeholder="Value" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8 col-sm-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Response</div>
+                                <div class="panel-body">
+                                    <pre class="response"></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </h:form>
         </div>
 
         <h:outputScript library="js" name="jquery-2.1.1.min.js" />
