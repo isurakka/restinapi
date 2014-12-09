@@ -56,12 +56,16 @@ public class UserBean implements java.io.Serializable {
         HttpSession currentSession = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         this.username = (String) currentSession.getAttribute("username");
 
+        System.out.println("user: " + username);
+        
         userquery.setParameter("name", username);
         this.currentUser = userquery.getSingleResult();
 
         this.userProjects = new ArrayList<ProjectEntity>(currentUser.getProjectEntityCollection());
-        
+        if (userProjects != null && userProjects.size() > 0)
+        {
         currentProject = userProjects.get(0);
+        }
       //  TypedQuery<ProjectEntity> projectquery = emf.createEntityManager().createNamedQuery("ProjectEntity.findByUser", ProjectEntity.class);
        // projectquery.setParameter("user_name", this.username);
      //  this.userProjects = projectquery.getResultList();
