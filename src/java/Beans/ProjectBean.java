@@ -3,9 +3,14 @@ package Beans;
 
 import Controllers.ProjectEntityJpaController;
 import Entities.ProjectEntity;
+import Entities.RequestEntity;
 import Entities.UserEntity;
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -39,6 +44,29 @@ public class ProjectBean implements java.io.Serializable {
     @Resource
     UserTransaction utx;
     
+    @ManagedProperty(value="#{userBean}")
+    private UserBean currentUser;
+
+    
+    List<RequestEntity> projectRequests;
+    
+    @PostConstruct
+    public void fetchProjectRequests()
+    {
+        /*
+        try {
+        if (currentUser != null) { 
+        currentUser.currentProject.getRequestCollection().size();
+        projectRequests = new ArrayList<RequestEntity>(currentUser.currentProject.getRequestCollection());
+        }
+        }
+        catch (Exception ex)
+        {
+            System.out.println("error: " + ex.getMessage());
+        }*/
+    }
+    
+    
     public String getName() {
         return name;
     }
@@ -54,6 +82,24 @@ public class ProjectBean implements java.io.Serializable {
     public void setBaseuri(String baseuri) {
         this.baseuri = baseuri;
     }
+
+    public UserBean getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(UserBean currentUser) {
+        this.currentUser = currentUser;
+    }
+
+    public List<RequestEntity> getProjectRequests() {
+        return projectRequests;
+    }
+
+    public void setProjectRequests(List<RequestEntity> projectRequests) {
+        this.projectRequests = projectRequests;
+    }
+    
+    
     
     public ProjectBean() {}
     
