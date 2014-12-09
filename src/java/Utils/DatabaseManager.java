@@ -15,9 +15,9 @@ import java.sql.DriverManager;
  * @author Matti
  */
 public class DatabaseManager {
-    public static String DBurl = "jdbc:mysql://localhost/restinapi";
-    public static String DBuser = "root";
-    public static String DBpassword = "";
+    public static String DBurl = "jdbc:mysql://104.236.54.118:3306/restinapi";
+    public static String DBuser = "restinapi";
+    public static String DBpassword = "ria";
     
     /*
     public static String DBurl = "jdbc:mysql://104.236.54.118/restinapi";
