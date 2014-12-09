@@ -5,14 +5,23 @@
  */
 package Beans;
 
+import Controllers.ProjectEntityJpaController;
+import Controllers.RequestEntityJpaController;
+import Entities.ProjectEntity;
+import Entities.RequestEntity;
+import Entities.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.persistence.TypedQuery;
+import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
@@ -32,6 +41,9 @@ public class RequestBean implements java.io.Serializable{
     EntityManagerFactory emf;
     @Resource
     UserTransaction utx;
+    @ManagedProperty(value="#{userBean}")
+    private UserBean currentUser;
+    
     
     @PostConstruct
     public void initRequestBean()
@@ -69,5 +81,31 @@ public class RequestBean implements java.io.Serializable{
         this.availableMethods = availableMethods;
     }
     
+        public UserBean getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(UserBean currentUser) {
+        this.currentUser = currentUser;
+    }
+    
+    public void makeNewRequestEntity()
+    {
+        try {
+        RequestEntity re = new RequestEntity();
+        
+        re.setRelativeUri(this.relative_uri);
+        re.setMethod("GET");
+        re.setProjectName(this.currentUser.currentProject);
+                
+        RequestEntityJpaController rejc = new RequestEntityJpaController(this.utx, this.emf);
+        rejc.create(re);
+        
+        } catch (Exception ex)
+        {
+            System.out.println("Error creating project: " + ex.getMessage());
+        }
+
+    }
     
 }

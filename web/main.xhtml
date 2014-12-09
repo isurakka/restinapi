@@ -42,7 +42,7 @@
            <h:form>
            <h:inputText value="#{projectBean.name}" class="form-control" a:placeholder="Project name" />
            <h:inputText value="#{projectBean.baseuri}" class="form-control" a:placeholder="Project URI" />
-            <h:commandButton value="Create!" action="#{projectBean.makeNewProject}" class=" btn btn-block" />
+            <h:commandButton value="Create!" action="#{projectBean.makeNewProjectEntity}" class=" btn btn-block" />
             </h:form>
                 
            
@@ -67,7 +67,7 @@
                     <h:selectOneMenu>
                         <f:selectItems value="#{requestBean.availableMethods}" />
                     </h:selectOneMenu>
-                    <h:commandButton value="Create!" class=" btn btn-block" />
+                    <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
                 </h:form>
                   </div>
                 <div class="list-group">

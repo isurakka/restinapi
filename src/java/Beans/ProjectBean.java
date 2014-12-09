@@ -57,7 +57,7 @@ public class ProjectBean implements java.io.Serializable {
     
     public ProjectBean() {}
     
-    public void makeNewProject() {
+    public void makeNewProjectEntity() {
         try {
         TypedQuery<UserEntity> query = emf.createEntityManager().createNamedQuery("UserEntity.findByName", UserEntity.class);
         
