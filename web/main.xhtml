@@ -69,6 +69,11 @@
                     </h:selectOneMenu>
                     <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
                 </h:form>
+                <h:form>
+                    <h:selectOneListbox value="#{projectBean.projectRequest}">
+                            <f:selectItems value="#{projectBean.projectRequests}" />
+                    </h:selectOneListbox>
+                </h:form>
                   </div>
                 <div class="list-group">
                     <h:form><h:commandLink action="#{loginBean.logout}" class="list-group-item" value="Logout" /></h:form>

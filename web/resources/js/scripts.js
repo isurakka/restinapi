@@ -23,7 +23,7 @@ $(document).ready(function() {
     $('#run').click(function() 
     {
         console.log($('.baseUri').val() + $('.relativeUri').val());
-        var response = run($('.baseUri').val() + $('.relativeUri').val(), 'GET', {})
+        run($('.baseUri').val() + $('.relativeUri').val(), 'GET', {})
             .done(function(data)
             {
                 var beauty = JSON.stringify(data, null, 4);

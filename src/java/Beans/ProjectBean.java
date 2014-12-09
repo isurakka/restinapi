@@ -47,23 +47,22 @@ public class ProjectBean implements java.io.Serializable {
     @ManagedProperty(value="#{userBean}")
     private UserBean currentUser;
 
-    
+    private RequestEntity projectRequest;
     List<RequestEntity> projectRequests;
     
     @PostConstruct
     public void fetchProjectRequests()
     {
-        /*
         try {
-        if (currentUser != null) { 
-        currentUser.currentProject.getRequestCollection().size();
-        projectRequests = new ArrayList<RequestEntity>(currentUser.currentProject.getRequestCollection());
-        }
+            //if (currentUser != null) { 
+                currentUser.currentProject.getRequestCollection().size();
+                projectRequests = new ArrayList<RequestEntity>(currentUser.currentProject.getRequestCollection());
+            //}
         }
         catch (Exception ex)
         {
             System.out.println("error: " + ex.getMessage());
-        }*/
+        }
     }
     
     
@@ -105,28 +104,45 @@ public class ProjectBean implements java.io.Serializable {
     
     public void makeNewProjectEntity() {
         try {
-        TypedQuery<UserEntity> query = emf.createEntityManager().createNamedQuery("UserEntity.findByName", UserEntity.class);
-        
-        HttpSession currentSession = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
-        String currentUserName = (String) currentSession.getAttribute("username");
+            TypedQuery<UserEntity> query = emf.createEntityManager().createNamedQuery("UserEntity.findByName", UserEntity.class);
 
-        query.setParameter("name", currentUserName);
-        UserEntity currentUser = query.getSingleResult();
-                
-        ProjectEntity pe = new ProjectEntity();
-        
-        pe.setBaseUri(this.baseuri);
-        pe.setName(this.name);
-        pe.setUserName(currentUser);
-        
-        ProjectEntityJpaController pejc = new ProjectEntityJpaController(this.utx, this.emf);
-        
-        pejc.create(pe);
-        
+            HttpSession currentSession = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
+            String currentUserName = (String) currentSession.getAttribute("username");
+
+            query.setParameter("name", currentUserName);
+            UserEntity currentUser = query.getSingleResult();
+
+            ProjectEntity pe = new ProjectEntity();
+
+            pe.setBaseUri(this.baseuri);
+            pe.setName(this.name);
+            pe.setUserName(currentUser);
+
+            ProjectEntityJpaController pejc = new ProjectEntityJpaController(this.utx, this.emf);
+
+            pejc.create(pe);
+
         } catch (Exception ex)
         {
             System.out.println("Error creating project: " + ex.getMessage());
         }
+        
+        FacesContext context = FacesContext.getCurrentInstance();
+        UserBean userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+        userBean.fetchUserInfo();
     }
-    
+
+    /**
+     * @return the projectBean
+     */
+    public RequestEntity getProjectRequest() {
+        return projectRequest;
+    }
+
+    /**
+     * @param projectBean the projectBean to set
+     */
+    public void setProjectRequest(RequestEntity projectRequest) {
+        this.projectRequest = projectRequest;
+    }
 }
