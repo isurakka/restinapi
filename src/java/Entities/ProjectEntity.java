@@ -127,7 +127,8 @@ public class ProjectEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.ProjectEntity[ name=" + name + " ]";
+        //return "Entities.ProjectEntity[ name=" + name + " ]";
+        return this.name;
     }
 
     @XmlTransient

@@ -60,7 +60,6 @@ public class ProjectBean implements java.io.Serializable {
         try {
         TypedQuery<UserEntity> query = emf.createEntityManager().createNamedQuery("UserEntity.findByName", UserEntity.class);
         
-        
         HttpSession currentSession = (HttpSession)FacesContext.getCurrentInstance().getExternalContext().getSession(false);
         String currentUserName = (String) currentSession.getAttribute("username");
 

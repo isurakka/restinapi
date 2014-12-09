@@ -2,7 +2,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang="en" 
       xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <meta charset="utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -23,17 +25,17 @@
         <div class="row">
             <div class="col-md-2">
                 <h4>Projects</h4>
-                <div class="dropdown">
-                    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                        Test project 1
-                        <span class="caret"></span>
-                    </button>
+                <h:form>
+            <h:selectOneMenu value="Projects" class="dropdown">
+                    
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 1</a></li> -->
+                        <f:selectItems value="#{userBean.userProjects}"/>
+                        <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 1</a></li> 
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 2</a></li>
-                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 3</a></li>
+                        <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 3</a></li>-->
                     </ul>
-                </div>
+                  </h:selectOneMenu>
+                </h:form>
             </div>
             <div class="col-md-3">
                 <h1 class="">Test project 1</h1>
