@@ -52,7 +52,7 @@
             </div>
             <div class="col-md-4">
                 <h:form>
-                <h:inputText id="projectBaseUri" class="form-control" a:placeholder="Base uri" required="true" value="#{userBean.currentProject.baseUri}" />
+                <h:inputText class="form-control baseUri" a:placeholder="Base uri" required="true" value="#{userBean.currentProject.baseUri}" />
                 </h:form>
             </div>
         </div>
@@ -78,7 +78,7 @@
             </div>
             <div class="col-md-4">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Relative uri" />
+                    <input type="text" class="form-control relativeUri" placeholder="Relative uri" />
                     <div class="input-group-btn">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                             GET
@@ -94,7 +94,7 @@
             <div class="col-sm-8">
                 <div class="row">
                     <div class="col-xs-4 col-sm-4">
-                        <button type="button" class="btn btn-default">Run</button>
+                        <button id="run" type="button" class="btn btn-default">Run</button>
                     </div>
                 </div>
                 <div class="row">
@@ -122,7 +122,7 @@
                         <div class="panel panel-default">
                             <div class="panel-heading">Response</div>
                             <div class="panel-body">
-                                {}
+                                <pre class="response"></pre>
                             </div>
                         </div>
                     </div>
@@ -132,6 +132,7 @@
 
         <h:outputScript library="js" name="jquery-2.1.1.min.js" />
         <h:outputScript library="js" name="bootstrap.min.js" />
+        <h:outputScript library="js" name="scripts.js" />
     </h:body>
 </html>
 
