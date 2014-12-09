@@ -125,15 +125,15 @@ public class ProjectBean implements java.io.Serializable {
             ProjectEntityJpaController pejc = new ProjectEntityJpaController(this.utx, this.emf);
 
             pejc.create(pe);
+            
+            FacesContext context = FacesContext.getCurrentInstance();
+            UserBean userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
+            userBean.fetchUserInfo();
 
         } catch (Exception ex)
         {
             System.out.println("Error creating project: " + ex.getMessage());
         }
-        
-        FacesContext context = FacesContext.getCurrentInstance();
-        UserBean userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
-        userBean.fetchUserInfo();
     }
 
     /**

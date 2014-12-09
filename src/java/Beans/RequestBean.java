@@ -92,20 +92,24 @@ public class RequestBean implements java.io.Serializable{
     public void makeNewRequestEntity()
     {
         try {
-        RequestEntity re = new RequestEntity();
-        
-        re.setRelativeUri(this.relative_uri);
-        re.setMethod(this.method);
-        re.setProjectName(this.currentUser.currentProject);
-                
-        RequestEntityJpaController rejc = new RequestEntityJpaController(this.utx, this.emf);
-        rejc.create(re);
+            RequestEntity re = new RequestEntity();
+
+            re.setRelativeUri(this.relative_uri);
+            re.setMethod(this.method);
+            re.setProjectName(this.currentUser.currentProject);
+
+            RequestEntityJpaController rejc = new RequestEntityJpaController(this.utx, this.emf);
+            rejc.create(re);
+
+            // TODO: FIX
+            FacesContext context = FacesContext.getCurrentInstance();
+            ProjectBean projectBean = context.getApplication().evaluateExpressionGet(context, "#{projectBean}", ProjectBean.class);
+            projectBean.fetchProjectRequests();
         
         } catch (Exception ex)
         {
             System.out.println("Error creating project: " + ex.getMessage());
         }
-
     }
     
 }
