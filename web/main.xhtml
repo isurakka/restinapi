@@ -26,9 +26,9 @@
             <div class="col-md-2">
                 <h4>Projects</h4>
                 <h:form>
-            <h:selectOneMenu value="Projects" class="dropdown">
-                    
+                    <h:selectOneMenu value="#{userBean.currentProject}" class="dropdown" onchange="submit()" valueChangeListener="#{userBean.changeSelectedUserProject}">                    
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <f:converter converterId="projectConverterBean" />
                         <f:selectItems value="#{userBean.userProjects}"/>
                         <!-- <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 1</a></li> 
                         <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Test project 2</a></li>
@@ -38,7 +38,7 @@
                 </h:form>
             </div>
             <div class="col-md-3">
-                <h1 class="">Test project 1</h1>
+                <h1 class="">Project: #{userBean.currentProject.name}</h1>
             </div>
             <div class="col-md-4">
                 <input type="text" class="form-control" placeholder="Base uri" />

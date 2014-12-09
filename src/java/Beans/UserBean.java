@@ -7,6 +7,7 @@ package Beans;
 
 import Entities.ProjectEntity;
 import Entities.UserEntity;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -14,6 +15,7 @@ import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
@@ -38,7 +40,8 @@ public class UserBean implements java.io.Serializable {
     
     
     UserEntity currentUser;
-    Collection<ProjectEntity> userProjects;
+    List<ProjectEntity> userProjects;
+    ProjectEntity currentProject;
     
    public UserBean()
     {
@@ -56,10 +59,18 @@ public class UserBean implements java.io.Serializable {
         userquery.setParameter("name", username);
         this.currentUser = userquery.getSingleResult();
 
-        this.userProjects = currentUser.getProjectEntityCollection();
+        this.userProjects = new ArrayList<ProjectEntity>(currentUser.getProjectEntityCollection());
+        
+        currentProject = userProjects.get(0);
       //  TypedQuery<ProjectEntity> projectquery = emf.createEntityManager().createNamedQuery("ProjectEntity.findByUser", ProjectEntity.class);
        // projectquery.setParameter("user_name", this.username);
      //  this.userProjects = projectquery.getResultList();
+   }
+   
+   public  void changeSelectedUserProject(ValueChangeEvent e)
+   {
+     //  System.out.println(e.getNewValue().toString());
+      // this.currentProject = e.getNewValue();
    }
    
     public String getUsername() {
@@ -86,13 +97,20 @@ public class UserBean implements java.io.Serializable {
         this.currentUser = currentUser;
     }
 
-    public Collection<ProjectEntity> getUserProjects() {
+    public List<ProjectEntity> getUserProjects() {
         return userProjects;
     }
 
-    public void setUserProjects(Collection<ProjectEntity> userProjects) {
+    public void setUserProjects(List<ProjectEntity> userProjects) {
         this.userProjects = userProjects;
     }
 
+    public ProjectEntity getCurrentProject() {
+        return currentProject;
+    }
+
+    public void setCurrentProject(ProjectEntity currentProject) {
+        this.currentProject = currentProject;
+    }
     
 }
