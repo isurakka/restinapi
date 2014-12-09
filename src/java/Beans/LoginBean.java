@@ -64,7 +64,7 @@ public class LoginBean implements java.io.Serializable {
         this.isLoggedIn = isLoggedIn;
     }
     
-    public void register() {
+    public String register() {
         try {
         Connection conn = DatabaseManager.getConnection();
         PreparedStatement ps = null;
@@ -81,13 +81,15 @@ public class LoginBean implements java.io.Serializable {
         {
                         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Registering succeeded!", ""));
                         isLoggedIn = true;
+                        return "login";
         }
         }
         catch (Exception ex) {
             System.out.println("register error: " + ex.toString());
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Registering failed!", "Try again!"));
+         return "";
         }
-
+        return "";
     }
 
         
