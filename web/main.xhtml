@@ -24,7 +24,8 @@
     <h:body>
         <div class="row">
             <div class="col-md-2">
-                <h4>Projects</h4>
+                <h3>Projects</h3>
+                <h4>Choose</h4>
                 <h:form>
                     <h:selectOneMenu value="#{userBean.currentProject}" class="dropdown" onchange="submit()" valueChangeListener="#{userBean.changeSelectedUserProject}">                    
                     <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
@@ -36,6 +37,14 @@
                     </ul>
                   </h:selectOneMenu>
                 </h:form>
+                <h4>Create new </h4>
+                
+           <h:form>
+           <h:inputText value="#{projectBean.name}" class="form-control" a:placeholder="Project name" />
+           <h:inputText value="#{projectBean.baseuri}" class="form-control" a:placeholder="Project URI" />
+            <h:commandButton value="Create!" action="#{projectBean.makeNewProject}" class=" btn btn-block" />
+        </h:form>
+                
             </div>
             <div class="col-md-3">
                 <h1 class="">Project: #{userBean.currentProject.name}</h1>
