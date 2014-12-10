@@ -5,7 +5,7 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
-        <title>${fuzzTypes.getFuzzById(param['selectedFuzz']).name}</title>
+        <title>${fuzzTypes.getFuzzById(fuzzSelector.pageId).name}</title>
         <h:outputStylesheet library="css" name="bootstrap.min.css"  />
         <h:outputStylesheet library="css" name="fuzzer.css"  />
     </h:head>
@@ -15,7 +15,7 @@
                 <table class = "fuzz_layout_table" style = "width: 70%; margin-left: 10px;">
                     <tr>
                         <td colspan = "500">
-                            <h1 id = "fuzz_name">${fuzzTypes.getFuzzById(param['selectedFuzz']).fullInfo}</h1>
+                            <h1 id = "fuzz_name">${fuzzTypes.getFuzzById(fuzzSelector.pageId).fullInfo}</h1>
                         </td>
                     </tr>
                     <tr>
@@ -57,7 +57,7 @@
     		</h:column>
     		<h:column>
     			<f:facet name="header">Remove field</f:facet>
-    			<h:commandLink value="Delete" action="#{fuzzFields.deleteField(f)}" />
+    			<h:commandLink value="Delete" action="#{fuzzFields.deleteField(f)}"/>
     		</h:column>
     		</h:dataTable>
                 <h3>Add field</h3>
@@ -78,7 +78,7 @@
                     </tr>
                     <tr>
                         <td colspan = "50000000">
-                            <h:commandButton value="Add" action="#{fuzzFields.addField}" class="btn btn-lg btn-primary btn-block"/> 
+                            <h:commandButton value="Add" action="#{fuzzFields.addField}" class="btn btn-lg btn-primary btn-block" /> 
                         </td>
                     </tr>
     		</table>

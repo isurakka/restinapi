@@ -19,10 +19,9 @@ import javax.faces.bean.RequestScoped;
  * @author Jonah
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class FuzzSelector implements Serializable
 {
-    @ManagedProperty(value="#{param.pageId}")
     private String pageId;
     
     public FuzzSelector()
@@ -35,9 +34,10 @@ public class FuzzSelector implements Serializable
         return "select_fuzz";
     }
     
-    public String selectFuzz()
+    public String selectFuzz(String pageId)
     {
-        return "fuzz_options?faces-redirect=true&selectedFuzz=" + pageId;
+        this.pageId = pageId;
+        return "fuzz_options?faces-redirect=true";
     }
 
     public String getPageId() {
