@@ -50,9 +50,6 @@ public class RequestBean implements java.io.Serializable{
     @ManagedProperty(value="#{userBean}")
     private UserBean currentUser;
     
-    //@ManagedProperty(value="#{projectBean}")
-    private ProjectBean currentProject;
-    
     private ParameterEntity requestParameter;
     private List<ParameterEntity> requestParameters;
     
@@ -93,7 +90,14 @@ public class RequestBean implements java.io.Serializable{
         this.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
         
         */
+        /*
+        requestParameters = currentProject.projectRequest.getParameterEntityList();
         
+        if (requestParameters != null && requestParameters.size() > 0)
+        {
+            requestParameter = requestParameters.get(0);
+        }
+        */
     }
     
     /*
@@ -236,20 +240,6 @@ public class RequestBean implements java.io.Serializable{
      */
     public void setRequestParameters(List<ParameterEntity> requestParameters) {
         this.requestParameters = requestParameters;
-    }
-
-    /**
-     * @return the currentProject
-     */
-    public ProjectBean getCurrentProject() {
-        return currentProject;
-    }
-
-    /**
-     * @param currentProject the currentProject to set
-     */
-    public void setCurrentProject(ProjectBean currentProject) {
-        this.currentProject = currentProject;
     }
     
 }

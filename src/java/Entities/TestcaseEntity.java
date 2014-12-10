@@ -66,7 +66,7 @@ public class TestcaseEntity implements Serializable {
     @NotNull
     @Column(name = "dirty")
     private boolean dirty;
-    @JoinColumn(name = "request_id", referencedColumnName = "project_id")
+    @JoinColumn(name = "request_id", referencedColumnName = "request_id")
     @ManyToOne(optional = false)
     private RequestEntity requestId;
     @JoinColumn(name = "script_id", referencedColumnName = "script_id")

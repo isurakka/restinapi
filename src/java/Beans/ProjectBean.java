@@ -82,12 +82,12 @@ public class ProjectBean implements java.io.Serializable {
     
     public void onChangeSelectedRequest(ValueChangeEvent e) {
         // Hax maybe
-        projectRequest = (RequestEntity)e.getNewValue();
+        //projectRequest = (RequestEntity)e.getNewValue();
         
         //RequestEntityJpaController rejc = new RequestEntityJpaController(utx, emf);
         //currentRequest.setRequestParameters(rejc.findParameters(projectRequest));
         
-        
+        /*
         if (getProjectRequest() == null)
         {
             System.out.println("getProjectRequest() is null");
@@ -102,14 +102,12 @@ public class ProjectBean implements java.io.Serializable {
         
         TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("ParameterEntity.findByRequestId", ParameterEntity.class);
         System.out.println("Request id: " + getProjectRequest().getRequestId());
-        parameterQuery.setParameter("requestId", getProjectRequest());
+        parameterQuery.setParameter("a", getProjectRequest().getRequestId());
         
         System.out.println(parameterQuery.getResultList().size());
+        */
         
-        currentRequest.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
-        
-        
-
+        //currentRequest.setRequestParameters(getProjectRequest().getParameterEntityList());
     }
     
     public String getName() {

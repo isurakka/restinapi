@@ -31,8 +31,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ParameterEntity.findAll", query = "SELECT p FROM ParameterEntity p"),
-    @NamedQuery(name = "ParameterEntity.findByRequestId", query = "SELECT p FROM ParameterEntity p WHERE p.requestId = :requestId"),
     @NamedQuery(name = "ParameterEntity.findByParameterId", query = "SELECT p FROM ParameterEntity p WHERE p.parameterId = :parameterId"),
+    @NamedQuery(name = "ParameterEntity.findByRequestId", query = "SELECT p FROM ParameterEntity p WHERE p.requestId.requestId = :a"),
     @NamedQuery(name = "ParameterEntity.findByKey", query = "SELECT p FROM ParameterEntity p WHERE p.key = :key")})
 public class ParameterEntity implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -52,12 +52,12 @@ public class ParameterEntity implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "value")
     private String value;
+    @JoinColumn(name = "request_id", referencedColumnName = "request_id")
+    @ManyToOne
+    private RequestEntity requestId;
     @JoinColumn(name = "project_name", referencedColumnName = "name")
     @ManyToOne
     private ProjectEntity projectName;
-    @JoinColumn(name = "request_id", referencedColumnName = "project_id")
-    @ManyToOne
-    private RequestEntity requestId;
 
     public ParameterEntity() {
     }
@@ -96,20 +96,20 @@ public class ParameterEntity implements Serializable {
         this.value = value;
     }
 
-    public ProjectEntity getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(ProjectEntity projectName) {
-        this.projectName = projectName;
-    }
-
     public RequestEntity getRequestId() {
         return requestId;
     }
 
     public void setRequestId(RequestEntity requestId) {
         this.requestId = requestId;
+    }
+
+    public ProjectEntity getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(ProjectEntity projectName) {
+        this.projectName = projectName;
     }
 
     @Override

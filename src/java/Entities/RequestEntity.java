@@ -33,35 +33,47 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RequestEntity.findAll", query = "SELECT r FROM RequestEntity r"),
-    @NamedQuery(name = "RequestEntity.findByRequestid", query = "SELECT r FROM RequestEntity r WHERE r.requestId = :requestId"),
+    @NamedQuery(name = "RequestEntity.findByRequestId", query = "SELECT r FROM RequestEntity r WHERE r.requestId = :requestId"),
     @NamedQuery(name = "RequestEntity.findByProject", query = "SELECT r FROM RequestEntity r WHERE r.projectName = :projectName"),
     @NamedQuery(name = "RequestEntity.findByRelativeUri", query = "SELECT r FROM RequestEntity r WHERE r.relativeUri = :relativeUri"),
     @NamedQuery(name = "RequestEntity.findByMethod", query = "SELECT r FROM RequestEntity r WHERE r.method = :method")})
 public class RequestEntity implements Serializable {
+    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "request_id")
     private Integer requestId;
-    private static final long serialVersionUID = 1L;
     @Size(max = 256)
     @Column(name = "relative_uri")
     private String relativeUri;
     @Size(max = 64)
     @Column(name = "method")
     private String method;
-    @JoinColumn(name = "project_name", referencedColumnName = "name")
-    @ManyToOne(optional = false)
-    private ProjectEntity projectName;
     @JoinColumn(name = "script_id", referencedColumnName = "script_id")
     @ManyToOne
     private ScriptEntity scriptId;
+    @JoinColumn(name = "project_name", referencedColumnName = "name")
+    @ManyToOne(optional = false)
+    private ProjectEntity projectName;
     @OneToMany(mappedBy = "requestId")
     private List<ParameterEntity> parameterEntityList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "requestId")
     private List<TestcaseEntity> testcaseEntityList;
 
     public RequestEntity() {
+    }
+
+    public RequestEntity(Integer requestId) {
+        this.requestId = requestId;
+    }
+
+    public Integer getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(Integer requestId) {
+        this.requestId = requestId;
     }
 
     public String getRelativeUri() {
@@ -80,20 +92,20 @@ public class RequestEntity implements Serializable {
         this.method = method;
     }
 
-    public ProjectEntity getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(ProjectEntity projectName) {
-        this.projectName = projectName;
-    }
-
     public ScriptEntity getScriptId() {
         return scriptId;
     }
 
     public void setScriptId(ScriptEntity scriptId) {
         this.scriptId = scriptId;
+    }
+
+    public ProjectEntity getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(ProjectEntity projectName) {
+        this.projectName = projectName;
     }
 
     @XmlTransient
@@ -112,18 +124,6 @@ public class RequestEntity implements Serializable {
 
     public void setTestcaseEntityList(List<TestcaseEntity> testcaseEntityList) {
         this.testcaseEntityList = testcaseEntityList;
-    }
-
-    public RequestEntity(Integer requestId) {
-        this.requestId = requestId;
-    }
-
-    public Integer getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(Integer requestId) {
-        this.requestId = requestId;
     }
 
     @Override
