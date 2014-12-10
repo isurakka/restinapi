@@ -6,13 +6,22 @@
     <h:head>
         <title>Fuzz report</title>
         <h:outputStylesheet library="css" name="bootstrap.min.css"  />
-        <h:outputStylesheet library="css" name="styles.css"  />
+        <h:outputStylesheet library="css" name="fuzzer.css"  />
         
         <h:outputScript library="js" name="jquery-2.1.1.min.js" />
         <h:outputScript library="js" name="bootstrap.min.js" />
         <h:outputScript library="js" name="fuzz_scripts.js" />
     </h:head>
     <h:body>
+        <div id ="result_wrapper">
+            <table id ="result_table" class = "table table-bordered">
+                <tr id = "results_table_headers">
+                    <th>Req. #</th>
+                    <th>Request status</th>
+                    <th>Response body</th>
+                </tr>
+            </table>
+        </div>
         <h:form>
             <h:inputHidden value="${fuzzFields.fieldsAsJson}">
                 <f:passThroughAttribute name="id" value="fields" />
@@ -22,6 +31,9 @@
             </h:inputHidden>
             <h:inputHidden value="${fuzzManager.fuzzRequestUrl}">
                 <f:passThroughAttribute name="id" value="requestUrl" />
+            </h:inputHidden>
+            <h:inputHidden value="${fuzzSelector.pageId}">
+                <f:passThroughAttribute name="id" value="requestType" />
             </h:inputHidden>
         </h:form>
     </h:body>
