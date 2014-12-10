@@ -103,9 +103,11 @@ public class RequestBean implements java.io.Serializable{
 
             // TODO: FIX
             FacesContext context = FacesContext.getCurrentInstance();
-            ProjectBean projectBean = context.getApplication().evaluateExpressionGet(context, "#{projectBean}", ProjectBean.class);
+            
+             ProjectBean projectBean = context.getApplication().evaluateExpressionGet(context, "#{projectBean}", ProjectBean.class);
+            projectBean.setProjectRequest(re);
             projectBean.fetchProjectRequests();
-        
+            //projectBean.projectRequests.add(re);
         } catch (Exception ex)
         {
             System.out.println("Error creating project: " + ex.getMessage());

@@ -21,8 +21,6 @@ import javax.persistence.PersistenceUnit;
  */
 // Converts projects to legit format
 
-// TODO: Don't use this class
-
 @ManagedBean
 @FacesConverter(value="requestConverterBean")
 public class RequestConverterBean implements Converter{

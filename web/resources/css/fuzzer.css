@@ -167,6 +167,8 @@ html, body
 {
 	width: 100%;
 	height: 100%;
+        margin-left: 10px;
+        margin-right: 10px;
 }
 
 .fuzz_layout_table

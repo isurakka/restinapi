@@ -6,6 +6,7 @@
       xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:head>
         <title>${fuzzTypes.getFuzzById(param['selectedFuzz']).name}</title>
+        <h:outputStylesheet library="css" name="bootstrap.min.css"  />
         <h:outputStylesheet library="css" name="fuzzer.css"  />
     </h:head>
     <h:body>
@@ -19,14 +20,18 @@
                     </tr>
                     <tr>
                         <td colspan = "500">
-                            <h:inputText class = "fuzz_base_url" a:placeholder="Base URL" id = "fuzz_base_url" value="${fuzzManager.fuzzRequestUrl}"></h:inputText>
+                            <h:inputText class = "form-control" a:placeholder="Base URL" id = "fuzz_base_url" value="${fuzzManager.fuzzRequestUrl}"></h:inputText>
                         </td>
                     </tr>
                     <tr id = "fuzz_table_method_row">
                         <td colspan = "500" class = "fuzz_table_method_cell">
                             <h:selectOneRadio value="${fuzzManager.fuzzRequestMethod}">
-                                <f:selectItem itemValue="GET" itemLabel="GET"/>
-                                <f:selectItem itemValue="POST" itemLabel="POST"/>
+                                <label class="checkbox-inline">
+                                    <f:selectItem itemValue="GET" itemLabel="GET"/>
+                                </label>
+                                <label class="checkbox-inline">
+                                    <f:selectItem itemValue="POST" itemLabel="POST"/> 
+                                </label>
                             </h:selectOneRadio>
                         </td>
                     </tr>
@@ -34,9 +39,46 @@
                         <td colspan = "500" class = "fuzz_table_bottom"></td>
                     </tr>
                 </table>
-                <table id = "fuzz_field_table">
-
-                </table>
+                <h:dataTable value="#{fuzzFields.fields}" var="f"
+    			styleClass="order-table"
+    			headerClass="order-table-header"
+    			rowClasses="order-table-odd-row,order-table-even-row" class = "table">
+    		<h:column>
+    			<f:facet name="header">Field name</f:facet>
+    			#{f.fieldName}
+    		</h:column>
+    		<h:column>
+    			<f:facet name="header">Field value</f:facet>
+    			#{f.fieldValue}
+    		</h:column>
+    		<h:column>
+    			<f:facet name="header">Is locked</f:facet>
+    			#{f.isLocked}
+    		</h:column>
+    		<h:column>
+    			<f:facet name="header">Remove field</f:facet>
+    			<h:commandLink value="Delete" action="#{fuzzFields.deleteField(f)}" />
+    		</h:column>
+    		</h:dataTable>
+                <h3>Add field</h3>
+    		<table class="table table-bordered">
+                    <tr>
+                            <td><h5>Field name:</h5></td>
+                            <td><h:inputText size="10" value="#{fuzzFields.fieldName}" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                            <td><h5>Field value:</h5></td>
+                            <td><h:inputText size="20" value="#{fuzzFields.fieldValue}" class="form-control"/></td>
+                    </tr>
+                    <tr>
+                            <td><h5>Is locked:</h5></td>
+                            <td><h:inputText size="5" value="#{fuzzFields.isLocked}" class="form-control"/></td>
+                    </tr>
+    		</table>
+    		<h:commandButton value="Add" action="#{fuzzFields.addField}" class="btn btn-lg btn-primary btn-block"/> 
+                <h:commandLink action="" value ="Fuzz!" class="btn btn-lg btn-primary btn-block">
+                    <f:param name="pageId" value="parameter_fuzz"/>
+                </h:commandLink>
             </div>
        </h:form>
     </h:body>

@@ -82,6 +82,14 @@
             <div class="col-md-2">
                 <h3>Requests</h3>
                   <div class="list-group">
+                      <h4>Choose</h4>
+                <h:form>
+                    <h:selectOneMenu value="#{projectBean.projectRequest}" onchange="submit()" valueChangeListener="#{projectBean.onChangeSelectedRequest}">
+                        <f:converter converterId="requestConverterBean" />
+                        <f:selectItems value="#{projectBean.projectRequests}" />
+                    </h:selectOneMenu>
+                </h:form>
+                      
                 <h4>Create new</h4>
                 <h:form>                    
                     <h:inputText value="#{requestBean.relative_uri}" class="form-control" a:placeholder="Request uri" />
@@ -89,12 +97,6 @@
                         <f:selectItems value="#{requestBean.availableMethods}" />
                     </h:selectOneMenu>
                     <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
-                </h:form>
-                <h:form>
-                    <h:selectOneListbox value="#{projectBean.projectRequest}" onchange="submit()" valueChangeListener="#{projectBean.onChangeSelectedRequest}">
-                        <f:converter converterId="requestConverterBean" />
-                        <f:selectItems value="#{projectBean.projectRequests}" />
-                    </h:selectOneListbox>
                 </h:form>
                   </div>
                 <div class="list-group">
@@ -107,16 +109,11 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <h:inputText value="#{projectBean.projectRequest.relativeUri}" class="form-control relativeUri" a:placeholder="Relative URI" />
-                        <div class="input-group-btn">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                                GET
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">POST</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">PUT</a></li>
-                            </ul>
-                        </div>
+                        <h:form>
+                    <h:selectOneMenu value="#{projectBean.projectRequest.method}">
+                       <f:selectItems value="#{requestBean.availableMethods}" />
+                    </h:selectOneMenu>
+                        </h:form>
                     </div>
                 </div>
                 <div class="col-sm-8">

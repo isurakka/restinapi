@@ -54,16 +54,16 @@ public class ProjectBean implements java.io.Serializable {
     @PostConstruct
     public void fetchProjectRequests()
     {
-        try {
-            //if (currentUser != null) { 
-                currentUser.currentProject.getRequestCollection().size();
-                projectRequests = new ArrayList<RequestEntity>(currentUser.currentProject.getRequestCollection());
-            //}
-        }
-        catch (Exception ex)
-        {
-            System.out.println("error: " + ex.getMessage());
-        }
+                //currentUser.currentProject.getRequestCollection().size();
+                //projectRequests = new ArrayList<RequestEntity>(currentUser.currentProject.getRequestCollection());
+                //System.out.println("fetched requests");
+
+        TypedQuery<RequestEntity> userquery = emf.createEntityManager().createNamedQuery("RequestEntity.findByProject", RequestEntity.class);
+                
+        userquery.setParameter("projectName", this.currentUser.currentProject);
+
+        this.projectRequests = new ArrayList<RequestEntity>(userquery.getResultList());
+
     }
     
     public void onChangeSelectedRequest(ValueChangeEvent e) {
