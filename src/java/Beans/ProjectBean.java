@@ -5,12 +5,15 @@ import Controllers.ProjectEntityJpaController;
 import Controllers.RequestEntityJpaController;
 import Entities.ParameterEntity;
 import Controllers.ScriptEntityJpaController;
+import Controllers.exceptions.RollbackFailureException;
 import Entities.ProjectEntity;
 import Entities.RequestEntity;
 import Entities.ScriptEntity;
 import Entities.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
@@ -19,6 +22,7 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
 import javax.persistence.TypedQuery;
@@ -156,7 +160,19 @@ public class ProjectBean implements java.io.Serializable {
         this.afterscript = afterscript;
     }
     
-    
+        /**
+     * @return the projectBean
+     */
+    public RequestEntity getProjectRequest() {
+        return projectRequest;
+    }
+
+    /**
+     * @param projectBean the projectBean to set
+     */
+    public void setProjectRequest(RequestEntity projectRequest) {
+        this.projectRequest = projectRequest;
+    }
     
     public ProjectBean() {}
     
@@ -199,21 +215,20 @@ public class ProjectBean implements java.io.Serializable {
             System.out.println("Error creating project: " + ex.getMessage());
         }
     }
-
-    /**
-     * @return the projectBean
-     */
-    public RequestEntity getProjectRequest() {
-        return projectRequest;
+    
+    
+    public void saveRequestBeforeAfterScriptChanges()
+    {
+        ScriptEntityJpaController sec = new ScriptEntityJpaController(this.utx, this.emf);
+        try {
+            sec.edit(this.projectRequest.getScriptId());
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
-
-    /**
-     * @param projectBean the projectBean to set
-     */
-    public void setProjectRequest(RequestEntity projectRequest) {
-        this.projectRequest = projectRequest;
-    }
-
     /**
      * @return the currentRequest
      */
@@ -227,4 +242,5 @@ public class ProjectBean implements java.io.Serializable {
     public void setCurrentRequest(RequestBean currentRequest) {
         this.currentRequest = currentRequest;
     }
+
 }
