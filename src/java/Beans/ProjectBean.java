@@ -55,7 +55,7 @@ public class ProjectBean implements java.io.Serializable {
     @ManagedProperty(value="#{userBean}")
     private UserBean currentUser;
     
-    //@ManagedProperty(value="#{requestBean}")
+    @ManagedProperty(value="#{requestBean}")
     private RequestBean currentRequest;
 
     RequestEntity projectRequest;
@@ -96,15 +96,15 @@ public class ProjectBean implements java.io.Serializable {
             return;
         }
         
-        
-        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("ParameterEntity.findByProjectName", ParameterEntity.class);
+        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("ParameterEntity.findByRequestId", ParameterEntity.class);
         System.out.println("Request id: " + getProjectRequest().getProjectId());
-        parameterQuery.setParameter("projectName", currentUser.currentProject);
+        parameterQuery.setParameter("requestId", getProjectRequest());
         
         System.out.println(parameterQuery.getResultList().size());
         
         currentRequest.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
         */
+        
 
     }
     

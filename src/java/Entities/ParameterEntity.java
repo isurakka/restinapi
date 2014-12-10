@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ParameterEntity.findAll", query = "SELECT p FROM ParameterEntity p"),
-    //@NamedQuery(name = "ParameterEntity.findByRequestId", query = "SELECT p FROM ParameterEntity p WHERE p.requestId = :requestId"),
+    @NamedQuery(name = "ParameterEntity.findByRequestId", query = "SELECT p FROM ParameterEntity p WHERE p.requestId = :requestId"),
     @NamedQuery(name = "ParameterEntity.findByParameterId", query = "SELECT p FROM ParameterEntity p WHERE p.parameterId = :parameterId"),
     @NamedQuery(name = "ParameterEntity.findByProjectName", query = "SELECT p FROM ParameterEntity p WHERE p.projectName = :projectName"),
     @NamedQuery(name = "ParameterEntity.findByKey", query = "SELECT p FROM ParameterEntity p WHERE p.key = :key")})
