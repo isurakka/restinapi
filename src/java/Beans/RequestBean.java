@@ -5,33 +5,29 @@
  */
 package Beans;
 
-import Controllers.ProjectEntityJpaController;
 import Controllers.RequestEntityJpaController;
 import Entities.ParameterEntity;
 import Controllers.ScriptEntityJpaController;
-import Entities.ProjectEntity;
 import Entities.RequestEntity;
 import Entities.ScriptEntity;
-import Entities.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
-import javax.persistence.TypedQuery;
-import javax.servlet.http.HttpSession;
 import javax.transaction.UserTransaction;
 
 /**
  *
  * @author Matti
  */
+
+// Bean representing single request instance
 @ManagedBean
 @SessionScoped
 public class RequestBean implements java.io.Serializable{
@@ -66,74 +62,7 @@ public class RequestBean implements java.io.Serializable{
         this.availableMethods.add("HEAD");
         this.availableMethods.add("GET");
         
-        
-        /*
-        if (currentProject == null)
-        {
-            System.out.println("currentProject is null");
-            return;
-        }
-        
-        
-        if (currentProject.getProjectRequest() == null)
-        {
-            System.out.println("currentProject.getProjectRequest() is null");
-            return;
-        }
-        
-        if (currentProject.getProjectRequest().getProjectId() == null)
-        {
-            System.out.println("currentProject.getProjectRequest().getProjectId() is null");
-            return;
-        }
-        
-        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("RequestEntity.findByRequestId", ParameterEntity.class);
-        parameterQuery.setParameter("requestId", this.getCurrentProject().getProjectRequest().getProjectId());
-        this.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
-        
-        */
-        /*
-        requestParameters = currentProject.projectRequest.getParameterEntityList();
-        
-        if (requestParameters != null && requestParameters.size() > 0)
-        {
-            requestParameter = requestParameters.get(0);
-        }
-        */
     }
-    
-    /*
-    @PostConstruct
-    public void fetchRequestParameters()
-    {
-        //FacesContext context = FacesContext.getCurrentInstance();
-        //ProjectBean projectBean = context.getApplication().evaluateExpressionGet(context, "#{projectBean}", ProjectBean.class);
-        
-        if (currentProject == null)
-        {
-            System.out.println("currentProject is null");
-            return;
-        }
-        
-        
-        if (currentProject.getProjectRequest() == null)
-        {
-            System.out.println("currentProject.getProjectRequest() is null");
-            return;
-        }
-        
-        if (currentProject.getProjectRequest().getProjectId() == null)
-        {
-            System.out.println("currentProject.getProjectRequest().getProjectId() is null");
-            return;
-        }
-        
-        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("RequestEntity.findByRequestId", ParameterEntity.class);
-        parameterQuery.setParameter("requestId", this.getCurrentProject().getProjectRequest().getProjectId());
-        this.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
-        
-    }
-    */
     
     public String getRelative_uri() {
         return relative_uri;

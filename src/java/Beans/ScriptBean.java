@@ -5,9 +5,7 @@
  */
 package Beans;
 
-import Controllers.RequestEntityJpaController;
 import Controllers.ScriptEntityJpaController;
-import Entities.RequestEntity;
 import Entities.ScriptEntity;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;

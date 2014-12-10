@@ -10,6 +10,8 @@ package Utils;
  *
  * @author Matti
  */
+
+// Web filter to kick users out of unauthorized pages (all excecpt login and register)
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;

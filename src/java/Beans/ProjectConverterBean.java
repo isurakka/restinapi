@@ -18,7 +18,7 @@ import javax.persistence.PersistenceUnit;
  *
  * @author Matti
  */
-// Converts projects to legit format
+// Converts requests to legit format in listboxes etc.
 
 @ManagedBean
 @FacesConverter(value="projectConverterBean")

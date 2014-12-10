@@ -10,7 +10,6 @@ import Controllers.exceptions.RollbackFailureException;
 import Entities.ProjectEntity;
 import Entities.UserEntity;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -72,15 +71,12 @@ public class UserBean implements java.io.Serializable {
             currentProject = userProjects.get(0);
         }
         
-      //  TypedQuery<ProjectEntity> projectquery = emf.createEntityManager().createNamedQuery("ProjectEntity.findByUser", ProjectEntity.class);
-       // projectquery.setParameter("user_name", this.username);
-     //  this.userProjects = projectquery.getResultList();
+
    }
    
    public  void changeSelectedUserProject(ValueChangeEvent e)
    {
-     //  System.out.println(e.getNewValue().toString());
-      // this.currentProject = e.getNewValue();
+
    }
    
     public String getUsername() {

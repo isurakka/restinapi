@@ -82,15 +82,6 @@ public class ProjectBean implements java.io.Serializable {
 
         this.projectRequests = new ArrayList<RequestEntity>(userquery.getResultList());
         
-        /*
-        for (RequestEntity item : projectRequests) {
-            if (item.getRequestId().equals(currentRequest.getRequestId()))
-            {
-                projectRequest = item;
-                break;
-            }
-        }
-        */
         
         if (projectRequests != null && projectRequests.size() > 0)
         {
@@ -102,30 +93,7 @@ public class ProjectBean implements java.io.Serializable {
         // Hax maybe
         projectRequest = (RequestEntity)e.getNewValue();
         System.out.println("requestchanged, new request int: " + projectRequest.getRequestId());
-        //RequestEntityJpaController rejc = new RequestEntityJpaController(utx, emf);
-        //currentRequest.setRequestParameters(rejc.findParameters(projectRequest));
-        
-        /*
-        if (getProjectRequest() == null)
-        {
-            System.out.println("getProjectRequest() is null");
-            return;
-        }
-        
-        if (getProjectRequest().getRequestId() == null)
-        {
-            System.out.println("getProjectRequest().getProjectId() is null");
-            return;
-        }
-        
-        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("ParameterEntity.findByRequestId", ParameterEntity.class);
-        System.out.println("Request id: " + getProjectRequest().getRequestId());
-        parameterQuery.setParameter("a", getProjectRequest().getRequestId());
-        
-        System.out.println(parameterQuery.getResultList().size());
-        */
-        
-        //currentRequest.setRequestParameters(getProjectRequest().getParameterEntityList());
+
         
         try {
             Connection conn = DatabaseManager.getConnection();

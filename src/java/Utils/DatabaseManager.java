@@ -14,6 +14,9 @@ import java.sql.DriverManager;
  *
  * @author Matti
  */
+
+// database class to get over some strange JPA kinks
+
 public class DatabaseManager {
     public static String DBurl = "jdbc:mysql://mysql.labranet.jamk.fi:3306/G8049";
     public static String DBuser = "G8049";

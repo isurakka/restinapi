@@ -25,6 +25,9 @@ import javax.servlet.http.HttpSession;
  * @author Matti
  * 
  */
+
+// Bean responsible for logging in and out, general authorization stuff
+
 @SessionScoped
 @ManagedBean(name = "loginBean")
 public class LoginBean implements java.io.Serializable {
