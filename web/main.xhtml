@@ -129,16 +129,31 @@
                                 <div class="panel-heading">Parameters</div>
 
                                 <!-- Table -->
-                                <table class="table requestParams">
-                                    <tr>
-                                        <td>
-                                            <input type="text" class="form-control key" placeholder="Key" />
-                                        </td>
-                                        <td>
-                                            <input type="text" class="form-control value" placeholder="Value" />
-                                        </td>
-                                    </tr>
-                                </table>
+                                <h:form>
+                                    <table class="table requestParams">
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control key" placeholder="Key" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control value" placeholder="Value" />
+                                            </td>
+                                            <td>
+                                                <h:commandButton value="Update" action="#{requestBean.setParameter}" class=" btn btn-block" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <h:dataTable value="#{requestBean.requestParameters}" var="parameter">
+                                    <h:column>    				
+                                       <f:facet name="header">Key</f:facet>    				
+                                       #{parameter.key}
+                                    </h:column>
+                                    <h:column>
+                                       <f:facet name="header">Value</f:facet>
+                                       #{parameter.value}
+                                    </h:column>
+                                 </h:dataTable>
+                                </h:form>
                             </div>
                         </div>
                     </div>

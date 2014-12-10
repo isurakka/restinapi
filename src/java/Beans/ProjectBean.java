@@ -2,6 +2,8 @@ package Beans;
 
 
 import Controllers.ProjectEntityJpaController;
+import Controllers.RequestEntityJpaController;
+import Entities.ParameterEntity;
 import Entities.ProjectEntity;
 import Entities.RequestEntity;
 import Entities.UserEntity;
@@ -47,8 +49,11 @@ public class ProjectBean implements java.io.Serializable {
     
     @ManagedProperty(value="#{userBean}")
     private UserBean currentUser;
+    
+    //@ManagedProperty(value="#{requestBean}")
+    private RequestBean currentRequest;
 
-    private RequestEntity projectRequest;
+    RequestEntity projectRequest;
     List<RequestEntity> projectRequests;
     
     @PostConstruct
@@ -64,10 +69,42 @@ public class ProjectBean implements java.io.Serializable {
 
         this.projectRequests = new ArrayList<RequestEntity>(userquery.getResultList());
 
+        for(RequestEntity entity : projectRequests)
+        {
+            System.out.println(entity.getProjectId());
+        }
     }
     
     public void onChangeSelectedRequest(ValueChangeEvent e) {
+        // Hax maybe
+        projectRequest = (RequestEntity)e.getNewValue();
         
+        //RequestEntityJpaController rejc = new RequestEntityJpaController(utx, emf);
+        //currentRequest.setRequestParameters(rejc.findParameters(projectRequest));
+        
+        /*
+        if (getProjectRequest() == null)
+        {
+            System.out.println("getProjectRequest() is null");
+            return;
+        }
+        
+        if (getProjectRequest().getProjectId() == null)
+        {
+            System.out.println("getProjectRequest().getProjectId() is null");
+            return;
+        }
+        
+        
+        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("ParameterEntity.findByProjectName", ParameterEntity.class);
+        System.out.println("Request id: " + getProjectRequest().getProjectId());
+        parameterQuery.setParameter("projectName", currentUser.currentProject);
+        
+        System.out.println(parameterQuery.getResultList().size());
+        
+        currentRequest.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
+        */
+
     }
     
     public String getName() {
@@ -151,5 +188,19 @@ public class ProjectBean implements java.io.Serializable {
      */
     public void setProjectRequest(RequestEntity projectRequest) {
         this.projectRequest = projectRequest;
+    }
+
+    /**
+     * @return the currentRequest
+     */
+    public RequestBean getCurrentRequest() {
+        return currentRequest;
+    }
+
+    /**
+     * @param currentRequest the currentRequest to set
+     */
+    public void setCurrentRequest(RequestBean currentRequest) {
+        this.currentRequest = currentRequest;
     }
 }

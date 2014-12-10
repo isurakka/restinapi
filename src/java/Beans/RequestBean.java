@@ -7,6 +7,7 @@ package Beans;
 
 import Controllers.ProjectEntityJpaController;
 import Controllers.RequestEntityJpaController;
+import Entities.ParameterEntity;
 import Entities.ProjectEntity;
 import Entities.RequestEntity;
 import Entities.UserEntity;
@@ -44,6 +45,11 @@ public class RequestBean implements java.io.Serializable{
     @ManagedProperty(value="#{userBean}")
     private UserBean currentUser;
     
+    //@ManagedProperty(value="#{projectBean}")
+    private ProjectBean currentProject;
+    
+    private ParameterEntity requestParameter;
+    private List<ParameterEntity> requestParameters;
     
     @PostConstruct
     public void initRequestBean()
@@ -55,7 +61,68 @@ public class RequestBean implements java.io.Serializable{
         this.availableMethods.add("DELETE");
         this.availableMethods.add("HEAD");
         this.availableMethods.add("GET");
+        
+        
+        /*
+        if (currentProject == null)
+        {
+            System.out.println("currentProject is null");
+            return;
+        }
+        
+        
+        if (currentProject.getProjectRequest() == null)
+        {
+            System.out.println("currentProject.getProjectRequest() is null");
+            return;
+        }
+        
+        if (currentProject.getProjectRequest().getProjectId() == null)
+        {
+            System.out.println("currentProject.getProjectRequest().getProjectId() is null");
+            return;
+        }
+        
+        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("RequestEntity.findByRequestId", ParameterEntity.class);
+        parameterQuery.setParameter("requestId", this.getCurrentProject().getProjectRequest().getProjectId());
+        this.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
+        
+        */
+        
     }
+    
+    /*
+    @PostConstruct
+    public void fetchRequestParameters()
+    {
+        //FacesContext context = FacesContext.getCurrentInstance();
+        //ProjectBean projectBean = context.getApplication().evaluateExpressionGet(context, "#{projectBean}", ProjectBean.class);
+        
+        if (currentProject == null)
+        {
+            System.out.println("currentProject is null");
+            return;
+        }
+        
+        
+        if (currentProject.getProjectRequest() == null)
+        {
+            System.out.println("currentProject.getProjectRequest() is null");
+            return;
+        }
+        
+        if (currentProject.getProjectRequest().getProjectId() == null)
+        {
+            System.out.println("currentProject.getProjectRequest().getProjectId() is null");
+            return;
+        }
+        
+        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("RequestEntity.findByRequestId", ParameterEntity.class);
+        parameterQuery.setParameter("requestId", this.getCurrentProject().getProjectRequest().getProjectId());
+        this.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
+        
+    }
+    */
     
     public String getRelative_uri() {
         return relative_uri;
@@ -112,6 +179,48 @@ public class RequestBean implements java.io.Serializable{
         {
             System.out.println("Error creating project: " + ex.getMessage());
         }
+    }
+
+    /**
+     * @return the requestParameter
+     */
+    public ParameterEntity getRequestParameter() {
+        return requestParameter;
+    }
+
+    /**
+     * @param requestParameter the requestParameter to set
+     */
+    public void setRequestParameter(ParameterEntity requestParameter) {
+        this.requestParameter = requestParameter;
+    }
+
+    /**
+     * @return the requestParameters
+     */
+    public List<ParameterEntity> getRequestParameters() {
+        return requestParameters;
+    }
+
+    /**
+     * @param requestParameters the requestParameters to set
+     */
+    public void setRequestParameters(List<ParameterEntity> requestParameters) {
+        this.requestParameters = requestParameters;
+    }
+
+    /**
+     * @return the currentProject
+     */
+    public ProjectBean getCurrentProject() {
+        return currentProject;
+    }
+
+    /**
+     * @param currentProject the currentProject to set
+     */
+    public void setCurrentProject(ProjectBean currentProject) {
+        this.currentProject = currentProject;
     }
     
 }

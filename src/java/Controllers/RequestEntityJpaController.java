@@ -332,4 +332,19 @@ public class RequestEntityJpaController implements Serializable {
         }
     }
     
+    public List<ParameterEntity> findParameters(RequestEntity re)
+    {
+        ArrayList<ParameterEntity> ret = new ArrayList<ParameterEntity>();
+        
+        ParameterEntityJpaController pejc = new ParameterEntityJpaController(utx, emf);
+        
+        for (ParameterEntity pe : pejc.findParameterEntityEntities()) {
+            if (pe.getRequestId().getProjectId().equals(re.getProjectId()))
+            {
+                ret.add(pe);
+            }
+        }
+        
+        return ret;
+    }
 }
