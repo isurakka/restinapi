@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "RequestEntity.findAll", query = "SELECT r FROM RequestEntity r"),
     @NamedQuery(name = "RequestEntity.findByProjectId", query = "SELECT r FROM RequestEntity r WHERE r.projectId = :projectId"),
     @NamedQuery(name = "RequestEntity.findByRelativeUri", query = "SELECT r FROM RequestEntity r WHERE r.relativeUri = :relativeUri"),
+    @NamedQuery(name = "RequestEntity.findByProject", query = "SELECT r FROM RequestEntity r WHERE r.projectName = :projectName"),
     @NamedQuery(name = "RequestEntity.findByMethod", query = "SELECT r FROM RequestEntity r WHERE r.method = :method")})
 public class RequestEntity implements Serializable {
     private static final long serialVersionUID = 1L;
