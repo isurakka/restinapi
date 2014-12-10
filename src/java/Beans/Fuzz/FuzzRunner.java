@@ -5,10 +5,26 @@
  */
 package Beans.Fuzz;
 
+import java.io.Serializable;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
+
 /**
  *
  * @author Administrator
  */
-public class FuzzRunner {
+@ManagedBean
+@SessionScoped
+public class FuzzRunner implements Serializable
+{
+    public FuzzRunner()
+    {
+        
+    }
     
+    public String prepareFuzz()
+    {
+        return "fuzz_report";
+    }
 }
