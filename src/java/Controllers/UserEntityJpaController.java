@@ -17,7 +17,6 @@ import javax.persistence.criteria.Root;
 import Entities.ProjectEntity;
 import Entities.UserEntity;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -25,7 +24,7 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 public class UserEntityJpaController implements Serializable {
 
@@ -41,27 +40,27 @@ public class UserEntityJpaController implements Serializable {
     }
 
     public void create(UserEntity userEntity) throws PreexistingEntityException, RollbackFailureException, Exception {
-        if (userEntity.getProjectEntityCollection() == null) {
-            userEntity.setProjectEntityCollection(new ArrayList<ProjectEntity>());
+        if (userEntity.getProjectEntityList() == null) {
+            userEntity.setProjectEntityList(new ArrayList<ProjectEntity>());
         }
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            Collection<ProjectEntity> attachedProjectEntityCollection = new ArrayList<ProjectEntity>();
-            for (ProjectEntity projectEntityCollectionProjectEntityToAttach : userEntity.getProjectEntityCollection()) {
-                projectEntityCollectionProjectEntityToAttach = em.getReference(projectEntityCollectionProjectEntityToAttach.getClass(), projectEntityCollectionProjectEntityToAttach.getName());
-                attachedProjectEntityCollection.add(projectEntityCollectionProjectEntityToAttach);
+            List<ProjectEntity> attachedProjectEntityList = new ArrayList<ProjectEntity>();
+            for (ProjectEntity projectEntityListProjectEntityToAttach : userEntity.getProjectEntityList()) {
+                projectEntityListProjectEntityToAttach = em.getReference(projectEntityListProjectEntityToAttach.getClass(), projectEntityListProjectEntityToAttach.getName());
+                attachedProjectEntityList.add(projectEntityListProjectEntityToAttach);
             }
-            userEntity.setProjectEntityCollection(attachedProjectEntityCollection);
+            userEntity.setProjectEntityList(attachedProjectEntityList);
             em.persist(userEntity);
-            for (ProjectEntity projectEntityCollectionProjectEntity : userEntity.getProjectEntityCollection()) {
-                UserEntity oldUserNameOfProjectEntityCollectionProjectEntity = projectEntityCollectionProjectEntity.getUserName();
-                projectEntityCollectionProjectEntity.setUserName(userEntity);
-                projectEntityCollectionProjectEntity = em.merge(projectEntityCollectionProjectEntity);
-                if (oldUserNameOfProjectEntityCollectionProjectEntity != null) {
-                    oldUserNameOfProjectEntityCollectionProjectEntity.getProjectEntityCollection().remove(projectEntityCollectionProjectEntity);
-                    oldUserNameOfProjectEntityCollectionProjectEntity = em.merge(oldUserNameOfProjectEntityCollectionProjectEntity);
+            for (ProjectEntity projectEntityListProjectEntity : userEntity.getProjectEntityList()) {
+                UserEntity oldUserNameOfProjectEntityListProjectEntity = projectEntityListProjectEntity.getUserName();
+                projectEntityListProjectEntity.setUserName(userEntity);
+                projectEntityListProjectEntity = em.merge(projectEntityListProjectEntity);
+                if (oldUserNameOfProjectEntityListProjectEntity != null) {
+                    oldUserNameOfProjectEntityListProjectEntity.getProjectEntityList().remove(projectEntityListProjectEntity);
+                    oldUserNameOfProjectEntityListProjectEntity = em.merge(oldUserNameOfProjectEntityListProjectEntity);
                 }
             }
             utx.commit();
@@ -88,36 +87,36 @@ public class UserEntityJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             UserEntity persistentUserEntity = em.find(UserEntity.class, userEntity.getName());
-            Collection<ProjectEntity> projectEntityCollectionOld = persistentUserEntity.getProjectEntityCollection();
-            Collection<ProjectEntity> projectEntityCollectionNew = userEntity.getProjectEntityCollection();
+            List<ProjectEntity> projectEntityListOld = persistentUserEntity.getProjectEntityList();
+            List<ProjectEntity> projectEntityListNew = userEntity.getProjectEntityList();
             List<String> illegalOrphanMessages = null;
-            for (ProjectEntity projectEntityCollectionOldProjectEntity : projectEntityCollectionOld) {
-                if (!projectEntityCollectionNew.contains(projectEntityCollectionOldProjectEntity)) {
+            for (ProjectEntity projectEntityListOldProjectEntity : projectEntityListOld) {
+                if (!projectEntityListNew.contains(projectEntityListOldProjectEntity)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain ProjectEntity " + projectEntityCollectionOldProjectEntity + " since its userName field is not nullable.");
+                    illegalOrphanMessages.add("You must retain ProjectEntity " + projectEntityListOldProjectEntity + " since its userName field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            Collection<ProjectEntity> attachedProjectEntityCollectionNew = new ArrayList<ProjectEntity>();
-            for (ProjectEntity projectEntityCollectionNewProjectEntityToAttach : projectEntityCollectionNew) {
-                projectEntityCollectionNewProjectEntityToAttach = em.getReference(projectEntityCollectionNewProjectEntityToAttach.getClass(), projectEntityCollectionNewProjectEntityToAttach.getName());
-                attachedProjectEntityCollectionNew.add(projectEntityCollectionNewProjectEntityToAttach);
+            List<ProjectEntity> attachedProjectEntityListNew = new ArrayList<ProjectEntity>();
+            for (ProjectEntity projectEntityListNewProjectEntityToAttach : projectEntityListNew) {
+                projectEntityListNewProjectEntityToAttach = em.getReference(projectEntityListNewProjectEntityToAttach.getClass(), projectEntityListNewProjectEntityToAttach.getName());
+                attachedProjectEntityListNew.add(projectEntityListNewProjectEntityToAttach);
             }
-            projectEntityCollectionNew = attachedProjectEntityCollectionNew;
-            userEntity.setProjectEntityCollection(projectEntityCollectionNew);
+            projectEntityListNew = attachedProjectEntityListNew;
+            userEntity.setProjectEntityList(projectEntityListNew);
             userEntity = em.merge(userEntity);
-            for (ProjectEntity projectEntityCollectionNewProjectEntity : projectEntityCollectionNew) {
-                if (!projectEntityCollectionOld.contains(projectEntityCollectionNewProjectEntity)) {
-                    UserEntity oldUserNameOfProjectEntityCollectionNewProjectEntity = projectEntityCollectionNewProjectEntity.getUserName();
-                    projectEntityCollectionNewProjectEntity.setUserName(userEntity);
-                    projectEntityCollectionNewProjectEntity = em.merge(projectEntityCollectionNewProjectEntity);
-                    if (oldUserNameOfProjectEntityCollectionNewProjectEntity != null && !oldUserNameOfProjectEntityCollectionNewProjectEntity.equals(userEntity)) {
-                        oldUserNameOfProjectEntityCollectionNewProjectEntity.getProjectEntityCollection().remove(projectEntityCollectionNewProjectEntity);
-                        oldUserNameOfProjectEntityCollectionNewProjectEntity = em.merge(oldUserNameOfProjectEntityCollectionNewProjectEntity);
+            for (ProjectEntity projectEntityListNewProjectEntity : projectEntityListNew) {
+                if (!projectEntityListOld.contains(projectEntityListNewProjectEntity)) {
+                    UserEntity oldUserNameOfProjectEntityListNewProjectEntity = projectEntityListNewProjectEntity.getUserName();
+                    projectEntityListNewProjectEntity.setUserName(userEntity);
+                    projectEntityListNewProjectEntity = em.merge(projectEntityListNewProjectEntity);
+                    if (oldUserNameOfProjectEntityListNewProjectEntity != null && !oldUserNameOfProjectEntityListNewProjectEntity.equals(userEntity)) {
+                        oldUserNameOfProjectEntityListNewProjectEntity.getProjectEntityList().remove(projectEntityListNewProjectEntity);
+                        oldUserNameOfProjectEntityListNewProjectEntity = em.merge(oldUserNameOfProjectEntityListNewProjectEntity);
                     }
                 }
             }
@@ -156,12 +155,12 @@ public class UserEntityJpaController implements Serializable {
                 throw new NonexistentEntityException("The userEntity with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<ProjectEntity> projectEntityCollectionOrphanCheck = userEntity.getProjectEntityCollection();
-            for (ProjectEntity projectEntityCollectionOrphanCheckProjectEntity : projectEntityCollectionOrphanCheck) {
+            List<ProjectEntity> projectEntityListOrphanCheck = userEntity.getProjectEntityList();
+            for (ProjectEntity projectEntityListOrphanCheckProjectEntity : projectEntityListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This UserEntity (" + userEntity + ") cannot be destroyed since the ProjectEntity " + projectEntityCollectionOrphanCheckProjectEntity + " in its projectEntityCollection field has a non-nullable userName field.");
+                illegalOrphanMessages.add("This UserEntity (" + userEntity + ") cannot be destroyed since the ProjectEntity " + projectEntityListOrphanCheckProjectEntity + " in its projectEntityList field has a non-nullable userName field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);

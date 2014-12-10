@@ -13,21 +13,20 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import Entities.ScriptEntity;
 import Entities.ProjectEntity;
+import Entities.ScriptEntity;
 import Entities.ParameterEntity;
 import Entities.RequestEntity;
 import java.util.ArrayList;
-import java.util.Collection;
-import Entities.TestcaseEntity;
 import java.util.List;
+import Entities.TestcaseEntity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.transaction.UserTransaction;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 public class RequestEntityJpaController implements Serializable {
 
@@ -43,63 +42,63 @@ public class RequestEntityJpaController implements Serializable {
     }
 
     public void create(RequestEntity requestEntity) throws RollbackFailureException, Exception {
-        if (requestEntity.getParameterEntityCollection() == null) {
-            requestEntity.setParameterEntityCollection(new ArrayList<ParameterEntity>());
+        if (requestEntity.getParameterEntityList() == null) {
+            requestEntity.setParameterEntityList(new ArrayList<ParameterEntity>());
         }
-        if (requestEntity.getTestcaseEntityCollection() == null) {
-            requestEntity.setTestcaseEntityCollection(new ArrayList<TestcaseEntity>());
+        if (requestEntity.getTestcaseEntityList() == null) {
+            requestEntity.setTestcaseEntityList(new ArrayList<TestcaseEntity>());
         }
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            ScriptEntity scriptId = requestEntity.getScriptId();
-            if (scriptId != null) {
-                scriptId = em.getReference(scriptId.getClass(), scriptId.getScriptId());
-                requestEntity.setScriptId(scriptId);
-            }
             ProjectEntity projectName = requestEntity.getProjectName();
             if (projectName != null) {
                 projectName = em.getReference(projectName.getClass(), projectName.getName());
                 requestEntity.setProjectName(projectName);
             }
-            Collection<ParameterEntity> attachedParameterEntityCollection = new ArrayList<ParameterEntity>();
-            for (ParameterEntity parameterEntityCollectionParameterEntityToAttach : requestEntity.getParameterEntityCollection()) {
-                parameterEntityCollectionParameterEntityToAttach = em.getReference(parameterEntityCollectionParameterEntityToAttach.getClass(), parameterEntityCollectionParameterEntityToAttach.getParameterId());
-                attachedParameterEntityCollection.add(parameterEntityCollectionParameterEntityToAttach);
-            }
-            requestEntity.setParameterEntityCollection(attachedParameterEntityCollection);
-            Collection<TestcaseEntity> attachedTestcaseEntityCollection = new ArrayList<TestcaseEntity>();
-            for (TestcaseEntity testcaseEntityCollectionTestcaseEntityToAttach : requestEntity.getTestcaseEntityCollection()) {
-                testcaseEntityCollectionTestcaseEntityToAttach = em.getReference(testcaseEntityCollectionTestcaseEntityToAttach.getClass(), testcaseEntityCollectionTestcaseEntityToAttach.getTestcaseId());
-                attachedTestcaseEntityCollection.add(testcaseEntityCollectionTestcaseEntityToAttach);
-            }
-            requestEntity.setTestcaseEntityCollection(attachedTestcaseEntityCollection);
-            em.persist(requestEntity);
+            ScriptEntity scriptId = requestEntity.getScriptId();
             if (scriptId != null) {
-                scriptId.getRequestCollection().add(requestEntity);
-                scriptId = em.merge(scriptId);
+                scriptId = em.getReference(scriptId.getClass(), scriptId.getScriptId());
+                requestEntity.setScriptId(scriptId);
             }
+            List<ParameterEntity> attachedParameterEntityList = new ArrayList<ParameterEntity>();
+            for (ParameterEntity parameterEntityListParameterEntityToAttach : requestEntity.getParameterEntityList()) {
+                parameterEntityListParameterEntityToAttach = em.getReference(parameterEntityListParameterEntityToAttach.getClass(), parameterEntityListParameterEntityToAttach.getParameterId());
+                attachedParameterEntityList.add(parameterEntityListParameterEntityToAttach);
+            }
+            requestEntity.setParameterEntityList(attachedParameterEntityList);
+            List<TestcaseEntity> attachedTestcaseEntityList = new ArrayList<TestcaseEntity>();
+            for (TestcaseEntity testcaseEntityListTestcaseEntityToAttach : requestEntity.getTestcaseEntityList()) {
+                testcaseEntityListTestcaseEntityToAttach = em.getReference(testcaseEntityListTestcaseEntityToAttach.getClass(), testcaseEntityListTestcaseEntityToAttach.getTestcaseId());
+                attachedTestcaseEntityList.add(testcaseEntityListTestcaseEntityToAttach);
+            }
+            requestEntity.setTestcaseEntityList(attachedTestcaseEntityList);
+            em.persist(requestEntity);
             if (projectName != null) {
-                projectName.getRequestCollection().add(requestEntity);
+                projectName.getRequestEntityList().add(requestEntity);
                 projectName = em.merge(projectName);
             }
-            for (ParameterEntity parameterEntityCollectionParameterEntity : requestEntity.getParameterEntityCollection()) {
-                RequestEntity oldRequestIdOfParameterEntityCollectionParameterEntity = parameterEntityCollectionParameterEntity.getRequestId();
-                parameterEntityCollectionParameterEntity.setRequestId(requestEntity);
-                parameterEntityCollectionParameterEntity = em.merge(parameterEntityCollectionParameterEntity);
-                if (oldRequestIdOfParameterEntityCollectionParameterEntity != null) {
-                    oldRequestIdOfParameterEntityCollectionParameterEntity.getParameterEntityCollection().remove(parameterEntityCollectionParameterEntity);
-                    oldRequestIdOfParameterEntityCollectionParameterEntity = em.merge(oldRequestIdOfParameterEntityCollectionParameterEntity);
+            if (scriptId != null) {
+                scriptId.getRequestEntityList().add(requestEntity);
+                scriptId = em.merge(scriptId);
+            }
+            for (ParameterEntity parameterEntityListParameterEntity : requestEntity.getParameterEntityList()) {
+                RequestEntity oldRequestIdOfParameterEntityListParameterEntity = parameterEntityListParameterEntity.getRequestId();
+                parameterEntityListParameterEntity.setRequestId(requestEntity);
+                parameterEntityListParameterEntity = em.merge(parameterEntityListParameterEntity);
+                if (oldRequestIdOfParameterEntityListParameterEntity != null) {
+                    oldRequestIdOfParameterEntityListParameterEntity.getParameterEntityList().remove(parameterEntityListParameterEntity);
+                    oldRequestIdOfParameterEntityListParameterEntity = em.merge(oldRequestIdOfParameterEntityListParameterEntity);
                 }
             }
-            for (TestcaseEntity testcaseEntityCollectionTestcaseEntity : requestEntity.getTestcaseEntityCollection()) {
-                RequestEntity oldRequestIdOfTestcaseEntityCollectionTestcaseEntity = testcaseEntityCollectionTestcaseEntity.getRequestId();
-                testcaseEntityCollectionTestcaseEntity.setRequestId(requestEntity);
-                testcaseEntityCollectionTestcaseEntity = em.merge(testcaseEntityCollectionTestcaseEntity);
-                if (oldRequestIdOfTestcaseEntityCollectionTestcaseEntity != null) {
-                    oldRequestIdOfTestcaseEntityCollectionTestcaseEntity.getTestcaseEntityCollection().remove(testcaseEntityCollectionTestcaseEntity);
-                    oldRequestIdOfTestcaseEntityCollectionTestcaseEntity = em.merge(oldRequestIdOfTestcaseEntityCollectionTestcaseEntity);
+            for (TestcaseEntity testcaseEntityListTestcaseEntity : requestEntity.getTestcaseEntityList()) {
+                RequestEntity oldRequestIdOfTestcaseEntityListTestcaseEntity = testcaseEntityListTestcaseEntity.getRequestId();
+                testcaseEntityListTestcaseEntity.setRequestId(requestEntity);
+                testcaseEntityListTestcaseEntity = em.merge(testcaseEntityListTestcaseEntity);
+                if (oldRequestIdOfTestcaseEntityListTestcaseEntity != null) {
+                    oldRequestIdOfTestcaseEntityListTestcaseEntity.getTestcaseEntityList().remove(testcaseEntityListTestcaseEntity);
+                    oldRequestIdOfTestcaseEntityListTestcaseEntity = em.merge(oldRequestIdOfTestcaseEntityListTestcaseEntity);
                 }
             }
             utx.commit();
@@ -123,90 +122,90 @@ public class RequestEntityJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             RequestEntity persistentRequestEntity = em.find(RequestEntity.class, requestEntity.getProjectId());
-            ScriptEntity scriptIdOld = persistentRequestEntity.getScriptId();
-            ScriptEntity scriptIdNew = requestEntity.getScriptId();
             ProjectEntity projectNameOld = persistentRequestEntity.getProjectName();
             ProjectEntity projectNameNew = requestEntity.getProjectName();
-            Collection<ParameterEntity> parameterEntityCollectionOld = persistentRequestEntity.getParameterEntityCollection();
-            Collection<ParameterEntity> parameterEntityCollectionNew = requestEntity.getParameterEntityCollection();
-            Collection<TestcaseEntity> testcaseEntityCollectionOld = persistentRequestEntity.getTestcaseEntityCollection();
-            Collection<TestcaseEntity> testcaseEntityCollectionNew = requestEntity.getTestcaseEntityCollection();
+            ScriptEntity scriptIdOld = persistentRequestEntity.getScriptId();
+            ScriptEntity scriptIdNew = requestEntity.getScriptId();
+            List<ParameterEntity> parameterEntityListOld = persistentRequestEntity.getParameterEntityList();
+            List<ParameterEntity> parameterEntityListNew = requestEntity.getParameterEntityList();
+            List<TestcaseEntity> testcaseEntityListOld = persistentRequestEntity.getTestcaseEntityList();
+            List<TestcaseEntity> testcaseEntityListNew = requestEntity.getTestcaseEntityList();
             List<String> illegalOrphanMessages = null;
-            for (TestcaseEntity testcaseEntityCollectionOldTestcaseEntity : testcaseEntityCollectionOld) {
-                if (!testcaseEntityCollectionNew.contains(testcaseEntityCollectionOldTestcaseEntity)) {
+            for (TestcaseEntity testcaseEntityListOldTestcaseEntity : testcaseEntityListOld) {
+                if (!testcaseEntityListNew.contains(testcaseEntityListOldTestcaseEntity)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain TestcaseEntity " + testcaseEntityCollectionOldTestcaseEntity + " since its requestId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain TestcaseEntity " + testcaseEntityListOldTestcaseEntity + " since its requestId field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (scriptIdNew != null) {
-                scriptIdNew = em.getReference(scriptIdNew.getClass(), scriptIdNew.getScriptId());
-                requestEntity.setScriptId(scriptIdNew);
-            }
             if (projectNameNew != null) {
                 projectNameNew = em.getReference(projectNameNew.getClass(), projectNameNew.getName());
                 requestEntity.setProjectName(projectNameNew);
             }
-            Collection<ParameterEntity> attachedParameterEntityCollectionNew = new ArrayList<ParameterEntity>();
-            for (ParameterEntity parameterEntityCollectionNewParameterEntityToAttach : parameterEntityCollectionNew) {
-                parameterEntityCollectionNewParameterEntityToAttach = em.getReference(parameterEntityCollectionNewParameterEntityToAttach.getClass(), parameterEntityCollectionNewParameterEntityToAttach.getParameterId());
-                attachedParameterEntityCollectionNew.add(parameterEntityCollectionNewParameterEntityToAttach);
+            if (scriptIdNew != null) {
+                scriptIdNew = em.getReference(scriptIdNew.getClass(), scriptIdNew.getScriptId());
+                requestEntity.setScriptId(scriptIdNew);
             }
-            parameterEntityCollectionNew = attachedParameterEntityCollectionNew;
-            requestEntity.setParameterEntityCollection(parameterEntityCollectionNew);
-            Collection<TestcaseEntity> attachedTestcaseEntityCollectionNew = new ArrayList<TestcaseEntity>();
-            for (TestcaseEntity testcaseEntityCollectionNewTestcaseEntityToAttach : testcaseEntityCollectionNew) {
-                testcaseEntityCollectionNewTestcaseEntityToAttach = em.getReference(testcaseEntityCollectionNewTestcaseEntityToAttach.getClass(), testcaseEntityCollectionNewTestcaseEntityToAttach.getTestcaseId());
-                attachedTestcaseEntityCollectionNew.add(testcaseEntityCollectionNewTestcaseEntityToAttach);
+            List<ParameterEntity> attachedParameterEntityListNew = new ArrayList<ParameterEntity>();
+            for (ParameterEntity parameterEntityListNewParameterEntityToAttach : parameterEntityListNew) {
+                parameterEntityListNewParameterEntityToAttach = em.getReference(parameterEntityListNewParameterEntityToAttach.getClass(), parameterEntityListNewParameterEntityToAttach.getParameterId());
+                attachedParameterEntityListNew.add(parameterEntityListNewParameterEntityToAttach);
             }
-            testcaseEntityCollectionNew = attachedTestcaseEntityCollectionNew;
-            requestEntity.setTestcaseEntityCollection(testcaseEntityCollectionNew);
+            parameterEntityListNew = attachedParameterEntityListNew;
+            requestEntity.setParameterEntityList(parameterEntityListNew);
+            List<TestcaseEntity> attachedTestcaseEntityListNew = new ArrayList<TestcaseEntity>();
+            for (TestcaseEntity testcaseEntityListNewTestcaseEntityToAttach : testcaseEntityListNew) {
+                testcaseEntityListNewTestcaseEntityToAttach = em.getReference(testcaseEntityListNewTestcaseEntityToAttach.getClass(), testcaseEntityListNewTestcaseEntityToAttach.getTestcaseId());
+                attachedTestcaseEntityListNew.add(testcaseEntityListNewTestcaseEntityToAttach);
+            }
+            testcaseEntityListNew = attachedTestcaseEntityListNew;
+            requestEntity.setTestcaseEntityList(testcaseEntityListNew);
             requestEntity = em.merge(requestEntity);
-            if (scriptIdOld != null && !scriptIdOld.equals(scriptIdNew)) {
-                scriptIdOld.getRequestCollection().remove(requestEntity);
-                scriptIdOld = em.merge(scriptIdOld);
-            }
-            if (scriptIdNew != null && !scriptIdNew.equals(scriptIdOld)) {
-                scriptIdNew.getRequestCollection().add(requestEntity);
-                scriptIdNew = em.merge(scriptIdNew);
-            }
             if (projectNameOld != null && !projectNameOld.equals(projectNameNew)) {
-                projectNameOld.getRequestCollection().remove(requestEntity);
+                projectNameOld.getRequestEntityList().remove(requestEntity);
                 projectNameOld = em.merge(projectNameOld);
             }
             if (projectNameNew != null && !projectNameNew.equals(projectNameOld)) {
-                projectNameNew.getRequestCollection().add(requestEntity);
+                projectNameNew.getRequestEntityList().add(requestEntity);
                 projectNameNew = em.merge(projectNameNew);
             }
-            for (ParameterEntity parameterEntityCollectionOldParameterEntity : parameterEntityCollectionOld) {
-                if (!parameterEntityCollectionNew.contains(parameterEntityCollectionOldParameterEntity)) {
-                    parameterEntityCollectionOldParameterEntity.setRequestId(null);
-                    parameterEntityCollectionOldParameterEntity = em.merge(parameterEntityCollectionOldParameterEntity);
+            if (scriptIdOld != null && !scriptIdOld.equals(scriptIdNew)) {
+                scriptIdOld.getRequestEntityList().remove(requestEntity);
+                scriptIdOld = em.merge(scriptIdOld);
+            }
+            if (scriptIdNew != null && !scriptIdNew.equals(scriptIdOld)) {
+                scriptIdNew.getRequestEntityList().add(requestEntity);
+                scriptIdNew = em.merge(scriptIdNew);
+            }
+            for (ParameterEntity parameterEntityListOldParameterEntity : parameterEntityListOld) {
+                if (!parameterEntityListNew.contains(parameterEntityListOldParameterEntity)) {
+                    parameterEntityListOldParameterEntity.setRequestId(null);
+                    parameterEntityListOldParameterEntity = em.merge(parameterEntityListOldParameterEntity);
                 }
             }
-            for (ParameterEntity parameterEntityCollectionNewParameterEntity : parameterEntityCollectionNew) {
-                if (!parameterEntityCollectionOld.contains(parameterEntityCollectionNewParameterEntity)) {
-                    RequestEntity oldRequestIdOfParameterEntityCollectionNewParameterEntity = parameterEntityCollectionNewParameterEntity.getRequestId();
-                    parameterEntityCollectionNewParameterEntity.setRequestId(requestEntity);
-                    parameterEntityCollectionNewParameterEntity = em.merge(parameterEntityCollectionNewParameterEntity);
-                    if (oldRequestIdOfParameterEntityCollectionNewParameterEntity != null && !oldRequestIdOfParameterEntityCollectionNewParameterEntity.equals(requestEntity)) {
-                        oldRequestIdOfParameterEntityCollectionNewParameterEntity.getParameterEntityCollection().remove(parameterEntityCollectionNewParameterEntity);
-                        oldRequestIdOfParameterEntityCollectionNewParameterEntity = em.merge(oldRequestIdOfParameterEntityCollectionNewParameterEntity);
+            for (ParameterEntity parameterEntityListNewParameterEntity : parameterEntityListNew) {
+                if (!parameterEntityListOld.contains(parameterEntityListNewParameterEntity)) {
+                    RequestEntity oldRequestIdOfParameterEntityListNewParameterEntity = parameterEntityListNewParameterEntity.getRequestId();
+                    parameterEntityListNewParameterEntity.setRequestId(requestEntity);
+                    parameterEntityListNewParameterEntity = em.merge(parameterEntityListNewParameterEntity);
+                    if (oldRequestIdOfParameterEntityListNewParameterEntity != null && !oldRequestIdOfParameterEntityListNewParameterEntity.equals(requestEntity)) {
+                        oldRequestIdOfParameterEntityListNewParameterEntity.getParameterEntityList().remove(parameterEntityListNewParameterEntity);
+                        oldRequestIdOfParameterEntityListNewParameterEntity = em.merge(oldRequestIdOfParameterEntityListNewParameterEntity);
                     }
                 }
             }
-            for (TestcaseEntity testcaseEntityCollectionNewTestcaseEntity : testcaseEntityCollectionNew) {
-                if (!testcaseEntityCollectionOld.contains(testcaseEntityCollectionNewTestcaseEntity)) {
-                    RequestEntity oldRequestIdOfTestcaseEntityCollectionNewTestcaseEntity = testcaseEntityCollectionNewTestcaseEntity.getRequestId();
-                    testcaseEntityCollectionNewTestcaseEntity.setRequestId(requestEntity);
-                    testcaseEntityCollectionNewTestcaseEntity = em.merge(testcaseEntityCollectionNewTestcaseEntity);
-                    if (oldRequestIdOfTestcaseEntityCollectionNewTestcaseEntity != null && !oldRequestIdOfTestcaseEntityCollectionNewTestcaseEntity.equals(requestEntity)) {
-                        oldRequestIdOfTestcaseEntityCollectionNewTestcaseEntity.getTestcaseEntityCollection().remove(testcaseEntityCollectionNewTestcaseEntity);
-                        oldRequestIdOfTestcaseEntityCollectionNewTestcaseEntity = em.merge(oldRequestIdOfTestcaseEntityCollectionNewTestcaseEntity);
+            for (TestcaseEntity testcaseEntityListNewTestcaseEntity : testcaseEntityListNew) {
+                if (!testcaseEntityListOld.contains(testcaseEntityListNewTestcaseEntity)) {
+                    RequestEntity oldRequestIdOfTestcaseEntityListNewTestcaseEntity = testcaseEntityListNewTestcaseEntity.getRequestId();
+                    testcaseEntityListNewTestcaseEntity.setRequestId(requestEntity);
+                    testcaseEntityListNewTestcaseEntity = em.merge(testcaseEntityListNewTestcaseEntity);
+                    if (oldRequestIdOfTestcaseEntityListNewTestcaseEntity != null && !oldRequestIdOfTestcaseEntityListNewTestcaseEntity.equals(requestEntity)) {
+                        oldRequestIdOfTestcaseEntityListNewTestcaseEntity.getTestcaseEntityList().remove(testcaseEntityListNewTestcaseEntity);
+                        oldRequestIdOfTestcaseEntityListNewTestcaseEntity = em.merge(oldRequestIdOfTestcaseEntityListNewTestcaseEntity);
                     }
                 }
             }
@@ -245,30 +244,30 @@ public class RequestEntityJpaController implements Serializable {
                 throw new NonexistentEntityException("The requestEntity with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<TestcaseEntity> testcaseEntityCollectionOrphanCheck = requestEntity.getTestcaseEntityCollection();
-            for (TestcaseEntity testcaseEntityCollectionOrphanCheckTestcaseEntity : testcaseEntityCollectionOrphanCheck) {
+            List<TestcaseEntity> testcaseEntityListOrphanCheck = requestEntity.getTestcaseEntityList();
+            for (TestcaseEntity testcaseEntityListOrphanCheckTestcaseEntity : testcaseEntityListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This RequestEntity (" + requestEntity + ") cannot be destroyed since the TestcaseEntity " + testcaseEntityCollectionOrphanCheckTestcaseEntity + " in its testcaseEntityCollection field has a non-nullable requestId field.");
+                illegalOrphanMessages.add("This RequestEntity (" + requestEntity + ") cannot be destroyed since the TestcaseEntity " + testcaseEntityListOrphanCheckTestcaseEntity + " in its testcaseEntityList field has a non-nullable requestId field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            ScriptEntity scriptId = requestEntity.getScriptId();
-            if (scriptId != null) {
-                scriptId.getRequestCollection().remove(requestEntity);
-                scriptId = em.merge(scriptId);
-            }
             ProjectEntity projectName = requestEntity.getProjectName();
             if (projectName != null) {
-                projectName.getRequestCollection().remove(requestEntity);
+                projectName.getRequestEntityList().remove(requestEntity);
                 projectName = em.merge(projectName);
             }
-            Collection<ParameterEntity> parameterEntityCollection = requestEntity.getParameterEntityCollection();
-            for (ParameterEntity parameterEntityCollectionParameterEntity : parameterEntityCollection) {
-                parameterEntityCollectionParameterEntity.setRequestId(null);
-                parameterEntityCollectionParameterEntity = em.merge(parameterEntityCollectionParameterEntity);
+            ScriptEntity scriptId = requestEntity.getScriptId();
+            if (scriptId != null) {
+                scriptId.getRequestEntityList().remove(requestEntity);
+                scriptId = em.merge(scriptId);
+            }
+            List<ParameterEntity> parameterEntityList = requestEntity.getParameterEntityList();
+            for (ParameterEntity parameterEntityListParameterEntity : parameterEntityList) {
+                parameterEntityListParameterEntity.setRequestId(null);
+                parameterEntityListParameterEntity = em.merge(parameterEntityListParameterEntity);
             }
             em.remove(requestEntity);
             utx.commit();
@@ -332,19 +331,4 @@ public class RequestEntityJpaController implements Serializable {
         }
     }
     
-    public List<ParameterEntity> findParameters(RequestEntity re)
-    {
-        ArrayList<ParameterEntity> ret = new ArrayList<ParameterEntity>();
-        
-        ParameterEntityJpaController pejc = new ParameterEntityJpaController(utx, emf);
-        
-        for (ParameterEntity pe : pejc.findParameterEntityEntities()) {
-            if (pe.getRequestId().getProjectId().equals(re.getProjectId()))
-            {
-                ret.add(pe);
-            }
-        }
-        
-        return ret;
-    }
 }

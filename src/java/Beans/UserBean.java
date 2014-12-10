@@ -61,7 +61,7 @@ public class UserBean implements java.io.Serializable {
         userquery.setParameter("name", username);
         this.currentUser = userquery.getSingleResult();
 
-        this.userProjects = new ArrayList<ProjectEntity>(currentUser.getProjectEntityCollection());
+        this.userProjects = new ArrayList<ProjectEntity>(currentUser.getProjectEntityList());
         
         if (userProjects != null && userProjects.size() > 0)
         {

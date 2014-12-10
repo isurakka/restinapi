@@ -9,7 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -23,22 +24,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 @Entity
 @Table(name = "parameter")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "ParameterEntity.findAll", query = "SELECT p FROM ParameterEntity p"),
-    @NamedQuery(name = "ParameterEntity.findByRequestId", query = "SELECT p FROM ParameterEntity p WHERE p.requestId = :requestId"),
     @NamedQuery(name = "ParameterEntity.findByParameterId", query = "SELECT p FROM ParameterEntity p WHERE p.parameterId = :parameterId"),
-    @NamedQuery(name = "ParameterEntity.findByProjectName", query = "SELECT p FROM ParameterEntity p WHERE p.projectName = :projectName"),
     @NamedQuery(name = "ParameterEntity.findByKey", query = "SELECT p FROM ParameterEntity p WHERE p.key = :key")})
 public class ParameterEntity implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "parameter_id")
     private Integer parameterId;
     @Basic(optional = false)
@@ -52,12 +51,12 @@ public class ParameterEntity implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "value")
     private String value;
-    @JoinColumn(name = "request_id", referencedColumnName = "project_id")
-    @ManyToOne(fetch = FetchType.EAGER)
-    private RequestEntity requestId;
     @JoinColumn(name = "project_name", referencedColumnName = "name")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private ProjectEntity projectName;
+    @JoinColumn(name = "request_id", referencedColumnName = "project_id")
+    @ManyToOne
+    private RequestEntity requestId;
 
     public ParameterEntity() {
     }
@@ -96,20 +95,20 @@ public class ParameterEntity implements Serializable {
         this.value = value;
     }
 
-    public RequestEntity getRequestId() {
-        return requestId;
-    }
-
-    public void setRequestId(RequestEntity requestId) {
-        this.requestId = requestId;
-    }
-
     public ProjectEntity getProjectName() {
         return projectName;
     }
 
     public void setProjectName(ProjectEntity projectName) {
         this.projectName = projectName;
+    }
+
+    public RequestEntity getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(RequestEntity requestId) {
+        this.requestId = requestId;
     }
 
     @Override

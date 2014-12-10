@@ -13,12 +13,11 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import Entities.ScriptEntity;
 import Entities.RequestEntity;
+import Entities.ScriptEntity;
 import Entities.TestcaseEntity;
 import Entities.TestrunEntity;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -26,7 +25,7 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 public class TestcaseEntityJpaController implements Serializable {
 
@@ -42,45 +41,45 @@ public class TestcaseEntityJpaController implements Serializable {
     }
 
     public void create(TestcaseEntity testcaseEntity) throws RollbackFailureException, Exception {
-        if (testcaseEntity.getTestrunEntityCollection() == null) {
-            testcaseEntity.setTestrunEntityCollection(new ArrayList<TestrunEntity>());
+        if (testcaseEntity.getTestrunEntityList() == null) {
+            testcaseEntity.setTestrunEntityList(new ArrayList<TestrunEntity>());
         }
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            ScriptEntity scriptId = testcaseEntity.getScriptId();
-            if (scriptId != null) {
-                scriptId = em.getReference(scriptId.getClass(), scriptId.getScriptId());
-                testcaseEntity.setScriptId(scriptId);
-            }
             RequestEntity requestId = testcaseEntity.getRequestId();
             if (requestId != null) {
                 requestId = em.getReference(requestId.getClass(), requestId.getProjectId());
                 testcaseEntity.setRequestId(requestId);
             }
-            Collection<TestrunEntity> attachedTestrunEntityCollection = new ArrayList<TestrunEntity>();
-            for (TestrunEntity testrunEntityCollectionTestrunEntityToAttach : testcaseEntity.getTestrunEntityCollection()) {
-                testrunEntityCollectionTestrunEntityToAttach = em.getReference(testrunEntityCollectionTestrunEntityToAttach.getClass(), testrunEntityCollectionTestrunEntityToAttach.getTestrunId());
-                attachedTestrunEntityCollection.add(testrunEntityCollectionTestrunEntityToAttach);
-            }
-            testcaseEntity.setTestrunEntityCollection(attachedTestrunEntityCollection);
-            em.persist(testcaseEntity);
+            ScriptEntity scriptId = testcaseEntity.getScriptId();
             if (scriptId != null) {
-                scriptId.getTestcaseCollection().add(testcaseEntity);
-                scriptId = em.merge(scriptId);
+                scriptId = em.getReference(scriptId.getClass(), scriptId.getScriptId());
+                testcaseEntity.setScriptId(scriptId);
             }
+            List<TestrunEntity> attachedTestrunEntityList = new ArrayList<TestrunEntity>();
+            for (TestrunEntity testrunEntityListTestrunEntityToAttach : testcaseEntity.getTestrunEntityList()) {
+                testrunEntityListTestrunEntityToAttach = em.getReference(testrunEntityListTestrunEntityToAttach.getClass(), testrunEntityListTestrunEntityToAttach.getTestrunId());
+                attachedTestrunEntityList.add(testrunEntityListTestrunEntityToAttach);
+            }
+            testcaseEntity.setTestrunEntityList(attachedTestrunEntityList);
+            em.persist(testcaseEntity);
             if (requestId != null) {
-                requestId.getTestcaseEntityCollection().add(testcaseEntity);
+                requestId.getTestcaseEntityList().add(testcaseEntity);
                 requestId = em.merge(requestId);
             }
-            for (TestrunEntity testrunEntityCollectionTestrunEntity : testcaseEntity.getTestrunEntityCollection()) {
-                TestcaseEntity oldTestcaseIdOfTestrunEntityCollectionTestrunEntity = testrunEntityCollectionTestrunEntity.getTestcaseId();
-                testrunEntityCollectionTestrunEntity.setTestcaseId(testcaseEntity);
-                testrunEntityCollectionTestrunEntity = em.merge(testrunEntityCollectionTestrunEntity);
-                if (oldTestcaseIdOfTestrunEntityCollectionTestrunEntity != null) {
-                    oldTestcaseIdOfTestrunEntityCollectionTestrunEntity.getTestrunEntityCollection().remove(testrunEntityCollectionTestrunEntity);
-                    oldTestcaseIdOfTestrunEntityCollectionTestrunEntity = em.merge(oldTestcaseIdOfTestrunEntityCollectionTestrunEntity);
+            if (scriptId != null) {
+                scriptId.getTestcaseEntityList().add(testcaseEntity);
+                scriptId = em.merge(scriptId);
+            }
+            for (TestrunEntity testrunEntityListTestrunEntity : testcaseEntity.getTestrunEntityList()) {
+                TestcaseEntity oldTestcaseIdOfTestrunEntityListTestrunEntity = testrunEntityListTestrunEntity.getTestcaseId();
+                testrunEntityListTestrunEntity.setTestcaseId(testcaseEntity);
+                testrunEntityListTestrunEntity = em.merge(testrunEntityListTestrunEntity);
+                if (oldTestcaseIdOfTestrunEntityListTestrunEntity != null) {
+                    oldTestcaseIdOfTestrunEntityListTestrunEntity.getTestrunEntityList().remove(testrunEntityListTestrunEntity);
+                    oldTestcaseIdOfTestrunEntityListTestrunEntity = em.merge(oldTestcaseIdOfTestrunEntityListTestrunEntity);
                 }
             }
             utx.commit();
@@ -104,64 +103,64 @@ public class TestcaseEntityJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             TestcaseEntity persistentTestcaseEntity = em.find(TestcaseEntity.class, testcaseEntity.getTestcaseId());
-            ScriptEntity scriptIdOld = persistentTestcaseEntity.getScriptId();
-            ScriptEntity scriptIdNew = testcaseEntity.getScriptId();
             RequestEntity requestIdOld = persistentTestcaseEntity.getRequestId();
             RequestEntity requestIdNew = testcaseEntity.getRequestId();
-            Collection<TestrunEntity> testrunEntityCollectionOld = persistentTestcaseEntity.getTestrunEntityCollection();
-            Collection<TestrunEntity> testrunEntityCollectionNew = testcaseEntity.getTestrunEntityCollection();
+            ScriptEntity scriptIdOld = persistentTestcaseEntity.getScriptId();
+            ScriptEntity scriptIdNew = testcaseEntity.getScriptId();
+            List<TestrunEntity> testrunEntityListOld = persistentTestcaseEntity.getTestrunEntityList();
+            List<TestrunEntity> testrunEntityListNew = testcaseEntity.getTestrunEntityList();
             List<String> illegalOrphanMessages = null;
-            for (TestrunEntity testrunEntityCollectionOldTestrunEntity : testrunEntityCollectionOld) {
-                if (!testrunEntityCollectionNew.contains(testrunEntityCollectionOldTestrunEntity)) {
+            for (TestrunEntity testrunEntityListOldTestrunEntity : testrunEntityListOld) {
+                if (!testrunEntityListNew.contains(testrunEntityListOldTestrunEntity)) {
                     if (illegalOrphanMessages == null) {
                         illegalOrphanMessages = new ArrayList<String>();
                     }
-                    illegalOrphanMessages.add("You must retain TestrunEntity " + testrunEntityCollectionOldTestrunEntity + " since its testcaseId field is not nullable.");
+                    illegalOrphanMessages.add("You must retain TestrunEntity " + testrunEntityListOldTestrunEntity + " since its testcaseId field is not nullable.");
                 }
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            if (scriptIdNew != null) {
-                scriptIdNew = em.getReference(scriptIdNew.getClass(), scriptIdNew.getScriptId());
-                testcaseEntity.setScriptId(scriptIdNew);
-            }
             if (requestIdNew != null) {
                 requestIdNew = em.getReference(requestIdNew.getClass(), requestIdNew.getProjectId());
                 testcaseEntity.setRequestId(requestIdNew);
             }
-            Collection<TestrunEntity> attachedTestrunEntityCollectionNew = new ArrayList<TestrunEntity>();
-            for (TestrunEntity testrunEntityCollectionNewTestrunEntityToAttach : testrunEntityCollectionNew) {
-                testrunEntityCollectionNewTestrunEntityToAttach = em.getReference(testrunEntityCollectionNewTestrunEntityToAttach.getClass(), testrunEntityCollectionNewTestrunEntityToAttach.getTestrunId());
-                attachedTestrunEntityCollectionNew.add(testrunEntityCollectionNewTestrunEntityToAttach);
+            if (scriptIdNew != null) {
+                scriptIdNew = em.getReference(scriptIdNew.getClass(), scriptIdNew.getScriptId());
+                testcaseEntity.setScriptId(scriptIdNew);
             }
-            testrunEntityCollectionNew = attachedTestrunEntityCollectionNew;
-            testcaseEntity.setTestrunEntityCollection(testrunEntityCollectionNew);
+            List<TestrunEntity> attachedTestrunEntityListNew = new ArrayList<TestrunEntity>();
+            for (TestrunEntity testrunEntityListNewTestrunEntityToAttach : testrunEntityListNew) {
+                testrunEntityListNewTestrunEntityToAttach = em.getReference(testrunEntityListNewTestrunEntityToAttach.getClass(), testrunEntityListNewTestrunEntityToAttach.getTestrunId());
+                attachedTestrunEntityListNew.add(testrunEntityListNewTestrunEntityToAttach);
+            }
+            testrunEntityListNew = attachedTestrunEntityListNew;
+            testcaseEntity.setTestrunEntityList(testrunEntityListNew);
             testcaseEntity = em.merge(testcaseEntity);
-            if (scriptIdOld != null && !scriptIdOld.equals(scriptIdNew)) {
-                scriptIdOld.getTestcaseCollection().remove(testcaseEntity);
-                scriptIdOld = em.merge(scriptIdOld);
-            }
-            if (scriptIdNew != null && !scriptIdNew.equals(scriptIdOld)) {
-                scriptIdNew.getTestcaseCollection().add(testcaseEntity);
-                scriptIdNew = em.merge(scriptIdNew);
-            }
             if (requestIdOld != null && !requestIdOld.equals(requestIdNew)) {
-                requestIdOld.getTestcaseEntityCollection().remove(testcaseEntity);
+                requestIdOld.getTestcaseEntityList().remove(testcaseEntity);
                 requestIdOld = em.merge(requestIdOld);
             }
             if (requestIdNew != null && !requestIdNew.equals(requestIdOld)) {
-                requestIdNew.getTestcaseEntityCollection().add(testcaseEntity);
+                requestIdNew.getTestcaseEntityList().add(testcaseEntity);
                 requestIdNew = em.merge(requestIdNew);
             }
-            for (TestrunEntity testrunEntityCollectionNewTestrunEntity : testrunEntityCollectionNew) {
-                if (!testrunEntityCollectionOld.contains(testrunEntityCollectionNewTestrunEntity)) {
-                    TestcaseEntity oldTestcaseIdOfTestrunEntityCollectionNewTestrunEntity = testrunEntityCollectionNewTestrunEntity.getTestcaseId();
-                    testrunEntityCollectionNewTestrunEntity.setTestcaseId(testcaseEntity);
-                    testrunEntityCollectionNewTestrunEntity = em.merge(testrunEntityCollectionNewTestrunEntity);
-                    if (oldTestcaseIdOfTestrunEntityCollectionNewTestrunEntity != null && !oldTestcaseIdOfTestrunEntityCollectionNewTestrunEntity.equals(testcaseEntity)) {
-                        oldTestcaseIdOfTestrunEntityCollectionNewTestrunEntity.getTestrunEntityCollection().remove(testrunEntityCollectionNewTestrunEntity);
-                        oldTestcaseIdOfTestrunEntityCollectionNewTestrunEntity = em.merge(oldTestcaseIdOfTestrunEntityCollectionNewTestrunEntity);
+            if (scriptIdOld != null && !scriptIdOld.equals(scriptIdNew)) {
+                scriptIdOld.getTestcaseEntityList().remove(testcaseEntity);
+                scriptIdOld = em.merge(scriptIdOld);
+            }
+            if (scriptIdNew != null && !scriptIdNew.equals(scriptIdOld)) {
+                scriptIdNew.getTestcaseEntityList().add(testcaseEntity);
+                scriptIdNew = em.merge(scriptIdNew);
+            }
+            for (TestrunEntity testrunEntityListNewTestrunEntity : testrunEntityListNew) {
+                if (!testrunEntityListOld.contains(testrunEntityListNewTestrunEntity)) {
+                    TestcaseEntity oldTestcaseIdOfTestrunEntityListNewTestrunEntity = testrunEntityListNewTestrunEntity.getTestcaseId();
+                    testrunEntityListNewTestrunEntity.setTestcaseId(testcaseEntity);
+                    testrunEntityListNewTestrunEntity = em.merge(testrunEntityListNewTestrunEntity);
+                    if (oldTestcaseIdOfTestrunEntityListNewTestrunEntity != null && !oldTestcaseIdOfTestrunEntityListNewTestrunEntity.equals(testcaseEntity)) {
+                        oldTestcaseIdOfTestrunEntityListNewTestrunEntity.getTestrunEntityList().remove(testrunEntityListNewTestrunEntity);
+                        oldTestcaseIdOfTestrunEntityListNewTestrunEntity = em.merge(oldTestcaseIdOfTestrunEntityListNewTestrunEntity);
                     }
                 }
             }
@@ -200,25 +199,25 @@ public class TestcaseEntityJpaController implements Serializable {
                 throw new NonexistentEntityException("The testcaseEntity with id " + id + " no longer exists.", enfe);
             }
             List<String> illegalOrphanMessages = null;
-            Collection<TestrunEntity> testrunEntityCollectionOrphanCheck = testcaseEntity.getTestrunEntityCollection();
-            for (TestrunEntity testrunEntityCollectionOrphanCheckTestrunEntity : testrunEntityCollectionOrphanCheck) {
+            List<TestrunEntity> testrunEntityListOrphanCheck = testcaseEntity.getTestrunEntityList();
+            for (TestrunEntity testrunEntityListOrphanCheckTestrunEntity : testrunEntityListOrphanCheck) {
                 if (illegalOrphanMessages == null) {
                     illegalOrphanMessages = new ArrayList<String>();
                 }
-                illegalOrphanMessages.add("This TestcaseEntity (" + testcaseEntity + ") cannot be destroyed since the TestrunEntity " + testrunEntityCollectionOrphanCheckTestrunEntity + " in its testrunEntityCollection field has a non-nullable testcaseId field.");
+                illegalOrphanMessages.add("This TestcaseEntity (" + testcaseEntity + ") cannot be destroyed since the TestrunEntity " + testrunEntityListOrphanCheckTestrunEntity + " in its testrunEntityList field has a non-nullable testcaseId field.");
             }
             if (illegalOrphanMessages != null) {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
-            ScriptEntity scriptId = testcaseEntity.getScriptId();
-            if (scriptId != null) {
-                scriptId.getTestcaseCollection().remove(testcaseEntity);
-                scriptId = em.merge(scriptId);
-            }
             RequestEntity requestId = testcaseEntity.getRequestId();
             if (requestId != null) {
-                requestId.getTestcaseEntityCollection().remove(testcaseEntity);
+                requestId.getTestcaseEntityList().remove(testcaseEntity);
                 requestId = em.merge(requestId);
+            }
+            ScriptEntity scriptId = testcaseEntity.getScriptId();
+            if (scriptId != null) {
+                scriptId.getTestcaseEntityList().remove(testcaseEntity);
+                scriptId = em.merge(scriptId);
             }
             em.remove(testcaseEntity);
             utx.commit();

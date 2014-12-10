@@ -6,11 +6,10 @@
 package Entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 @Entity
 @Table(name = "script")
@@ -34,39 +33,26 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ScriptEntity.findAll", query = "SELECT s FROM ScriptEntity s"),
     @NamedQuery(name = "ScriptEntity.findByScriptId", query = "SELECT s FROM ScriptEntity s WHERE s.scriptId = :scriptId")})
 public class ScriptEntity implements Serializable {
-    
-    @OneToMany(mappedBy = "scriptId", fetch = FetchType.LAZY)
-    private Collection<RequestEntity> requestEntityCollection;
-    
-    @OneToMany(mappedBy = "scriptId", fetch = FetchType.LAZY)
-    private Collection<TestcaseEntity> testcaseEntityCollection;
-    
-    @OneToMany(mappedBy = "scriptId")
-    private Collection<RequestEntity> requestCollection;
-    
-    @OneToMany(mappedBy = "scriptId")
-    private Collection<TestcaseEntity> testcaseCollection;
-    
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "script_id")
     private Integer scriptId;
-    
     @Lob
     @Size(max = 65535)
     @Column(name = "beforeScript")
     private String beforeScript;
-    
     @Lob
     @Size(max = 65535)
     @Column(name = "afterScript")
     private String afterScript;
     @OneToMany(mappedBy = "scriptId")
-    
-    private Collection<ProjectEntity> projectEntityCollection;
+    private List<RequestEntity> requestEntityList;
+    @OneToMany(mappedBy = "scriptId")
+    private List<ProjectEntity> projectEntityList;
+    @OneToMany(mappedBy = "scriptId")
+    private List<TestcaseEntity> testcaseEntityList;
 
     public ScriptEntity() {
     }
@@ -100,12 +86,30 @@ public class ScriptEntity implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ProjectEntity> getProjectEntityCollection() {
-        return projectEntityCollection;
+    public List<RequestEntity> getRequestEntityList() {
+        return requestEntityList;
     }
 
-    public void setProjectEntityCollection(Collection<ProjectEntity> projectEntityCollection) {
-        this.projectEntityCollection = projectEntityCollection;
+    public void setRequestEntityList(List<RequestEntity> requestEntityList) {
+        this.requestEntityList = requestEntityList;
+    }
+
+    @XmlTransient
+    public List<ProjectEntity> getProjectEntityList() {
+        return projectEntityList;
+    }
+
+    public void setProjectEntityList(List<ProjectEntity> projectEntityList) {
+        this.projectEntityList = projectEntityList;
+    }
+
+    @XmlTransient
+    public List<TestcaseEntity> getTestcaseEntityList() {
+        return testcaseEntityList;
+    }
+
+    public void setTestcaseEntityList(List<TestcaseEntity> testcaseEntityList) {
+        this.testcaseEntityList = testcaseEntityList;
     }
 
     @Override
@@ -131,42 +135,6 @@ public class ScriptEntity implements Serializable {
     @Override
     public String toString() {
         return "Entities.ScriptEntity[ scriptId=" + scriptId + " ]";
-    }
-
-    @XmlTransient
-    public Collection<RequestEntity> getRequestCollection() {
-        return requestCollection;
-    }
-
-    public void setRequestCollection(Collection<RequestEntity> requestCollection) {
-        this.requestCollection = requestCollection;
-    }
-
-    @XmlTransient
-    public Collection<TestcaseEntity> getTestcaseCollection() {
-        return testcaseCollection;
-    }
-
-    public void setTestcaseCollection(Collection<TestcaseEntity> testcaseCollection) {
-        this.testcaseCollection = testcaseCollection;
-    }
-
-    @XmlTransient
-    public Collection<RequestEntity> getRequestEntityCollection() {
-        return requestEntityCollection;
-    }
-
-    public void setRequestEntityCollection(Collection<RequestEntity> requestEntityCollection) {
-        this.requestEntityCollection = requestEntityCollection;
-    }
-
-    @XmlTransient
-    public Collection<TestcaseEntity> getTestcaseEntityCollection() {
-        return testcaseEntityCollection;
-    }
-
-    public void setTestcaseEntityCollection(Collection<TestcaseEntity> testcaseEntityCollection) {
-        this.testcaseEntityCollection = testcaseEntityCollection;
     }
     
 }

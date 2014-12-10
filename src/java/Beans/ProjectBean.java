@@ -103,8 +103,8 @@ public class ProjectBean implements java.io.Serializable {
         System.out.println(parameterQuery.getResultList().size());
         
         currentRequest.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
-        */
         
+        */
 
     }
     
