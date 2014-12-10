@@ -1,4 +1,4 @@
-package Beans;
+package Beans.Fuzz;
 
 
 import java.io.Serializable;
