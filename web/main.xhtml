@@ -139,9 +139,11 @@
                     </h:selectOneMenu>
                         </h:form>
                      <h:commandLink  action="#{projectBean.saveRequestChanges}" class="list-group-item" value="Save request changes" />                       
+           
 
                     </div>
                 </div>
+                 </h:form>
                 <div class="col-sm-8">
                     <div class="row">
                         <div class="col-xs-4 col-sm-4">
@@ -157,18 +159,21 @@
                                 <!-- Table -->
                                 <h:form>
                                     <table class="table requestParams">
+                                        
                                         <tr>
                                             <td>
-                                                <input type="text" class="form-control key" placeholder="Key" />
+                                                <h:inputText class="form-control key" value="#{projectBean.requestNewKey}" a:placeholder="Key" />
                                             </td>
                                             <td>
-                                                <input type="text" class="form-control value" placeholder="Value" />
+                                                <h:inputText class="form-control value" value="#{projectBean.requestNewValue}" a:placeholder="Value" />
                                             </td>
                                             <td>
-                                                <h:commandButton value="Update" action="#{requestBean.setParameter}" class=" btn btn-block" />
+                                                <h:commandButton value="Add new" action="#{projectBean.addNewKeyValuePairToRequest}" class=" btn btn-block" />
                                             </td>
                                         </tr>
+                                           
                                     </table>
+                                     </h:form>
                                     <h:dataTable value="#{requestBean.requestParameters}" var="parameter">
                                     <h:column>    				
                                        <f:facet name="header">Key</f:facet>    				
@@ -179,7 +184,7 @@
                                        #{parameter.value}
                                     </h:column>
                                  </h:dataTable>
-                                </h:form>
+                                
                             </div>
                         </div>
                     </div>
@@ -194,7 +199,6 @@
                         </div>
                     </div>
                 </div>
-            </h:form>
         </div>
         
         
