@@ -55,7 +55,7 @@ public class ScriptEntityJpaController implements Serializable {
             em = getEntityManager();
             List<RequestEntity> attachedRequestEntityList = new ArrayList<RequestEntity>();
             for (RequestEntity requestEntityListRequestEntityToAttach : scriptEntity.getRequestEntityList()) {
-                requestEntityListRequestEntityToAttach = em.getReference(requestEntityListRequestEntityToAttach.getClass(), requestEntityListRequestEntityToAttach.getProjectId());
+                requestEntityListRequestEntityToAttach = em.getReference(requestEntityListRequestEntityToAttach.getClass(), requestEntityListRequestEntityToAttach.getRequestId());
                 attachedRequestEntityList.add(requestEntityListRequestEntityToAttach);
             }
             scriptEntity.setRequestEntityList(attachedRequestEntityList);
@@ -128,7 +128,7 @@ public class ScriptEntityJpaController implements Serializable {
             List<TestcaseEntity> testcaseEntityListNew = scriptEntity.getTestcaseEntityList();
             List<RequestEntity> attachedRequestEntityListNew = new ArrayList<RequestEntity>();
             for (RequestEntity requestEntityListNewRequestEntityToAttach : requestEntityListNew) {
-                requestEntityListNewRequestEntityToAttach = em.getReference(requestEntityListNewRequestEntityToAttach.getClass(), requestEntityListNewRequestEntityToAttach.getProjectId());
+                requestEntityListNewRequestEntityToAttach = em.getReference(requestEntityListNewRequestEntityToAttach.getClass(), requestEntityListNewRequestEntityToAttach.getRequestId());
                 attachedRequestEntityListNew.add(requestEntityListNewRequestEntityToAttach);
             }
             requestEntityListNew = attachedRequestEntityListNew;

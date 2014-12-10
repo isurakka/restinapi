@@ -49,7 +49,7 @@ public class ParameterEntityJpaController implements Serializable {
             }
             RequestEntity requestId = parameterEntity.getRequestId();
             if (requestId != null) {
-                requestId = em.getReference(requestId.getClass(), requestId.getProjectId());
+                requestId = em.getReference(requestId.getClass(), requestId.getRequestId());
                 parameterEntity.setRequestId(requestId);
             }
             em.persist(parameterEntity);
@@ -91,7 +91,7 @@ public class ParameterEntityJpaController implements Serializable {
                 parameterEntity.setProjectName(projectNameNew);
             }
             if (requestIdNew != null) {
-                requestIdNew = em.getReference(requestIdNew.getClass(), requestIdNew.getProjectId());
+                requestIdNew = em.getReference(requestIdNew.getClass(), requestIdNew.getRequestId());
                 parameterEntity.setRequestId(requestIdNew);
             }
             parameterEntity = em.merge(parameterEntity);

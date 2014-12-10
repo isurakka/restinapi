@@ -65,7 +65,7 @@ public class ProjectEntityJpaController implements Serializable {
             }
             List<RequestEntity> attachedRequestEntityList = new ArrayList<RequestEntity>();
             for (RequestEntity requestEntityListRequestEntityToAttach : projectEntity.getRequestEntityList()) {
-                requestEntityListRequestEntityToAttach = em.getReference(requestEntityListRequestEntityToAttach.getClass(), requestEntityListRequestEntityToAttach.getProjectId());
+                requestEntityListRequestEntityToAttach = em.getReference(requestEntityListRequestEntityToAttach.getClass(), requestEntityListRequestEntityToAttach.getRequestId());
                 attachedRequestEntityList.add(requestEntityListRequestEntityToAttach);
             }
             projectEntity.setRequestEntityList(attachedRequestEntityList);
@@ -156,7 +156,7 @@ public class ProjectEntityJpaController implements Serializable {
             }
             List<RequestEntity> attachedRequestEntityListNew = new ArrayList<RequestEntity>();
             for (RequestEntity requestEntityListNewRequestEntityToAttach : requestEntityListNew) {
-                requestEntityListNewRequestEntityToAttach = em.getReference(requestEntityListNewRequestEntityToAttach.getClass(), requestEntityListNewRequestEntityToAttach.getProjectId());
+                requestEntityListNewRequestEntityToAttach = em.getReference(requestEntityListNewRequestEntityToAttach.getClass(), requestEntityListNewRequestEntityToAttach.getRequestId());
                 attachedRequestEntityListNew.add(requestEntityListNewRequestEntityToAttach);
             }
             requestEntityListNew = attachedRequestEntityListNew;

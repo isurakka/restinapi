@@ -50,7 +50,7 @@ public class TestcaseEntityJpaController implements Serializable {
             em = getEntityManager();
             RequestEntity requestId = testcaseEntity.getRequestId();
             if (requestId != null) {
-                requestId = em.getReference(requestId.getClass(), requestId.getProjectId());
+                requestId = em.getReference(requestId.getClass(), requestId.getRequestId());
                 testcaseEntity.setRequestId(requestId);
             }
             ScriptEntity scriptId = testcaseEntity.getScriptId();
@@ -122,7 +122,7 @@ public class TestcaseEntityJpaController implements Serializable {
                 throw new IllegalOrphanException(illegalOrphanMessages);
             }
             if (requestIdNew != null) {
-                requestIdNew = em.getReference(requestIdNew.getClass(), requestIdNew.getProjectId());
+                requestIdNew = em.getReference(requestIdNew.getClass(), requestIdNew.getRequestId());
                 testcaseEntity.setRequestId(requestIdNew);
             }
             if (scriptIdNew != null) {

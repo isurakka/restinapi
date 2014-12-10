@@ -121,7 +121,7 @@ public class RequestEntityJpaController implements Serializable {
         try {
             utx.begin();
             em = getEntityManager();
-            RequestEntity persistentRequestEntity = em.find(RequestEntity.class, requestEntity.getProjectId());
+            RequestEntity persistentRequestEntity = em.find(RequestEntity.class, requestEntity.getRequestId());
             ProjectEntity projectNameOld = persistentRequestEntity.getProjectName();
             ProjectEntity projectNameNew = requestEntity.getProjectName();
             ScriptEntity scriptIdOld = persistentRequestEntity.getScriptId();
@@ -218,7 +218,7 @@ public class RequestEntityJpaController implements Serializable {
             }
             String msg = ex.getLocalizedMessage();
             if (msg == null || msg.length() == 0) {
-                Integer id = requestEntity.getProjectId();
+                Integer id = requestEntity.getRequestId();
                 if (findRequestEntity(id) == null) {
                     throw new NonexistentEntityException("The requestEntity with id " + id + " no longer exists.");
                 }
@@ -239,7 +239,7 @@ public class RequestEntityJpaController implements Serializable {
             RequestEntity requestEntity;
             try {
                 requestEntity = em.getReference(RequestEntity.class, id);
-                requestEntity.getProjectId();
+                requestEntity.getRequestId();
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The requestEntity with id " + id + " no longer exists.", enfe);
             }

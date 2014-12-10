@@ -33,17 +33,17 @@ import javax.xml.bind.annotation.XmlTransient;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RequestEntity.findAll", query = "SELECT r FROM RequestEntity r"),
-    @NamedQuery(name = "RequestEntity.findByProjectId", query = "SELECT r FROM RequestEntity r WHERE r.projectId = :projectId"),
+    @NamedQuery(name = "RequestEntity.findByRequestid", query = "SELECT r FROM RequestEntity r WHERE r.requestId = :requestId"),
     @NamedQuery(name = "RequestEntity.findByProject", query = "SELECT r FROM RequestEntity r WHERE r.projectName = :projectName"),
     @NamedQuery(name = "RequestEntity.findByRelativeUri", query = "SELECT r FROM RequestEntity r WHERE r.relativeUri = :relativeUri"),
     @NamedQuery(name = "RequestEntity.findByMethod", query = "SELECT r FROM RequestEntity r WHERE r.method = :method")})
 public class RequestEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "project_id")
-    private Integer projectId;
+    @Column(name = "request_id")
+    private Integer requestId;
+    private static final long serialVersionUID = 1L;
     @Size(max = 256)
     @Column(name = "relative_uri")
     private String relativeUri;
@@ -62,18 +62,6 @@ public class RequestEntity implements Serializable {
     private List<TestcaseEntity> testcaseEntityList;
 
     public RequestEntity() {
-    }
-
-    public RequestEntity(Integer projectId) {
-        this.projectId = projectId;
-    }
-
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
     }
 
     public String getRelativeUri() {
@@ -126,10 +114,22 @@ public class RequestEntity implements Serializable {
         this.testcaseEntityList = testcaseEntityList;
     }
 
+    public RequestEntity(Integer requestId) {
+        this.requestId = requestId;
+    }
+
+    public Integer getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(Integer requestId) {
+        this.requestId = requestId;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (projectId != null ? projectId.hashCode() : 0);
+        hash += (requestId != null ? requestId.hashCode() : 0);
         return hash;
     }
 
@@ -140,7 +140,7 @@ public class RequestEntity implements Serializable {
             return false;
         }
         RequestEntity other = (RequestEntity) object;
-        if ((this.projectId == null && other.projectId != null) || (this.projectId != null && !this.projectId.equals(other.projectId))) {
+        if ((this.requestId == null && other.requestId != null) || (this.requestId != null && !this.requestId.equals(other.requestId))) {
             return false;
         }
         return true;
@@ -148,7 +148,7 @@ public class RequestEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.RequestEntity[ projectId=" + projectId + " ]";
+        return "Entities.RequestEntity[ requestId=" + requestId + " ]";
     }
     
 }
