@@ -155,7 +155,7 @@ public class RequestEntity implements Serializable {
 
     @Override
     public String toString() {
-        return getRelativeUri();
+        return getRelativeUri() + " - " + getMethod();
         //return "Entities.RequestEntity[ projectId=" + projectId + " ]";
     }
     
