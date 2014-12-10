@@ -15,7 +15,13 @@
     <h:body>
         <h:form>
             <h:inputHidden value="${fuzzFields.fieldsAsJson}">
-                <f:passThroughAttribute name="id" value="jsonned" />
+                <f:passThroughAttribute name="id" value="fields" />
+            </h:inputHidden>
+            <h:inputHidden value="${fuzzManager.fuzzRequestMethod}">
+                <f:passThroughAttribute name="id" value="requestMethod" />
+            </h:inputHidden>
+            <h:inputHidden value="${fuzzManager.fuzzRequestUrl}">
+                <f:passThroughAttribute name="id" value="requestUrl" />
             </h:inputHidden>
         </h:form>
     </h:body>
