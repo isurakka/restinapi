@@ -21,12 +21,12 @@ function run(url, method, params)
 
 function findKey(row)
 {
-    return $(row).find('.requestKey');
+    return $(row).find('.key');
 }
 
 function findValue(row)
 {
-    return $(row).find('.requestValue');
+    return $(row).find('.value');
 }
 
 function findParams()
@@ -48,12 +48,11 @@ function findParams()
     return params;
 }
 
-function tryAddRow()
+function tryAddRow(selector)
 {
     console.log("tryAdd");
 
-    var requestParams = $('.requestParams');
-    var last = requestParams.last();
+    var last = $(selector).last();
     var key = findKey(last).val();
 
     if (key.trim()) {
@@ -62,19 +61,16 @@ function tryAddRow()
         findValue(clone).val("");
         clone.insertAfter(last);
 
-        last.off('change', tryAddRow);
+        last.off('change');
         //findKey(clone).change(tryRemoveRow);
-        findKey(clone).change(tryAddRow);
+        findKey(clone).change(function() { tryAddRow(selector) });
     }
 }
 
-function tryRemoveRow()
+function tryRemoveRow(selector)
 {
-    var requestParams = $('.requestParams');
-    var last = $(requestParams.last());
-    var first = $(requestParams.first());
-    var count = requestParams.length;
-    requestParams.each(function(i, v) {
+    var count = $(selector).length;
+    $(selector).each(function(i, v) {
         if (i === 0 || i === count - 1)
         {
             return true;
@@ -86,16 +82,25 @@ function tryRemoveRow()
         if (!key.trim() && !val.trim())
         {
             v.remove();
-            tryRemoveRow();
+            tryRemoveRow(selector);
             return false;
         }
     });
 }
 
 $(document).ready(function() {
-    var requestParams = $('.requestParams');
-    window.setInterval(tryRemoveRow, 500);
-    findKey(requestParams.first()).change(tryAddRow);
+    var requestSelector = '.requestParams';
+    var requestParams = $(requestSelector);
+    var projectSelector = '.projectParams';
+    var projectParams = $(projectSelector);
+    /*
+    window.setInterval(function() { 
+        tryRemoveRow(requestSelector);
+        tryRemoveRow(projectSelector);
+    }, 500);
+    findKey(requestParams.first()).change(function() { tryAddRow(requestSelector); });
+    findKey(projectParams.first()).change(function() { tryAddRow(projectSelector); });
+    */
 
     $('#run').click(function() 
     {

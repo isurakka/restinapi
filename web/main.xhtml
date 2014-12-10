@@ -65,10 +65,10 @@
                         <table class="table projectParams">
                             <tr>
                                 <td>
-                                    <input type="text" class="form-control projectKey" placeholder="Key" />
+                                    <input type="text" class="form-control key" placeholder="Key" />
                                 </td>
                                 <td>
-                                    <input type="text" class="form-control projectValue" placeholder="Value" />
+                                    <input type="text" class="form-control value" placeholder="Value" />
                                 </td>
                             </tr>
                         </table>
@@ -100,7 +100,10 @@
                 </h:form>
                   </div>
                 <div class="list-group">
-                    <h:form><h:commandLink action="#{loginBean.logout}" class="list-group-item" value="Logout" /></h:form>
+                    <h:form>
+                        <h:commandLink action="#{fuzzSelector.toSelect}" class="list-group-item" value="Fuzzer" />
+                        <h:commandLink action="#{loginBean.logout}" class="list-group-item" value="Logout" />                      
+                    </h:form>
                 </div>
             </div>
             <div class="col-md-3">
@@ -132,10 +135,10 @@
                                 <table class="table requestParams">
                                     <tr>
                                         <td>
-                                            <input type="text" class="form-control requestKey" placeholder="Key" />
+                                            <input type="text" class="form-control key" placeholder="Key" />
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control requestValue" placeholder="Value" />
+                                            <input type="text" class="form-control value" placeholder="Value" />
                                         </td>
                                     </tr>
                                 </table>

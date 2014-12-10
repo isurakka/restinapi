@@ -30,6 +30,11 @@ public class FuzzSelector implements Serializable
         
     }
     
+    public String toSelect()
+    {
+        return "select_fuzz";
+    }
+    
     public String selectFuzz()
     {
         return "fuzz_options?faces-redirect=true&selectedFuzz=" + pageId;
