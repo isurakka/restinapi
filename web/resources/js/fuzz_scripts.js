@@ -1,10 +1,13 @@
 $(document).ready(function() 
 {
-    var jBubby = $.parseJSON($('#jsonned').val().toString());
+    console.log($('#requestUrl').val());
+    console.log($('#requestMethod').val());
+    
+    var fields = $.parseJSON($('#fields').val().toString());
 
-    for(var i = 0; i < jBubby.fields.length; i++)
+    for(var i = 0; i < fields.fields.length; i++)
     {
-        console.log(jBubby.fields[i].name + ", " + jBubby.fields[i].value + ", " + jBubby.fields[i].islocked);
+        console.log(fields.fields[i].name + ", " + fields.fields[i].value + ", " + fields.fields[i].islocked);
     }
     
 });
