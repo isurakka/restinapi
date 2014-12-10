@@ -50,7 +50,11 @@
            
             </div>
             <div class="col-md-3">
+                <h:form>
                 <h1 class="">Project: #{userBean.currentProject.name}</h1>
+                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.afterScript}" class="form-control" a:placeholder="After script" />
+                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.beforeScript}" class="form-control" a:placeholder="Before script" />
+                </h:form>
             </div>
             <div class="col-md-4">
                 <h:form>
@@ -110,9 +114,18 @@
                     </h:form>
                 </div>
             </div>
-            <div class="col-md-3">
+             <div class="col-md-3">
+                 
+            <h1 class="">Request #{projectBean.projectRequest}</h1>
+            
+            <h:form>
+            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.afterScript}" class="form-control" a:placeholder="After script" />
+                <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.beforeScript}" class="form-control" a:placeholder="Before script" />
+            </h:form>
             </div>
             <h:form>
+               
+                
                 <div class="col-md-4">
                     <div class="input-group">
                         <h:inputText value="#{projectBean.projectRequest.relativeUri}" class="form-control relativeUri" a:placeholder="Relative URI" />
