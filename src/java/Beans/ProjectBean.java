@@ -2,6 +2,7 @@ package Beans;
 
 
 import Controllers.ProjectEntityJpaController;
+import Controllers.RequestEntityJpaController;
 import Controllers.ScriptEntityJpaController;
 import Controllers.exceptions.RollbackFailureException;
 import Entities.ProjectEntity;
@@ -189,6 +190,21 @@ public class ProjectBean implements java.io.Serializable {
         ScriptEntityJpaController sec = new ScriptEntityJpaController(this.utx, this.emf);
         try {
             sec.edit(this.projectRequest.getScriptId());
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+   public void saveRequestChanges()
+    {
+                    System.out.println("test");
+
+        RequestEntityJpaController rec = new RequestEntityJpaController(this.utx, this.emf);
+        try {
+            rec.edit(this.projectRequest);
         } catch (RollbackFailureException ex) {
             Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
         } catch (Exception ex) {
