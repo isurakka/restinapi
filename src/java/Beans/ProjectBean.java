@@ -11,6 +11,10 @@ import Entities.ProjectEntity;
 import Entities.RequestEntity;
 import Entities.ScriptEntity;
 import Entities.UserEntity;
+import Utils.DatabaseManager;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -83,7 +87,7 @@ public class ProjectBean implements java.io.Serializable {
     
     public void onChangeSelectedRequest(ValueChangeEvent e) {
         // Hax maybe
-        //projectRequest = (RequestEntity)e.getNewValue();
+        projectRequest = (RequestEntity)e.getNewValue();
         
         //RequestEntityJpaController rejc = new RequestEntityJpaController(utx, emf);
         //currentRequest.setRequestParameters(rejc.findParameters(projectRequest));
@@ -109,6 +113,31 @@ public class ProjectBean implements java.io.Serializable {
         */
         
         //currentRequest.setRequestParameters(getProjectRequest().getParameterEntityList());
+        
+        try {
+            Connection conn = DatabaseManager.getConnection();
+            PreparedStatement ps = null;  
+            ps = conn.prepareStatement("SELECT * FROM parameter WHERE request_id = ?");
+            ps.setInt(1, projectRequest.getRequestId());
+
+            ResultSet rs = ps.executeQuery();
+            
+            ArrayList<ParameterEntity> list = new ArrayList<ParameterEntity>();
+            while (rs.next())
+            {
+                System.out.println("LOOP");
+                System.out.println(rs.getInt("parameter_id"));
+                ParameterEntity entity = new ParameterEntity(rs.getInt("parameter_id"), rs.getString("key"), rs.getString("value"));
+                list.add(entity);
+            }
+            
+            //projectRequests = list;
+            currentRequest.setRequestParameters(list);
+            
+            System.out.println("GET PARAMS SUCCESS");
+        } catch (Exception ex) {
+            System.out.println("GET PARAMS FAIL");
+        }
     }
     
     public String getName() {

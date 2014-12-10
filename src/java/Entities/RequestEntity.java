@@ -148,7 +148,7 @@ public class RequestEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Entities.RequestEntity[ requestId=" + requestId + " ]";
+        return this.relativeUri + " | " + this.method;
     }
     
 }
