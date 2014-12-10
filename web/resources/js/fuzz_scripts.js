@@ -92,28 +92,32 @@ function pathFuzz()
 {
     for(var i = 0; i < 50; i++)
     {
-        var newUrl = $.extend(true, {}, requestUrl);
+        var newUrl = requestUrl.toString();
+        newUrl = newUrl.replace("(+)", chance.word());
+        console.log(newUrl);
         
         var fuzz = 
         {
             requestNumber: i,
+            requestUrl: newUrl.toString(),
             request: function()
             {
                 var self = this;
                 
                 $.ajax(
                 {
-                    url: requestUrl,
+                    url: self.requestUrl,
                     type: requestMethod,
                     data: self.requestData,
                 }).done(function(data, status, xhr)
                 {
-                    createResult(self.requestNumber, xhr.status, JSON.stringify(self.requestData), this.url, JSON.stringify(data), 0);
+                    createResult(self.requestNumber, xhr.status, self.requestUrl, this.url.toString(), JSON.stringify(data), 0);
+                    console.log(self.requestUrl);
 
                 }).fail(function(xhr, status)
                 {
-                    createResult(self.requestNumber, status, JSON.stringify(self.requestData), this.url, JSON.stringify(xhr), 2);
-
+                    createResult(self.requestNumber, status, self.requestUrl, this.url.toString(), JSON.stringify(xhr), 2);
+                    console.log(self.requestUrl);
                 });
             }
         }
