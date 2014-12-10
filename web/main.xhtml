@@ -42,8 +42,8 @@
            <h:form>
            <h:inputText value="#{projectBean.name}" class="form-control" a:placeholder="Project name" />
            <h:inputText value="#{projectBean.baseuri}" class="form-control" a:placeholder="Project URI" />     
-           <h:inputTextarea rows="5" value="#{projectBean.beforescript}" class="form-control" a:placeholder="Before script" />
-           <h:inputTextarea rows="5" value="#{projectBean.afterscript}" class="form-control" a:placeholder="After script" />
+           <h:inputTextarea rows="5" value="#{projectBean.beforescript}" class="form-control" a:placeholder="Project before script" />
+           <h:inputTextarea rows="5" value="#{projectBean.afterscript}" class="form-control" a:placeholder="Project after script" />
             <h:commandButton value="Create!" action="#{projectBean.makeNewProjectEntity}" class=" btn btn-block" />
             </h:form>
                 
@@ -52,8 +52,8 @@
             <div class="col-md-3">
                 <h:form>
                 <h1 class="">Project: #{userBean.currentProject.name}</h1>
-                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.beforeScript}" class="form-control projectBeforeScript" a:placeholder="Before script" />
-                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.afterScript}" class="form-control projectAfterScript" a:placeholder="After script" />
+                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.beforeScript}" class="form-control projectBeforeScript" a:placeholder="Project before script. Use settings variable to set jQuery.ajax parameter values" />
+                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.afterScript}" class="form-control projectAfterScript" a:placeholder="Project after script. Use response variable to read data." />
                 <h:commandLink  action="#{userBean.saveProjectBeforeAfterScriptChanges}" class="list-group-item" value="Save script changes" />                       
                 </h:form>
             </div>
@@ -103,8 +103,8 @@
                     <h:selectOneMenu value="#{requestBean.method}">
                         <f:selectItems value="#{requestBean.availableMethods}" />
                     </h:selectOneMenu>
-                    <h:inputTextarea rows="5" value="#{requestBean.beforescript}" class="form-control" a:placeholder="Before script" />
-                    <h:inputTextarea rows="5" value="#{requestBean.afterscript}" class="form-control" a:placeholder="After script" />
+                    <h:inputTextarea rows="5" value="#{requestBean.beforescript}" class="form-control" a:placeholder="Request before script" />
+                    <h:inputTextarea rows="5" value="#{requestBean.afterscript}" class="form-control" a:placeholder="Request after script" />
                      
                     <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
                 </h:form>
@@ -121,8 +121,8 @@
             <h1 class="">Request #{projectBean.projectRequest}</h1>
             <h:form>
               
-            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.beforeScript}" class="form-control requestBeforeScript" a:placeholder="Before script" />
-            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.afterScript}" class="form-control requestAfterScript" a:placeholder="After script" />
+            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.beforeScript}" class="form-control requestBeforeScript" a:placeholder="Request before script. Use settings variable to set jQuery.ajax parameter values" />
+            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.afterScript}" class="form-control requestAfterScript" a:placeholder="Request after script. Use response variable to read data." />
             
             <h:commandLink  action="#{projectBean.saveRequestBeforeAfterScriptChanges}" class="list-group-item" value="Save script changes" />                       
             </h:form>
