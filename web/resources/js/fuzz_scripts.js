@@ -1,32 +1,95 @@
 var requestUrl;
 var requestMethod;
 var requestType;
+var requestFields;
+var requestFieldsJson;
+var ongoingFuzzes = [];
 
 $(document).ready(function() 
 {
     requestUrl = $('#requestUrl').val();
     requestMethod = $('#requestMethod').val();
     requestType = $('#requestType').val();
+    requestFields = $('#fields').val();
+    requestFieldsJson = $.parseJSON(requestFields);
     
     console.log("Url: " + requestUrl);
     console.log("Method: " + requestMethod);
     console.log("Type: " + requestType);
     
     console.log("Fields:");
-    
-    var fields = $.parseJSON($('#fields').val().toString());
+    console.log(requestFieldsJson);
 
-    for(var i = 0; i < fields.fields.length; i++)
+    
+    
+    switch(requestType)
     {
-        console.log("Name: " + fields.fields[i].name + ", Value: " + fields.fields[i].value + ", Locked: " + fields.fields[i].islocked);
+        case "random_fuzz":
+            randomFuzz();
+            break;
+        case "path_fuzz":
+            pathFuzz();
+            break;
+        default:
+            $('body').html("<h1>Fuzz type not supported</h1>");
+            break;          
     }
     
-    randomFuzz();
 });
 
-var ongoingFuzzes = [];
-
 function randomFuzz()
+{
+    var i = 0;
+    
+    var fuzzGenerator = setInterval(function()
+    {
+        if(i < 50)
+        {
+            var fuzz = 
+            {
+                requestNumber: i,
+                request: function()
+                {
+                    var self = this;
+                    
+                    for(var i = 0; i < requestFieldsJson.fields.length; i++)
+                    {
+                        if(!requestFieldsJson.fields[i].islocked)
+                        {
+                            requestFieldsJson.fields[i].value = chance.word();
+                        }
+                    }
+                    
+                    $.ajax(requestUrl,
+                    {
+                        type: requestMethod,
+                        data: requestFieldsJson,
+                        success: function(data, status, xhr)
+                        {
+                            createResult(self.requestNumber, xhr.status, JSON.stringify(this.data), JSON.stringify(data), 0);
+                        },
+                        fail: function(xhr, status)
+                        {
+                            createResult(self.requestNumber, status, JSON.stringify(this.data), JSON.stringify(xhr), 1);
+                        }
+                    });              
+                }
+            };
+            
+            fuzz.request();
+            ongoingFuzzes.push(fuzz);
+        }
+        else
+        {
+            clearInterval(fuzzGenerator);
+        }
+        
+        i++;
+        
+    }, 75);
+}
+
+function pathFuzz()
 {
     var i = 0;
     
@@ -95,9 +158,9 @@ function createResult(number, status, data, warningLevel)
         var w = "";
     }
     
-    var r = "<tr class ='" + w + "'><div class = 'result_inner'><td>" + number + "</td>";
-    r += "<td>" + status + "</td>";
-    r += "<td>" + data + "</td></div></tr>";
+    var r = "<tr class ='" + w + "'><td><div class = 'result_inner'><p>" + number + "</p></div></td>";
+    r += "<td><div class = 'result_inner'><p>" + status + "</p></div></td>";
+    r += "<td><div class = 'result_inner'><p>" + data + "</p></div></td></tr>";
     
     $('#result_table').append(r);
 }

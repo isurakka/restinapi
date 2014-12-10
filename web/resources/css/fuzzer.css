@@ -311,8 +311,7 @@ html, body
 
 .result_inner
 {
-    overflow-y: hidden;
-    overflow-x: auto;
-    height: 50px;
-    width: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    height: 100px;
 }
