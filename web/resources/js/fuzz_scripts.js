@@ -38,54 +38,47 @@ $(document).ready(function()
     
 });
 
-var fuzz =
-{
-    requestNumber: i,
-    requestData: sendThisData,
-    request: function()
-    {
-        console.log(JSON.stringify(sendThisData));
-        /*   */           
-    }
-};
+
 
 function randomFuzz()
 {
     for(var i = 0; i < 50; i++)
     {
-        console.log(i);
-        
-        var sendThisData = requestFieldsJson;
+        var sendThisData = $.extend(true, {}, requestFieldsJson);
         
         for(var j = 0; j < sendThisData.fields.length; j++)
         {
             if(!sendThisData.fields[j].islocked)
             {
-                console.log("adadas " + i);
-                sendThisData.fields[j].value = i;
+                sendThisData.fields[j].value = chance.word();
             }
         }
         
-        fuzz.requestNumber = i;
-        fuzz.requestData = sendThisData;
-        fuzz.request = function()
+        var fuzz = 
         {
-            $.ajax(
+            requestNumber: i,
+            requestData: $.extend(true, {}, sendThisData),
+            request: function()
             {
-                url: requestUrl,
-                type: requestMethod,
-                data: sendThisData
-            }).done(function(data, status, xhr)
-            {
-                createResult(self.requestNumber, xhr.status, JSON.stringify(sendThisData), JSON.stringify(data), 0);
+                var self = this;
+                
+                $.ajax(
+                {
+                    url: requestUrl,
+                    type: requestMethod,
+                    data: self.requestData,
+                }).done(function(data, status, xhr)
+                {
+                    createResult(self.requestNumber, xhr.status, JSON.stringify(self.requestData), this.url, JSON.stringify(data), 0);
 
-            }).fail(function(xhr, status)
-            {
-                createResult(self.requestNumber, status, JSON.stringify(sendThisData), JSON.stringify(xhr), 1);
+                }).fail(function(xhr, status)
+                {
+                    createResult(self.requestNumber, status, JSON.stringify(self.requestData), this.url, JSON.stringify(xhr), 2);
 
-            });
+                });
+            }
         }
-
+        
         ongoingFuzzes.push(fuzz);         
     }
     
@@ -95,57 +88,46 @@ function randomFuzz()
     }
 }
 
-/*function pathFuzz()
+function pathFuzz()
 {
-    var i = 0;
-    
-    var fuzzGenerator = setInterval(function()
+    for(var i = 0; i < 50; i++)
     {
-        if(i < 50)
+        var newUrl = $.extend(true, {}, requestUrl);
+        
+        var fuzz = 
         {
-            var fuzz = 
+            requestNumber: i,
+            request: function()
             {
-                requestNumber: i,
-                request: function()
+                var self = this;
+                
+                $.ajax(
                 {
-                    var self = this;
-                    
-                    try
-                    {
-                        $.ajax(requestUrl,
-                        {
-                            type: requestMethod,
-                            success: function(data, status, xhr)
-                            {
-                                createResult(self.requestNumber, xhr.status, JSON.stringify(data), 0);
-                            },
-                            fail: function(xhr, status)
-                            {
-                                createResult(self.requestNumber, status, JSON.stringify(xhr), 1);
-                            }
-                        });              
-                    }
-                    catch(requestError)
-                    {
-                        createResult(self.requestNumber, requestError, "");
-                    }
-                }
-            };
-            
-            fuzz.request();
-            ongoingFuzzes.push(fuzz);
-        }
-        else
-        {
-            clearInterval(fuzzGenerator);
-        }
-        
-        i++;
-        
-    }, 75);
-}*/
+                    url: requestUrl,
+                    type: requestMethod,
+                    data: self.requestData,
+                }).done(function(data, status, xhr)
+                {
+                    createResult(self.requestNumber, xhr.status, JSON.stringify(self.requestData), this.url, JSON.stringify(data), 0);
 
-function createResult(number, status, request, data, warningLevel)
+                }).fail(function(xhr, status)
+                {
+                    createResult(self.requestNumber, status, JSON.stringify(self.requestData), this.url, JSON.stringify(xhr), 2);
+
+                });
+            }
+        }
+        
+        ongoingFuzzes.push(fuzz);         
+    }
+    
+    for(var i = 0; i < ongoingFuzzes.length; i++)
+    {
+        ongoingFuzzes[i].request();
+    }
+}
+
+function createResult(number, status, request, url, data, warningLevel)
 {
     if(warningLevel == 0)
     {
@@ -164,10 +146,12 @@ function createResult(number, status, request, data, warningLevel)
         var w = "";
     }
     
-    var r = "<tr class ='" + w + "'><td><div class = 'result_inner'><p>" + number + "</p></div></td>";
-    r += "<td><div class = 'result_inner'><p>" + status + "</p></div></td>";
-    r += "<td><div class = 'result_inner'><p>" + request + "</p></div></td>";
-    r += "<td><div class = 'result_inner'><p>" + data + "</p></div></td></tr>";
+    var r = "<tr class ='" + w + "'><td class = 'result_number'><div class = 'result_inner'><p>" + number + "</p></div></td>";
+    r += "<td class = 'result_status'><div class = 'result_inner'><p>" + status + "</p></div></td>";
+    r += "<td class = 'result_url'><div class = 'result_inner'><p>" + unescape(url) + "</p></div></td>";
+    r += "<td class = 'result_request'><div class = 'result_inner'><p>" + request + "</p></div></td>";
     
+    r += "<td class = 'result_data'><div class = 'result_inner'><p>" + data + "</p></div></td><td class = 'auto'></td></tr>";
+
     $('#result_table').append(r);
 }

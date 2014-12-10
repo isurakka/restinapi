@@ -315,3 +315,41 @@ html, body
     overflow-y: auto;
     height: 100px;
 }
+
+.result_number
+{
+    width: 10%;
+    white-space: nowrap;
+}
+
+.result_status
+{
+    width: 10%;
+    white-space: nowrap;
+}
+
+.result_url
+{
+    width: 10%;
+        white-space: nowrap;
+
+}
+
+.result_request
+{
+    width: 10%;
+        white-space: nowrap;
+
+}
+
+.result_data
+{
+    width: 10%;
+        white-space: nowrap;
+
+}
+
+.auto
+{
+    width: auto;
+}
