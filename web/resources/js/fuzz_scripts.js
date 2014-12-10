@@ -25,6 +25,7 @@ $(document).ready(function()
     switch(requestType)
     {
         case "random_fuzz":
+            console.log(324234234);
             randomFuzz();
             break;
         case "path_fuzz":
@@ -37,59 +38,64 @@ $(document).ready(function()
     
 });
 
+var fuzz =
+{
+    requestNumber: i,
+    requestData: sendThisData,
+    request: function()
+    {
+        console.log(JSON.stringify(sendThisData));
+        /*   */           
+    }
+};
+
 function randomFuzz()
 {
-    var i = 0;
-    
-    var fuzzGenerator = setInterval(function()
+    for(var i = 0; i < 50; i++)
     {
-        if(i < 50)
+        console.log(i);
+        
+        var sendThisData = requestFieldsJson;
+        
+        for(var j = 0; j < sendThisData.fields.length; j++)
         {
-            var fuzz = 
+            if(!sendThisData.fields[j].islocked)
             {
-                requestNumber: i,
-                request: function()
-                {
-                    var self = this;
-                    
-                    for(var i = 0; i < requestFieldsJson.fields.length; i++)
-                    {
-                        if(!requestFieldsJson.fields[i].islocked)
-                        {
-                            requestFieldsJson.fields[i].value = chance.word();
-                        }
-                    }
-                    
-                    $.ajax(requestUrl,
-                    {
-                        type: requestMethod,
-                        data: requestFieldsJson,
-                        success: function(data, status, xhr)
-                        {
-                            createResult(self.requestNumber, xhr.status, JSON.stringify(this.data), JSON.stringify(data), 0);
-                        },
-                        fail: function(xhr, status)
-                        {
-                            createResult(self.requestNumber, status, JSON.stringify(this.data), JSON.stringify(xhr), 1);
-                        }
-                    });              
-                }
-            };
-            
-            fuzz.request();
-            ongoingFuzzes.push(fuzz);
+                console.log("adadas " + i);
+                sendThisData.fields[j].value = i;
+            }
         }
-        else
+        
+        fuzz.requestNumber = i;
+        fuzz.requestData = sendThisData;
+        fuzz.request = function()
         {
-            clearInterval(fuzzGenerator);
+            $.ajax(
+            {
+                url: requestUrl,
+                type: requestMethod,
+                data: sendThisData
+            }).done(function(data, status, xhr)
+            {
+                createResult(self.requestNumber, xhr.status, JSON.stringify(sendThisData), JSON.stringify(data), 0);
+
+            }).fail(function(xhr, status)
+            {
+                createResult(self.requestNumber, status, JSON.stringify(sendThisData), JSON.stringify(xhr), 1);
+
+            });
         }
-        
-        i++;
-        
-    }, 75);
+
+        ongoingFuzzes.push(fuzz);         
+    }
+    
+    for(var i = 0; i < ongoingFuzzes.length; i++)
+    {
+        ongoingFuzzes[i].request();
+    }
 }
 
-function pathFuzz()
+/*function pathFuzz()
 {
     var i = 0;
     
@@ -137,9 +143,9 @@ function pathFuzz()
         i++;
         
     }, 75);
-}
+}*/
 
-function createResult(number, status, data, warningLevel)
+function createResult(number, status, request, data, warningLevel)
 {
     if(warningLevel == 0)
     {
@@ -160,12 +166,8 @@ function createResult(number, status, data, warningLevel)
     
     var r = "<tr class ='" + w + "'><td><div class = 'result_inner'><p>" + number + "</p></div></td>";
     r += "<td><div class = 'result_inner'><p>" + status + "</p></div></td>";
+    r += "<td><div class = 'result_inner'><p>" + request + "</p></div></td>";
     r += "<td><div class = 'result_inner'><p>" + data + "</p></div></td></tr>";
     
     $('#result_table').append(r);
-}
-
-function request(url, method, params)
-{
-    
 }

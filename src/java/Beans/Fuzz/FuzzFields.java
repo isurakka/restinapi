@@ -65,7 +65,7 @@ public class FuzzFields implements Serializable
             
             jsonString += "\"name\":\"" + f.getFieldName() + "\",";
             jsonString += "\"value\":\"" + f.getFieldValue() + "\",";
-            jsonString += "\"islocked\":\"" + f.isIsLocked() + "\"";
+            jsonString += "\"islocked\":" + f.isIsLocked();
             
             if(i == fields.size() - 1)
             {
