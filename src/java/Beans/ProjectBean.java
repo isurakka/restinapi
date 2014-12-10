@@ -129,6 +129,9 @@ public class ProjectBean implements java.io.Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             UserBean userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
             userBean.fetchUserInfo();
+            
+            userBean.setCurrentProject(pe);
+            fetchProjectRequests();
 
         } catch (Exception ex)
         {
