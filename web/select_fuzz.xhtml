@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Select fuzz</title>
+        <h:outputStylesheet library="css" name="index.css"  />
+    </h:head>
+    <h:body>
+        <h1>Select fuzz type</h1>
+        <h:form id = "fuzz_select_form">
+            <table>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Random" class = "buttonified_link">
+                            <f:param name="pageId" value="random_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="SQL" class = "buttonified_link">
+                            <f:param name="pageId" value="sql_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="File" class = "buttonified_link">
+                            <f:param name="pageId" value="file_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Mutation" class = "buttonified_link">
+                            <f:param name="pageId" value="mutation_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Dictionary" class = "buttonified_link">
+                            <f:param name="pageId" value="dictionary_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Method" class = "buttonified_link">
+                            <f:param name="pageId" value="method_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Header" class = "buttonified_link">
+                            <f:param name="pageId" value="header_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Path" class = "buttonified_link">
+                            <f:param name="pageId" value="path_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>
+                <tr>
+                    <td>
+                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Parameter" class = "buttonified_link">
+                            <f:param name="pageId" value="parameter_fuzz"/>
+                        </h:commandLink>
+                    </td>  
+                </tr>             
+            </table>
+        </h:form>
+    </h:body>
+</html>
+

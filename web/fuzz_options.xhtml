@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <title>${fuzzTypes.getFuzzById(param['selectedFuzz']).name}</title>
+        <h:outputStylesheet library="css" name="fuzzer.css"  />
+    </h:head>
+    <h:body>
+        <h:form>
+            <div class = "fuzz_layout">
+                <table class = "fuzz_layout_table">
+                    <tr>
+                        <td colspan = "500">
+                            <h1 id = "fuzz_name">${fuzzTypes.getFuzzById(param['selectedFuzz']).fullInfo}</h1>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan = "500">
+                            <h:inputText class = "fuzz_base_url" a:placeholder="Base URL" id = "fuzz_base_url" value="${fuzzManager.fuzzRequestUrl}"></h:inputText>
+                        </td>
+                    </tr>
+                    <tr id = "fuzz_table_method_row">
+                        <td colspan = "500" class = "fuzz_table_method_cell">
+                            <h:selectOneRadio value="${fuzzManager.fuzzRequestMethod}">
+                                <f:selectItem itemValue="GET" itemLabel="GET"/>
+                                <f:selectItem itemValue="POST" itemLabel="POST"/>
+                            </h:selectOneRadio>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan = "500" class = "fuzz_table_bottom"></td>
+                    </tr>
+                </table>
+                <table id = "fuzz_field_table">
+
+                </table>
+            </div>
+       </h:form>
+    </h:body>
+</html>
