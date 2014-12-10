@@ -41,7 +41,9 @@
                 
            <h:form>
            <h:inputText value="#{projectBean.name}" class="form-control" a:placeholder="Project name" />
-           <h:inputText value="#{projectBean.baseuri}" class="form-control" a:placeholder="Project URI" />
+           <h:inputText value="#{projectBean.baseuri}" class="form-control" a:placeholder="Project URI" />     
+           <h:inputTextarea rows="5" value="#{projectBean.afterscript}" class="form-control" a:placeholder="After script" />
+           <h:inputTextarea rows="5" value="#{projectBean.beforescript}" class="form-control" a:placeholder="Before script" />
             <h:commandButton value="Create!" action="#{projectBean.makeNewProjectEntity}" class=" btn btn-block" />
             </h:form>
                 
@@ -96,6 +98,8 @@
                     <h:selectOneMenu value="#{requestBean.method}">
                         <f:selectItems value="#{requestBean.availableMethods}" />
                     </h:selectOneMenu>
+                    <h:inputTextarea rows="5" value="#{requestBean.afterscript}" class="form-control" a:placeholder="After script" />
+                     <h:inputTextarea rows="5" value="#{requestBean.beforescript}" class="form-control" a:placeholder="Before script" />
                     <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
                 </h:form>
                   </div>
@@ -157,39 +161,6 @@
                     </div>
                 </div>
             </h:form>
-        </div>
-        <div class="row">
-             <div class="col-md-8">
-                <h3>Request script</h3>
-                  <div class="list-group">
-
-                      
-                <h4>Create new</h4>
-                <h:form>                    
-                    <h:inputTextarea rows="5" value="#{scriptBean.afterScript}" class="form-control" a:placeholder="After script" />
-                    <h:inputTextarea rows="5" value="#{scriptBean.beforeScript}" class="form-control" a:placeholder="Before script" />
-                    <h:commandButton value="Create!" action="#{scriptBean.makeNewScriptEntityRequest}" class=" btn btn-block" />
-                </h:form>
-                  </div>
-
-            </div>
-            
-        </div>
-         <div class="row">
-             <div class="col-md-8">
-                <h3>Project script</h3>
-                  <div class="list-group">
-
-                      
-                <h4>Create new</h4>
-                <h:form>                    
-                    <h:inputTextarea rows="5" value="#{scriptBean.afterScript}" class="form-control" a:placeholder="After script" />
-                    <h:inputTextarea rows="5" value="#{scriptBean.beforeScript}" class="form-control" a:placeholder="Before script" />
-                    <h:commandButton value="Create!" action="#{scriptBean.makeNewScriptEntityRequest}" class=" btn btn-block" />
-                </h:form>
-                  </div>
-            </div>
-            
         </div>
         
         

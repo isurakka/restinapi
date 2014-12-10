@@ -90,8 +90,7 @@ public class ScriptBean implements java.io.Serializable {
             FacesContext context = FacesContext.getCurrentInstance();
             UserBean userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
             userBean.getCurrentProject().setScriptId(se);
-            
-            
+                        
             // TODO: FIX            
             //projectBean.projectRequests.add(re);
         } catch (Exception ex)

@@ -2,8 +2,10 @@ package Beans;
 
 
 import Controllers.ProjectEntityJpaController;
+import Controllers.ScriptEntityJpaController;
 import Entities.ProjectEntity;
 import Entities.RequestEntity;
+import Entities.ScriptEntity;
 import Entities.UserEntity;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +41,9 @@ public class ProjectBean implements java.io.Serializable {
     private String name;
     private String baseuri;
 
+    private String beforescript;
+    private String afterscript;
+    
     // from persistence.xml
     @PersistenceUnit(unitName="restinapiPU")
     EntityManagerFactory emf;
@@ -64,7 +69,6 @@ public class ProjectBean implements java.io.Serializable {
         {
             projectRequest = projectRequests.get(0);
         }
-
     }
     
     public void onChangeSelectedRequest(ValueChangeEvent e) {
@@ -102,6 +106,22 @@ public class ProjectBean implements java.io.Serializable {
     public void setProjectRequests(List<RequestEntity> projectRequests) {
         this.projectRequests = projectRequests;
     }
+
+    public String getBeforescript() {
+        return beforescript;
+    }
+
+    public void setBeforescript(String beforescript) {
+        this.beforescript = beforescript;
+    }
+
+    public String getAfterscript() {
+        return afterscript;
+    }
+
+    public void setAfterscript(String afterscript) {
+        this.afterscript = afterscript;
+    }
     
     
     
@@ -118,15 +138,22 @@ public class ProjectBean implements java.io.Serializable {
             UserEntity currentUser = query.getSingleResult();
 
             ProjectEntity pe = new ProjectEntity();
+            ScriptEntity se = new ScriptEntity();
 
+            se.setAfterScript(this.afterscript);
+            se.setBeforeScript(this.beforescript);
+            ScriptEntityJpaController sejc = new ScriptEntityJpaController(this.utx, this.emf);
+            sejc.create(se);
+            
             pe.setBaseUri(this.baseuri);
             pe.setName(this.name);
             pe.setUserName(currentUser);
-
+            pe.setScriptId(se);
+            
+            
             ProjectEntityJpaController pejc = new ProjectEntityJpaController(this.utx, this.emf);
 
             pejc.create(pe);
-            
             FacesContext context = FacesContext.getCurrentInstance();
             UserBean userBean = context.getApplication().evaluateExpressionGet(context, "#{userBean}", UserBean.class);
             userBean.fetchUserInfo();
