@@ -155,7 +155,41 @@
                 </div>
             </h:form>
         </div>
+        <div class="row">
+             <div class="col-md-8">
+                <h3>Request script</h3>
+                  <div class="list-group">
 
+                      
+                <h4>Create new</h4>
+                <h:form>                    
+                    <h:inputTextarea rows="5" value="#{scriptBean.afterScript}" class="form-control" a:placeholder="After script" />
+                    <h:inputTextarea rows="5" value="#{scriptBean.beforeScript}" class="form-control" a:placeholder="Before script" />
+                    <h:commandButton value="Create!" action="#{scriptBean.makeNewScriptEntityRequest}" class=" btn btn-block" />
+                </h:form>
+                  </div>
+
+            </div>
+            
+        </div>
+         <div class="row">
+             <div class="col-md-8">
+                <h3>Project script</h3>
+                  <div class="list-group">
+
+                      
+                <h4>Create new</h4>
+                <h:form>                    
+                    <h:inputTextarea rows="5" value="#{scriptBean.afterScript}" class="form-control" a:placeholder="After script" />
+                    <h:inputTextarea rows="5" value="#{scriptBean.beforeScript}" class="form-control" a:placeholder="Before script" />
+                    <h:commandButton value="Create!" action="#{scriptBean.makeNewScriptEntityRequest}" class=" btn btn-block" />
+                </h:form>
+                  </div>
+            </div>
+            
+        </div>
+        
+        
         <h:outputScript library="js" name="jquery-2.1.1.min.js" />
         <h:outputScript library="js" name="bootstrap.min.js" />
         <h:outputScript library="js" name="scripts.js" />

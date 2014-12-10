@@ -110,7 +110,7 @@ public class RequestBean implements java.io.Serializable{
             //projectBean.projectRequests.add(re);
         } catch (Exception ex)
         {
-            System.out.println("Error creating project: " + ex.getMessage());
+            System.out.println("Error creating request: " + ex.getMessage());
         }
     }
     
