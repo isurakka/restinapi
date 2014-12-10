@@ -14,53 +14,35 @@
             <table>
                 <tr>
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Random" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="random_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('random_fuzz')}" value ="Random" class="btn btn-lg btn-primary btn-block"></h:commandLink>
                     </td> 
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="SQL" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="sql_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('sql_fuzz')}" value ="SQL" class="btn btn-lg btn-primary btn-block"/>
                     </td> 
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="File" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="file_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('file_fuzz')}" value ="File" class="btn btn-lg btn-primary btn-block"/>
                     </td>  
                 </tr>
                 <tr>
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Mutation" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="mutation_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('mutation_fuzz')}" value ="Mutation" class="btn btn-lg btn-primary btn-block"/>
                     </td>  
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Dictionary" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="dictionary_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('dictionary_fuzz')}" value ="Dictionary" class="btn btn-lg btn-primary btn-block"/>
                     </td> 
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Method" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="method_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('method_fuzz')}" value ="Method" class="btn btn-lg btn-primary btn-block"/>
                     </td>  
                 </tr>
                 <tr>
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Header" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="header_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('header_fuzz')}" value ="Header" class="btn btn-lg btn-primary btn-block"/>
                     </td>  
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Path" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="path_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('path_fuzz')}" value ="Path" class="btn btn-lg btn-primary btn-block"/>
                     </td>
                     <td>
-                        <h:commandLink action="${fuzzSelector.selectFuzz}" value ="Parameter" class="btn btn-lg btn-primary btn-block">
-                            <f:param name="pageId" value="parameter_fuzz"/>
-                        </h:commandLink>
+                        <h:commandLink action="${fuzzSelector.selectFuzz('parameter_fuzz')}" value ="Parameter" class="btn btn-lg btn-primary btn-block"/>
                     </td>  
                 </tr>           
             </table>

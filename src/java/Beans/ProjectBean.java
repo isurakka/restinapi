@@ -3,6 +3,7 @@ package Beans;
 
 import Controllers.ProjectEntityJpaController;
 import Controllers.RequestEntityJpaController;
+
 import Entities.ParameterEntity;
 import Controllers.ScriptEntityJpaController;
 import Controllers.exceptions.RollbackFailureException;
@@ -227,6 +228,23 @@ public class ProjectBean implements java.io.Serializable {
         }
         
     }
+    
+   public void saveRequestChanges()
+    {
+                    System.out.println("test");
+
+        RequestEntityJpaController rec = new RequestEntityJpaController(this.utx, this.emf);
+        try {
+            rec.edit(this.projectRequest);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+
     /**
      * @return the currentRequest
      */
