@@ -12,7 +12,7 @@
     <h:body>
         <h:form>
             <div class = "fuzz_layout">
-                <table class = "fuzz_layout_table">
+                <table class = "fuzz_layout_table" style = "width: 70%; margin-left: 10px;">
                     <tr>
                         <td colspan = "500">
                             <h1 id = "fuzz_name">${fuzzTypes.getFuzzById(param['selectedFuzz']).fullInfo}</h1>
@@ -42,7 +42,7 @@
                 <h:dataTable value="#{fuzzFields.fields}" var="f"
     			styleClass="order-table"
     			headerClass="order-table-header"
-    			rowClasses="order-table-odd-row,order-table-even-row" class = "table">
+    			rowClasses="order-table-odd-row,order-table-even-row" class = "table" style = "width: 70%; margin-left: 10px;">
     		<h:column>
     			<f:facet name="header">Field name</f:facet>
     			#{f.fieldName}
@@ -61,7 +61,7 @@
     		</h:column>
     		</h:dataTable>
                 <h3>Add field</h3>
-    		<table class="table table-bordered">
+    		<table class="table table-bordered" style = "width: 70%; margin-left: 10px;">
                     <tr>
                             <td><h5>Field name:</h5></td>
                             <td><h:inputText size="10" value="#{fuzzFields.fieldName}" class="form-control"/></td>
@@ -72,13 +72,20 @@
                     </tr>
                     <tr>
                             <td><h5>Is locked:</h5></td>
-                            <td><h:inputText size="5" value="#{fuzzFields.isLocked}" class="form-control"/></td>
+                            <td>
+                                <h:selectBooleanCheckbox value="${fuzzFields.isLocked}" /> Is locked
+                            </td>
+                    </tr>
+                    <tr>
+                        <td colspan = "50000000">
+                            <h:commandButton value="Add" action="#{fuzzFields.addField}" class="btn btn-lg btn-primary btn-block"/> 
+                        </td>
                     </tr>
     		</table>
-    		<h:commandButton value="Add" action="#{fuzzFields.addField}" class="btn btn-lg btn-primary btn-block"/> 
-                <h:commandLink action="" value ="Fuzz!" class="btn btn-lg btn-primary btn-block">
-                    <f:param name="pageId" value="parameter_fuzz"/>
-                </h:commandLink>
+                <div style ="width: 10%; margin-left: 10px;">
+                    
+                    <h:commandLink action="${fuzzRunner.prepareFuzz}" value ="Fuzz!" class="btn btn-lg btn-primary btn-block"></h:commandLink>
+                </div>
             </div>
        </h:form>
     </h:body>

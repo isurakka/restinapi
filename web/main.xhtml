@@ -100,7 +100,10 @@
                 </h:form>
                   </div>
                 <div class="list-group">
-                    <h:form><h:commandLink action="#{loginBean.logout}" class="list-group-item" value="Logout" /></h:form>
+                    <h:form>
+                        <h:commandLink action="#{fuzzSelector.toSelect}" class="list-group-item" value="Fuzzer" />
+                        <h:commandLink action="#{loginBean.logout}" class="list-group-item" value="Logout" />                      
+                    </h:form>
                 </div>
             </div>
             <div class="col-md-3">

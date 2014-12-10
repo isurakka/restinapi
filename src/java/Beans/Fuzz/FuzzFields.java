@@ -27,7 +27,7 @@ public class FuzzFields implements Serializable
     public FuzzFields()
     {
         fields = new ArrayList<FuzzRequestField>();
-        fields.add(new FuzzRequestField("", "", true));
+        //fields.add(new FuzzRequestField("", "", true));
     }
 
     public List<FuzzRequestField> getFields() {
@@ -46,6 +46,38 @@ public class FuzzFields implements Serializable
     public void addField()
     {
         fields.add(new FuzzRequestField(fieldName, fieldValue, isLocked));
+    }
+    
+    public String getFieldsAsJson()
+    {
+        String jsonString = "";
+        
+        jsonString += "{";
+        jsonString += "fields:[";
+        
+        for(int i = 0; i < fields.size(); i++)
+        {
+            jsonString += "{";
+            
+            FuzzRequestField f = fields.get(i);
+            
+            jsonString += "name:'" + f.getFieldName() + "',";
+            jsonString += "value:'" + f.getFieldValue() + "',";
+            jsonString += "islocked:'" + f.isIsLocked() + "'";
+            
+            if(i == fields.size() - 1)
+            {
+                jsonString += "}";
+            }
+            else
+            {
+                jsonString += "},";
+            }
+        }
+        
+        jsonString += "]}";
+        
+        return jsonString;
     }
 
     public String getFieldName() {
