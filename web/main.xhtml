@@ -42,8 +42,8 @@
            <h:form>
            <h:inputText value="#{projectBean.name}" class="form-control" a:placeholder="Project name" />
            <h:inputText value="#{projectBean.baseuri}" class="form-control" a:placeholder="Project URI" />     
-           <h:inputTextarea rows="5" value="#{projectBean.afterscript}" class="form-control" a:placeholder="After script" />
            <h:inputTextarea rows="5" value="#{projectBean.beforescript}" class="form-control" a:placeholder="Before script" />
+           <h:inputTextarea rows="5" value="#{projectBean.afterscript}" class="form-control" a:placeholder="After script" />
             <h:commandButton value="Create!" action="#{projectBean.makeNewProjectEntity}" class=" btn btn-block" />
             </h:form>
                 
@@ -103,8 +103,9 @@
                     <h:selectOneMenu value="#{requestBean.method}">
                         <f:selectItems value="#{requestBean.availableMethods}" />
                     </h:selectOneMenu>
+                    <h:inputTextarea rows="5" value="#{requestBean.beforescript}" class="form-control" a:placeholder="Before script" />
                     <h:inputTextarea rows="5" value="#{requestBean.afterscript}" class="form-control" a:placeholder="After script" />
-                     <h:inputTextarea rows="5" value="#{requestBean.beforescript}" class="form-control" a:placeholder="Before script" />
+                     
                     <h:commandButton value="Create!" action="#{requestBean.makeNewRequestEntity}" class=" btn btn-block" />
                 </h:form>
                   </div>
@@ -119,9 +120,10 @@
                  
             <h1 class="">Request #{projectBean.projectRequest}</h1>
             <h:form>
-                
+              
+                <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.beforeScript}" class="form-control" a:placeholder="Before script" />
             <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.afterScript}" class="form-control" a:placeholder="After script" />
-            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.beforeScript}" class="form-control" a:placeholder="Before script" />
+            
             <h:commandLink  action="#{projectBean.saveRequestBeforeAfterScriptChanges}" class="list-group-item" value="Save script changes" />                       
             </h:form>
             </div>
