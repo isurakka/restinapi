@@ -86,16 +86,11 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <h:inputText value="#{projectBean.projectRequest.relativeUri}" class="form-control relativeUri" a:placeholder="Relative URI" />
-                        <div class="input-group-btn">
-                            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-                                GET
-                                <span class="caret"></span>
-                            </button>
-                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">POST</a></li>
-                                <li role="presentation"><a role="menuitem" tabindex="-1" href="#">PUT</a></li>
-                            </ul>
-                        </div>
+                        <h:form>
+                    <h:selectOneListbox value="#{projectBean.projectRequest.method}">
+                       <f:selectItems value="#{requestBean.availableMethods}" />
+                    </h:selectOneListbox>
+                        </h:form>
                     </div>
                 </div>
                 <div class="col-sm-8">
