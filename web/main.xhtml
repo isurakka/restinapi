@@ -87,9 +87,9 @@
                     <div class="input-group">
                         <h:inputText value="#{projectBean.projectRequest.relativeUri}" class="form-control relativeUri" a:placeholder="Relative URI" />
                         <h:form>
-                    <h:selectOneListbox value="#{projectBean.projectRequest.method}">
+                    <h:selectOneMenu value="#{projectBean.projectRequest.method}">
                        <f:selectItems value="#{requestBean.availableMethods}" />
-                    </h:selectOneListbox>
+                    </h:selectOneMenu>
                         </h:form>
                     </div>
                 </div>
