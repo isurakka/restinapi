@@ -5,11 +5,15 @@
  */
 package Beans;
 
+import Controllers.ScriptEntityJpaController;
+import Controllers.exceptions.RollbackFailureException;
 import Entities.ProjectEntity;
 import Entities.UserEntity;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
@@ -117,6 +121,19 @@ public class UserBean implements java.io.Serializable {
 
     public void setCurrentProject(ProjectEntity currentProject) {
         this.currentProject = currentProject;
+    }
+    
+   public void saveProjectBeforeAfterScriptChanges()
+    {
+        ScriptEntityJpaController sec = new ScriptEntityJpaController(this.utx, this.emf);
+        try {
+            sec.edit(this.currentProject.getScriptId());
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(ProjectBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
 }
