@@ -55,6 +55,9 @@ public class ProjectBean implements java.io.Serializable {
     private String beforescript;
     private String afterscript;
     
+    private String requestNewValue;
+    private String requestNewKey;
+    
     // from persistence.xml
     @PersistenceUnit(unitName="restinapiPU")
     EntityManagerFactory emf;
@@ -79,16 +82,16 @@ public class ProjectBean implements java.io.Serializable {
 
         this.projectRequests = new ArrayList<RequestEntity>(userquery.getResultList());
         
-        if (projectRequests != null && projectRequests.size() > 0)
-        {
-            projectRequest = projectRequests.get(0);
-        }
+        //if (projectRequests != null && projectRequests.size() > 0)
+       // {
+        //    projectRequest = projectRequests.get(0);
+       // }
     }
     
     public void onChangeSelectedRequest(ValueChangeEvent e) {
         // Hax maybe
         projectRequest = (RequestEntity)e.getNewValue();
-        
+        System.out.println("requestchanged, new request int: " + projectRequest.getRequestId());
         //RequestEntityJpaController rejc = new RequestEntityJpaController(utx, emf);
         //currentRequest.setRequestParameters(rejc.findParameters(projectRequest));
         
@@ -201,6 +204,24 @@ public class ProjectBean implements java.io.Serializable {
     public void setProjectRequest(RequestEntity projectRequest) {
         this.projectRequest = projectRequest;
     }
+
+    public String getRequestNewValue() {
+        return requestNewValue;
+    }
+
+    public void setRequestNewValue(String requestNewParameter) {
+        this.requestNewValue = requestNewParameter;
+    }
+
+    public String getRequestNewKey() {
+        return requestNewKey;
+    }
+
+    public void setRequestNewKey(String requestNewKey) {
+        this.requestNewKey = requestNewKey;
+    }
+    
+    
     
     public ProjectBean() {}
     
@@ -273,6 +294,29 @@ public class ProjectBean implements java.io.Serializable {
         
     }
     
+   public void addNewKeyValuePairToRequest()
+   {
+       System.out.println(this.requestNewKey);
+      System.out.println(this.requestNewValue);
+                  System.out.println("req. id: " + projectRequest.getRequestId());
+
+      
+           try {
+            Connection conn = DatabaseManager.getConnection();
+            PreparedStatement ps = null;  
+                        
+            ps = conn.prepareStatement("INSERT INTO parameter(`key`, `value`, `request_id`) VALUES(?, ?, ?)");
+            ps.setString(1, this.getRequestNewKey());
+            ps.setString(2, this.getRequestNewValue());
+            ps.setInt(3, projectRequest.getRequestId());
+
+            ps.executeUpdate();
+            
+        } catch (Exception ex) {
+            System.out.println(ex.getMessage());
+        }
+      
+   }
 
     /**
      * @return the currentRequest
