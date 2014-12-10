@@ -52,8 +52,8 @@
             <div class="col-md-3">
                 <h:form>
                 <h1 class="">Project: #{userBean.currentProject.name}</h1>
-                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.afterScript}" class="form-control" a:placeholder="After script" />
-                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.beforeScript}" class="form-control" a:placeholder="Before script" />
+                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.beforeScript}" class="form-control projectBeforeScript" a:placeholder="Before script" />
+                <h:inputTextarea rows="5" value="#{userBean.currentProject.scriptId.afterScript}" class="form-control projectAfterScript" a:placeholder="After script" />
                 <h:commandLink  action="#{userBean.saveProjectBeforeAfterScriptChanges}" class="list-group-item" value="Save script changes" />                       
                 </h:form>
             </div>
@@ -121,8 +121,8 @@
             <h1 class="">Request #{projectBean.projectRequest}</h1>
             <h:form>
               
-                <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.beforeScript}" class="form-control" a:placeholder="Before script" />
-            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.afterScript}" class="form-control" a:placeholder="After script" />
+            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.beforeScript}" class="form-control requestBeforeScript" a:placeholder="Before script" />
+            <h:inputTextarea rows="5" value="#{projectBean.projectRequest.scriptId.afterScript}" class="form-control requestAfterScript" a:placeholder="After script" />
             
             <h:commandLink  action="#{projectBean.saveRequestBeforeAfterScriptChanges}" class="list-group-item" value="Save script changes" />                       
             </h:form>

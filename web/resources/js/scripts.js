@@ -88,6 +88,24 @@ function tryRemoveRow(selector)
     });
 }
 
+function tryEvalBefore(settings, code, where)
+{
+    try {
+        eval(code);
+    } catch (e) {
+        alert(where + ": " + e.message);
+    }
+}
+
+function tryEvalAfter(response, code, where)
+{
+    try {
+        eval(code);
+    } catch (e) {
+        alert(where + ": " + e.message);
+    }
+}
+
 $(document).ready(function() {
     var requestSelector = '.requestParams';
     var requestParams = $(requestSelector);
@@ -104,25 +122,61 @@ $(document).ready(function() {
 
     $('#run').click(function() 
     {
-        console.log($('.baseUri').val() + $('.relativeUri').val());
         var params = findParams();
         var method = $( ".requestMethod option:selected" ).text();
+        var baseUri = $('.baseUri').val();
+        var relativeUri = $('.relativeUri').val();
         console.log(params);
-        run($('.baseUri').val() + $('.relativeUri').val(), method, {})
-            .done(function(data)
+        console.log($('.baseUri').val() + $('.relativeUri').val());
+
+        var projectBeforeScript = $('.projectBeforeScript').val();
+        var projectAfterScript = $('.projectAfterScript').val();
+        var requestBeforeScript = $('.requestBeforeScript').val();
+        var requestAfterScript = $('.requestAfterScript').val();
+
+        var settings = {
+            type: method,
+            url: baseUri,
+            method: method,
+            data: params,
+            async: true,
+            cache: false
+        };
+
+        /*
+        {
+            type: method,
+            url: baseUri,
+            method: method,
+            data: params,
+            async: true,
+            cache: false
+        };
+        */
+
+        tryEvalBefore(settings, projectBeforeScript, "Project before script");
+        tryEvalBefore(settings, requestBeforeScript, "Request before script");
+
+        $.ajax(settings)
+        .always(function(data)
+        {
+            console.log(data);
+            var status = data.status;
+            var todo = data;
+            if (data.responseJSON != null)
             {
-                var status = data.status;
-                var todo = data;
-                if (data.responseJSON != null)
-                {
-                    todo = data.responseJSON;
-                }
-                else if (data.responseText != null)
-                {
-                    todo = data.responseText;
-                }
-                var beauty = JSON.stringify(todo, null, 4);
-                $('.response').text(beauty);
-            });;
+                todo = data.responseJSON;
+            }
+            else if (data.responseText != null)
+            {
+                todo = data.responseText;
+            }
+
+            tryEvalAfter(todo, requestAfterScript, "Request after script");
+            tryEvalAfter(todo, projectAfterScript, "Project after script");
+
+            var beauty = JSON.stringify(todo, null, 4);
+            $('.response').text(beauty);
+        });
     });
 });
