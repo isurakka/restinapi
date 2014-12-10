@@ -6,7 +6,6 @@
 package Controllers;
 
 import Controllers.exceptions.NonexistentEntityException;
-import Controllers.exceptions.PreexistingEntityException;
 import Controllers.exceptions.RollbackFailureException;
 import Entities.ParameterEntity;
 import java.io.Serializable;
@@ -14,8 +13,8 @@ import javax.persistence.Query;
 import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
-import Entities.RequestEntity;
 import Entities.ProjectEntity;
+import Entities.RequestEntity;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -23,7 +22,7 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 public class ParameterEntityJpaController implements Serializable {
 
@@ -38,29 +37,29 @@ public class ParameterEntityJpaController implements Serializable {
         return emf.createEntityManager();
     }
 
-    public void create(ParameterEntity parameterEntity) throws PreexistingEntityException, RollbackFailureException, Exception {
+    public void create(ParameterEntity parameterEntity) throws RollbackFailureException, Exception {
         EntityManager em = null;
         try {
             utx.begin();
             em = getEntityManager();
-            RequestEntity requestId = parameterEntity.getRequestId();
-            if (requestId != null) {
-                requestId = em.getReference(requestId.getClass(), requestId.getProjectId());
-                parameterEntity.setRequestId(requestId);
-            }
             ProjectEntity projectName = parameterEntity.getProjectName();
             if (projectName != null) {
                 projectName = em.getReference(projectName.getClass(), projectName.getName());
                 parameterEntity.setProjectName(projectName);
             }
-            em.persist(parameterEntity);
+            RequestEntity requestId = parameterEntity.getRequestId();
             if (requestId != null) {
-                requestId.getParameterEntityCollection().add(parameterEntity);
-                requestId = em.merge(requestId);
+                requestId = em.getReference(requestId.getClass(), requestId.getRequestId());
+                parameterEntity.setRequestId(requestId);
             }
+            em.persist(parameterEntity);
             if (projectName != null) {
-                projectName.getParameterCollection().add(parameterEntity);
+                projectName.getParameterEntityList().add(parameterEntity);
                 projectName = em.merge(projectName);
+            }
+            if (requestId != null) {
+                requestId.getParameterEntityList().add(parameterEntity);
+                requestId = em.merge(requestId);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -68,9 +67,6 @@ public class ParameterEntityJpaController implements Serializable {
                 utx.rollback();
             } catch (Exception re) {
                 throw new RollbackFailureException("An error occurred attempting to roll back the transaction.", re);
-            }
-            if (findParameterEntity(parameterEntity.getParameterId()) != null) {
-                throw new PreexistingEntityException("ParameterEntity " + parameterEntity + " already exists.", ex);
             }
             throw ex;
         } finally {
@@ -86,34 +82,34 @@ public class ParameterEntityJpaController implements Serializable {
             utx.begin();
             em = getEntityManager();
             ParameterEntity persistentParameterEntity = em.find(ParameterEntity.class, parameterEntity.getParameterId());
-            RequestEntity requestIdOld = persistentParameterEntity.getRequestId();
-            RequestEntity requestIdNew = parameterEntity.getRequestId();
             ProjectEntity projectNameOld = persistentParameterEntity.getProjectName();
             ProjectEntity projectNameNew = parameterEntity.getProjectName();
-            if (requestIdNew != null) {
-                requestIdNew = em.getReference(requestIdNew.getClass(), requestIdNew.getProjectId());
-                parameterEntity.setRequestId(requestIdNew);
-            }
+            RequestEntity requestIdOld = persistentParameterEntity.getRequestId();
+            RequestEntity requestIdNew = parameterEntity.getRequestId();
             if (projectNameNew != null) {
                 projectNameNew = em.getReference(projectNameNew.getClass(), projectNameNew.getName());
                 parameterEntity.setProjectName(projectNameNew);
             }
+            if (requestIdNew != null) {
+                requestIdNew = em.getReference(requestIdNew.getClass(), requestIdNew.getRequestId());
+                parameterEntity.setRequestId(requestIdNew);
+            }
             parameterEntity = em.merge(parameterEntity);
-            if (requestIdOld != null && !requestIdOld.equals(requestIdNew)) {
-                requestIdOld.getParameterEntityCollection().remove(parameterEntity);
-                requestIdOld = em.merge(requestIdOld);
-            }
-            if (requestIdNew != null && !requestIdNew.equals(requestIdOld)) {
-                requestIdNew.getParameterEntityCollection().add(parameterEntity);
-                requestIdNew = em.merge(requestIdNew);
-            }
             if (projectNameOld != null && !projectNameOld.equals(projectNameNew)) {
-                projectNameOld.getParameterCollection().remove(parameterEntity);
+                projectNameOld.getParameterEntityList().remove(parameterEntity);
                 projectNameOld = em.merge(projectNameOld);
             }
             if (projectNameNew != null && !projectNameNew.equals(projectNameOld)) {
-                projectNameNew.getParameterCollection().add(parameterEntity);
+                projectNameNew.getParameterEntityList().add(parameterEntity);
                 projectNameNew = em.merge(projectNameNew);
+            }
+            if (requestIdOld != null && !requestIdOld.equals(requestIdNew)) {
+                requestIdOld.getParameterEntityList().remove(parameterEntity);
+                requestIdOld = em.merge(requestIdOld);
+            }
+            if (requestIdNew != null && !requestIdNew.equals(requestIdOld)) {
+                requestIdNew.getParameterEntityList().add(parameterEntity);
+                requestIdNew = em.merge(requestIdNew);
             }
             utx.commit();
         } catch (Exception ex) {
@@ -149,15 +145,15 @@ public class ParameterEntityJpaController implements Serializable {
             } catch (EntityNotFoundException enfe) {
                 throw new NonexistentEntityException("The parameterEntity with id " + id + " no longer exists.", enfe);
             }
-            RequestEntity requestId = parameterEntity.getRequestId();
-            if (requestId != null) {
-                requestId.getParameterEntityCollection().remove(parameterEntity);
-                requestId = em.merge(requestId);
-            }
             ProjectEntity projectName = parameterEntity.getProjectName();
             if (projectName != null) {
-                projectName.getParameterCollection().remove(parameterEntity);
+                projectName.getParameterEntityList().remove(parameterEntity);
                 projectName = em.merge(projectName);
+            }
+            RequestEntity requestId = parameterEntity.getRequestId();
+            if (requestId != null) {
+                requestId.getParameterEntityList().remove(parameterEntity);
+                requestId = em.merge(requestId);
             }
             em.remove(parameterEntity);
             utx.commit();

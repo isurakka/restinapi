@@ -6,12 +6,11 @@
 package Entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 @Entity
 @Table(name = "project")
@@ -36,19 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "ProjectEntity.findByName", query = "SELECT p FROM ProjectEntity p WHERE p.name = :name"),
     @NamedQuery(name = "ProjectEntity.findByBaseUri", query = "SELECT p FROM ProjectEntity p WHERE p.baseUri = :baseUri")})
 public class ProjectEntity implements Serializable {
-    
-    @OneToMany(mappedBy = "projectName", fetch = FetchType.LAZY)
-    private Collection<ParameterEntity> parameterEntityCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectName", fetch = FetchType.LAZY)
-    private Collection<RequestEntity> requestEntityCollection;
-    
-    @OneToMany(mappedBy = "projectName")
-    private Collection<ParameterEntity> parameterCollection;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectName")
-    private Collection<ParameterEntity> requestCollection;
-    
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -59,6 +45,10 @@ public class ProjectEntity implements Serializable {
     @Size(max = 256)
     @Column(name = "base_uri")
     private String baseUri;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "projectName")
+    private List<RequestEntity> requestEntityList;
+    @OneToMany(mappedBy = "projectName")
+    private List<ParameterEntity> parameterEntityList;
     @JoinColumn(name = "user_name", referencedColumnName = "name")
     @ManyToOne(optional = false)
     private UserEntity userName;
@@ -87,6 +77,24 @@ public class ProjectEntity implements Serializable {
 
     public void setBaseUri(String baseUri) {
         this.baseUri = baseUri;
+    }
+
+    @XmlTransient
+    public List<RequestEntity> getRequestEntityList() {
+        return requestEntityList;
+    }
+
+    public void setRequestEntityList(List<RequestEntity> requestEntityList) {
+        this.requestEntityList = requestEntityList;
+    }
+
+    @XmlTransient
+    public List<ParameterEntity> getParameterEntityList() {
+        return parameterEntityList;
+    }
+
+    public void setParameterEntityList(List<ParameterEntity> parameterEntityList) {
+        this.parameterEntityList = parameterEntityList;
     }
 
     public UserEntity getUserName() {
@@ -127,44 +135,7 @@ public class ProjectEntity implements Serializable {
 
     @Override
     public String toString() {
-        //return "Entities.ProjectEntity[ name=" + name + " ]";
-        return this.name;
-    }
-
-    @XmlTransient
-    public Collection<ParameterEntity> getParameterCollection() {
-        return parameterCollection;
-    }
-
-    public void setParameterCollection(Collection<ParameterEntity> parameterCollection) {
-        this.parameterCollection = parameterCollection;
-    }
-
-    @XmlTransient
-    public Collection<RequestEntity> getRequestCollection() {
-        return requestEntityCollection;
-    }
-
-    public void setRequestCollection(Collection<RequestEntity> requestCollection) {
-        this.requestEntityCollection = requestCollection;
-    }
-
-    @XmlTransient
-    public Collection<ParameterEntity> getParameterEntityCollection() {
-        return parameterEntityCollection;
-    }
-
-    public void setParameterEntityCollection(Collection<ParameterEntity> parameterEntityCollection) {
-        this.parameterEntityCollection = parameterEntityCollection;
-    }
-
-    @XmlTransient
-    public Collection<RequestEntity> getRequestEntityCollection() {
-        return requestEntityCollection;
-    }
-
-    public void setRequestEntityCollection(Collection<RequestEntity> requestEntityCollection) {
-        this.requestEntityCollection = requestEntityCollection;
+        return "Entities.ProjectEntity[ name=" + name + " ]";
     }
     
 }

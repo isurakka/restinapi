@@ -6,12 +6,11 @@
 package Entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,61 +26,42 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 @Entity
 @Table(name = "request")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "RequestEntity.findAll", query = "SELECT r FROM RequestEntity r"),
-    @NamedQuery(name = "RequestEntity.findByProjectId", query = "SELECT r FROM RequestEntity r WHERE r.projectId = :projectId"),
-    @NamedQuery(name = "RequestEntity.findByRelativeUri", query = "SELECT r FROM RequestEntity r WHERE r.relativeUri = :relativeUri"),
+    @NamedQuery(name = "RequestEntity.findByRequestid", query = "SELECT r FROM RequestEntity r WHERE r.requestId = :requestId"),
     @NamedQuery(name = "RequestEntity.findByProject", query = "SELECT r FROM RequestEntity r WHERE r.projectName = :projectName"),
+    @NamedQuery(name = "RequestEntity.findByRelativeUri", query = "SELECT r FROM RequestEntity r WHERE r.relativeUri = :relativeUri"),
     @NamedQuery(name = "RequestEntity.findByMethod", query = "SELECT r FROM RequestEntity r WHERE r.method = :method")})
 public class RequestEntity implements Serializable {
-    private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "project_id")
-    private Integer projectId;
-    
+    @Column(name = "request_id")
+    private Integer requestId;
+    private static final long serialVersionUID = 1L;
     @Size(max = 256)
     @Column(name = "relative_uri")
     private String relativeUri;
-    
     @Size(max = 64)
     @Column(name = "method")
     private String method;
-    
-    @OneToMany(mappedBy = "requestId", fetch = FetchType.LAZY)
-    private Collection<ParameterEntity> parameterEntityCollection;
-    
-    @JoinColumn(name = "script_id", referencedColumnName = "script_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ScriptEntity scriptId;
-    
     @JoinColumn(name = "project_name", referencedColumnName = "name")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private ProjectEntity projectName;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requestId", fetch = FetchType.LAZY)
-    private Collection<TestcaseEntity> testcaseEntityCollection;
+    @JoinColumn(name = "script_id", referencedColumnName = "script_id")
+    @ManyToOne
+    private ScriptEntity scriptId;
+    @OneToMany(mappedBy = "requestId")
+    private List<ParameterEntity> parameterEntityList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "requestId")
+    private List<TestcaseEntity> testcaseEntityList;
 
     public RequestEntity() {
-    }
-
-    public RequestEntity(Integer projectId) {
-        this.projectId = projectId;
-    }
-
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
     }
 
     public String getRelativeUri() {
@@ -100,13 +80,12 @@ public class RequestEntity implements Serializable {
         this.method = method;
     }
 
-    @XmlTransient
-    public Collection<ParameterEntity> getParameterEntityCollection() {
-        return parameterEntityCollection;
+    public ProjectEntity getProjectName() {
+        return projectName;
     }
 
-    public void setParameterEntityCollection(Collection<ParameterEntity> parameterEntityCollection) {
-        this.parameterEntityCollection = parameterEntityCollection;
+    public void setProjectName(ProjectEntity projectName) {
+        this.projectName = projectName;
     }
 
     public ScriptEntity getScriptId() {
@@ -117,27 +96,40 @@ public class RequestEntity implements Serializable {
         this.scriptId = scriptId;
     }
 
-    public ProjectEntity getProjectName() {
-        return projectName;
+    @XmlTransient
+    public List<ParameterEntity> getParameterEntityList() {
+        return parameterEntityList;
     }
 
-    public void setProjectName(ProjectEntity projectName) {
-        this.projectName = projectName;
+    public void setParameterEntityList(List<ParameterEntity> parameterEntityList) {
+        this.parameterEntityList = parameterEntityList;
     }
 
     @XmlTransient
-    public Collection<TestcaseEntity> getTestcaseEntityCollection() {
-        return testcaseEntityCollection;
+    public List<TestcaseEntity> getTestcaseEntityList() {
+        return testcaseEntityList;
     }
 
-    public void setTestcaseEntityCollection(Collection<TestcaseEntity> testcaseEntityCollection) {
-        this.testcaseEntityCollection = testcaseEntityCollection;
+    public void setTestcaseEntityList(List<TestcaseEntity> testcaseEntityList) {
+        this.testcaseEntityList = testcaseEntityList;
+    }
+
+    public RequestEntity(Integer requestId) {
+        this.requestId = requestId;
+    }
+
+    public Integer getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(Integer requestId) {
+        this.requestId = requestId;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (projectId != null ? projectId.hashCode() : 0);
+        hash += (requestId != null ? requestId.hashCode() : 0);
         return hash;
     }
 
@@ -148,7 +140,7 @@ public class RequestEntity implements Serializable {
             return false;
         }
         RequestEntity other = (RequestEntity) object;
-        if ((this.projectId == null && other.projectId != null) || (this.projectId != null && !this.projectId.equals(other.projectId))) {
+        if ((this.requestId == null && other.requestId != null) || (this.requestId != null && !this.requestId.equals(other.requestId))) {
             return false;
         }
         return true;
@@ -156,8 +148,7 @@ public class RequestEntity implements Serializable {
 
     @Override
     public String toString() {
-        return getRelativeUri() + " - " + getMethod();
-        //return "Entities.RequestEntity[ projectId=" + projectId + " ]";
+        return "Entities.RequestEntity[ requestId=" + requestId + " ]";
     }
     
 }

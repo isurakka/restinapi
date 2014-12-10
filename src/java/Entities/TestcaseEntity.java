@@ -6,12 +6,11 @@
 package Entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 @Entity
 @Table(name = "testcase")
@@ -41,48 +40,40 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "TestcaseEntity.findByDirty", query = "SELECT t FROM TestcaseEntity t WHERE t.dirty = :dirty")})
 public class TestcaseEntity implements Serializable {
     private static final long serialVersionUID = 1L;
-    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "testcase_id")
     private Integer testcaseId;
-    
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 64)
     @Column(name = "name")
     private String name;
-    
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "beforeScript")
     private String beforeScript;
-    
     @Basic(optional = false)
     @NotNull
     @Lob
     @Size(min = 1, max = 65535)
     @Column(name = "afterScript")
     private String afterScript;
-    
     @Basic(optional = false)
     @NotNull
     @Column(name = "dirty")
     private boolean dirty;
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testcaseId", fetch = FetchType.LAZY)
-    private Collection<TestrunEntity> testrunEntityCollection;
-    
-    @JoinColumn(name = "script_id", referencedColumnName = "script_id")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ScriptEntity scriptId;
-    
     @JoinColumn(name = "request_id", referencedColumnName = "project_id")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false)
     private RequestEntity requestId;
+    @JoinColumn(name = "script_id", referencedColumnName = "script_id")
+    @ManyToOne
+    private ScriptEntity scriptId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "testcaseId")
+    private List<TestrunEntity> testrunEntityList;
 
     public TestcaseEntity() {
     }
@@ -139,13 +130,12 @@ public class TestcaseEntity implements Serializable {
         this.dirty = dirty;
     }
 
-    @XmlTransient
-    public Collection<TestrunEntity> getTestrunEntityCollection() {
-        return testrunEntityCollection;
+    public RequestEntity getRequestId() {
+        return requestId;
     }
 
-    public void setTestrunEntityCollection(Collection<TestrunEntity> testrunEntityCollection) {
-        this.testrunEntityCollection = testrunEntityCollection;
+    public void setRequestId(RequestEntity requestId) {
+        this.requestId = requestId;
     }
 
     public ScriptEntity getScriptId() {
@@ -156,12 +146,13 @@ public class TestcaseEntity implements Serializable {
         this.scriptId = scriptId;
     }
 
-    public RequestEntity getRequestId() {
-        return requestId;
+    @XmlTransient
+    public List<TestrunEntity> getTestrunEntityList() {
+        return testrunEntityList;
     }
 
-    public void setRequestId(RequestEntity requestId) {
-        this.requestId = requestId;
+    public void setTestrunEntityList(List<TestrunEntity> testrunEntityList) {
+        this.testrunEntityList = testrunEntityList;
     }
 
     @Override

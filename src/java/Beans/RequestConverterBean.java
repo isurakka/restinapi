@@ -35,7 +35,7 @@ public class RequestConverterBean implements Converter{
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return ((RequestEntity) value).getProjectId().toString();
+        return ((RequestEntity) value).getRequestId().toString();
     }
     
 }

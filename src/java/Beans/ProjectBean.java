@@ -3,6 +3,8 @@ package Beans;
 
 import Controllers.ProjectEntityJpaController;
 import Controllers.RequestEntityJpaController;
+
+import Entities.ParameterEntity;
 import Controllers.ScriptEntityJpaController;
 import Controllers.exceptions.RollbackFailureException;
 import Entities.ProjectEntity;
@@ -57,8 +59,11 @@ public class ProjectBean implements java.io.Serializable {
     
     @ManagedProperty(value="#{userBean}")
     private UserBean currentUser;
+    
+    @ManagedProperty(value="#{requestBean}")
+    private RequestBean currentRequest;
 
-    private RequestEntity projectRequest;
+    RequestEntity projectRequest;
     List<RequestEntity> projectRequests;
     
     @PostConstruct
@@ -77,7 +82,35 @@ public class ProjectBean implements java.io.Serializable {
     }
     
     public void onChangeSelectedRequest(ValueChangeEvent e) {
+        // Hax maybe
+        projectRequest = (RequestEntity)e.getNewValue();
         
+        //RequestEntityJpaController rejc = new RequestEntityJpaController(utx, emf);
+        //currentRequest.setRequestParameters(rejc.findParameters(projectRequest));
+        
+        
+        if (getProjectRequest() == null)
+        {
+            System.out.println("getProjectRequest() is null");
+            return;
+        }
+        
+        if (getProjectRequest().getRequestId() == null)
+        {
+            System.out.println("getProjectRequest().getProjectId() is null");
+            return;
+        }
+        
+        TypedQuery<ParameterEntity> parameterQuery = emf.createEntityManager().createNamedQuery("ParameterEntity.findByRequestId", ParameterEntity.class);
+        System.out.println("Request id: " + getProjectRequest().getRequestId());
+        parameterQuery.setParameter("requestId", getProjectRequest());
+        
+        System.out.println(parameterQuery.getResultList().size());
+        
+        currentRequest.setRequestParameters(new ArrayList<ParameterEntity>(parameterQuery.getResultList()));
+        
+        
+
     }
     
     public String getName() {
@@ -213,4 +246,19 @@ public class ProjectBean implements java.io.Serializable {
         
     }
     
+
+    /**
+     * @return the currentRequest
+     */
+    public RequestBean getCurrentRequest() {
+        return currentRequest;
+    }
+
+    /**
+     * @param currentRequest the currentRequest to set
+     */
+    public void setCurrentRequest(RequestBean currentRequest) {
+        this.currentRequest = currentRequest;
+    }
+
 }

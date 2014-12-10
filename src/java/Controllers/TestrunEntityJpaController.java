@@ -21,7 +21,7 @@ import javax.transaction.UserTransaction;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 public class TestrunEntityJpaController implements Serializable {
 
@@ -48,7 +48,7 @@ public class TestrunEntityJpaController implements Serializable {
             }
             em.persist(testrunEntity);
             if (testcaseId != null) {
-                testcaseId.getTestrunEntityCollection().add(testrunEntity);
+                testcaseId.getTestrunEntityList().add(testrunEntity);
                 testcaseId = em.merge(testcaseId);
             }
             utx.commit();
@@ -80,11 +80,11 @@ public class TestrunEntityJpaController implements Serializable {
             }
             testrunEntity = em.merge(testrunEntity);
             if (testcaseIdOld != null && !testcaseIdOld.equals(testcaseIdNew)) {
-                testcaseIdOld.getTestrunEntityCollection().remove(testrunEntity);
+                testcaseIdOld.getTestrunEntityList().remove(testrunEntity);
                 testcaseIdOld = em.merge(testcaseIdOld);
             }
             if (testcaseIdNew != null && !testcaseIdNew.equals(testcaseIdOld)) {
-                testcaseIdNew.getTestrunEntityCollection().add(testrunEntity);
+                testcaseIdNew.getTestrunEntityList().add(testrunEntity);
                 testcaseIdNew = em.merge(testcaseIdNew);
             }
             utx.commit();
@@ -123,7 +123,7 @@ public class TestrunEntityJpaController implements Serializable {
             }
             TestcaseEntity testcaseId = testrunEntity.getTestcaseId();
             if (testcaseId != null) {
-                testcaseId.getTestrunEntityCollection().remove(testrunEntity);
+                testcaseId.getTestrunEntityList().remove(testrunEntity);
                 testcaseId = em.merge(testcaseId);
             }
             em.remove(testrunEntity);

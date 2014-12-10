@@ -6,7 +6,7 @@
 package Entities;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Matti
+ * @author Administrator
  */
 @Entity
 @Table(name = "user")
@@ -46,7 +46,7 @@ public class UserEntity implements Serializable {
     @Column(name = "password")
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userName")
-    private Collection<ProjectEntity> projectEntityCollection;
+    private List<ProjectEntity> projectEntityList;
 
     public UserEntity() {
     }
@@ -77,12 +77,12 @@ public class UserEntity implements Serializable {
     }
 
     @XmlTransient
-    public Collection<ProjectEntity> getProjectEntityCollection() {
-        return projectEntityCollection;
+    public List<ProjectEntity> getProjectEntityList() {
+        return projectEntityList;
     }
 
-    public void setProjectEntityCollection(Collection<ProjectEntity> projectEntityCollection) {
-        this.projectEntityCollection = projectEntityCollection;
+    public void setProjectEntityList(List<ProjectEntity> projectEntityList) {
+        this.projectEntityList = projectEntityList;
     }
 
     @Override
