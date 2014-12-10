@@ -106,11 +106,22 @@ $(document).ready(function() {
     {
         console.log($('.baseUri').val() + $('.relativeUri').val());
         var params = findParams();
+        var method = $( ".requestMethod option:selected" ).text();
         console.log(params);
-        run($('.baseUri').val() + $('.relativeUri').val(), 'GET', {})
+        run($('.baseUri').val() + $('.relativeUri').val(), method, {})
             .done(function(data)
             {
-                var beauty = JSON.stringify(data, null, 4);
+                var status = data.status;
+                var todo = data;
+                if (data.responseJSON != null)
+                {
+                    todo = data.responseJSON;
+                }
+                else if (data.responseText != null)
+                {
+                    todo = data.responseText;
+                }
+                var beauty = JSON.stringify(todo, null, 4);
                 $('.response').text(beauty);
             });;
     });
