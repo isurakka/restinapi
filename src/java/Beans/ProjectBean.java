@@ -46,7 +46,7 @@ import javax.transaction.UserTransaction;
  */
 
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class ProjectBean implements java.io.Serializable {
     
     private String name;
@@ -78,6 +78,16 @@ public class ProjectBean implements java.io.Serializable {
         userquery.setParameter("projectName", this.currentUser.currentProject);
 
         this.projectRequests = new ArrayList<RequestEntity>(userquery.getResultList());
+        
+        /*
+        for (RequestEntity item : projectRequests) {
+            if (item.getRequestId().equals(currentRequest.getRequestId()))
+            {
+                projectRequest = item;
+                break;
+            }
+        }
+        */
         
         if (projectRequests != null && projectRequests.size() > 0)
         {

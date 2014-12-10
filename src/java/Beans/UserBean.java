@@ -69,7 +69,7 @@ public class UserBean implements java.io.Serializable {
         
         if (userProjects != null && userProjects.size() > 0)
         {
-        currentProject = userProjects.get(0);
+            currentProject = userProjects.get(0);
         }
         
       //  TypedQuery<ProjectEntity> projectquery = emf.createEntityManager().createNamedQuery("ProjectEntity.findByUser", ProjectEntity.class);

@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
@@ -32,9 +33,10 @@ import javax.transaction.UserTransaction;
  * @author Matti
  */
 @ManagedBean
-@RequestScoped
+@SessionScoped
 public class RequestBean implements java.io.Serializable{
     
+    private Integer requestId;
     private String relative_uri;
     private String method;
     
@@ -200,6 +202,8 @@ public class RequestBean implements java.io.Serializable{
             re.setScriptId(se);
             RequestEntityJpaController rejc = new RequestEntityJpaController(this.utx, this.emf);
             rejc.create(re);
+            
+            requestId = (Integer)emf.getPersistenceUnitUtil().getIdentifier(re);
 
             // TODO: FIX
             FacesContext context = FacesContext.getCurrentInstance();
@@ -240,6 +244,20 @@ public class RequestBean implements java.io.Serializable{
      */
     public void setRequestParameters(List<ParameterEntity> requestParameters) {
         this.requestParameters = requestParameters;
+    }
+
+    /**
+     * @return the requestId
+     */
+    public Integer getRequestId() {
+        return requestId;
+    }
+
+    /**
+     * @param requestId the requestId to set
+     */
+    public void setRequestId(Integer requestId) {
+        this.requestId = requestId;
     }
     
 }

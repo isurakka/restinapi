@@ -138,7 +138,7 @@ $(document).ready(function() {
             type: method,
             url: baseUri,
             method: method,
-            data: params,
+            data: {},
             async: true,
             cache: false
         };
@@ -155,6 +155,9 @@ $(document).ready(function() {
         */
 
         tryEvalBefore(settings, projectBeforeScript, "Project before script");
+
+        settings.url += relativeUri;
+
         tryEvalBefore(settings, requestBeforeScript, "Request before script");
 
         $.ajax(settings)
