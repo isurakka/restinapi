@@ -55,7 +55,28 @@
                 <h:inputText class="form-control baseUri" a:placeholder="Base uri" required="true" value="#{userBean.currentProject.baseUri}" />
                 </h:form>
             </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="panel panel-default">
+                        <!-- Default panel contents -->
+                        <div class="panel-heading">Parameters</div>
+
+                        <!-- Table -->
+                        <table class="table projectParams">
+                            <tr>
+                                <td>
+                                    <input type="text" class="form-control projectKey" placeholder="Key" />
+                                </td>
+                                <td>
+                                    <input type="text" class="form-control projectValue" placeholder="Value" />
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
+        
 
         <div class="row">
             <div class="col-md-2">
